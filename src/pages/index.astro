@@ -1,0 +1,14 @@
+---
+// 임시 홈페이지. 연구실 이름만 표시하는 최소 페이지다.
+// TODO: 사이트 콘텐츠 작업을 시작할 때 이 페이지를 실제 홈 화면으로 교체한다.
+// TODO: 필요하면 "NABL" 을 전체 명칭(국문/영문)으로 바꾼다.
+import BaseLayout from "../layouts/base-layout.astro";
+
+const labName = "NABL";
+---
+
+<BaseLayout title={labName}>
+  <main class="flex min-h-screen items-center justify-center">
+    <h1 class="text-6xl font-bold tracking-tight">{labName}</h1>
+  </main>
+</BaseLayout>

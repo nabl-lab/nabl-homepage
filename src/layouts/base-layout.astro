@@ -1,0 +1,26 @@
+---
+// 모든 페이지가 공유하는 최소 레이아웃.
+// <head> 공통 태그와 전역 스타일(Tailwind)을 한곳에서 관리한다.
+import "../styles/global.css";
+
+interface Props {
+  /** 브라우저 탭에 표시될 페이지 제목 */
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

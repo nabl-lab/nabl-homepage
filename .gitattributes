@@ -1,0 +1,2 @@
+# 줄바꿈을 저장소에서 LF로 통일한다 (OS가 달라도 diff가 깔끔하게 유지됨).
+* text=auto eol=lf

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "hong-gildong",
+    "name": "홍길동",
+    "nameEn": "Gildong Hong",
+    "role": "지도교수",
+    "field": "예시 연구분야 A",
+    "email": "gildong.hong@example.edu",
+    "joinedYear": 2020
+  },
+  {
+    "id": "kim-cheolsu",
+    "name": "김철수",
+    "nameEn": "Cheolsu Kim",
+    "role": "박사과정",
+    "field": "예시 연구분야 B",
+    "email": "cheolsu.kim@example.edu",
+    "joinedYear": 2022
+  },
+  {
+    "id": "lee-younghee",
+    "name": "이영희",
+    "nameEn": "Younghee Lee",
+    "role": "석사과정",
+    "field": "예시 연구분야 C",
+    "email": "younghee.lee@example.edu",
+    "joinedYear": 2024
+  }
+]

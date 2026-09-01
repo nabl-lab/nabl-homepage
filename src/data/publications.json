@@ -1,0 +1,29 @@
+[
+  {
+    "id": "pub-2025-example-a",
+    "title": "예시 논문 제목 A: 여기에 실제 논문 제목이 들어갑니다",
+    "authors": ["홍길동", "김철수"],
+    "venue": "예시 국제학회 (EXAMPLE)",
+    "year": 2025,
+    "type": "conference",
+    "link": "https://example.edu/papers/example-a"
+  },
+  {
+    "id": "pub-2024-example-b",
+    "title": "예시 논문 제목 B: 여기에 실제 논문 제목이 들어갑니다",
+    "authors": ["이영희", "홍길동"],
+    "venue": "예시 저널 (Journal of Examples)",
+    "year": 2024,
+    "type": "journal",
+    "link": "https://example.edu/papers/example-b"
+  },
+  {
+    "id": "pub-2023-example-c",
+    "title": "예시 논문 제목 C: 여기에 실제 논문 제목이 들어갑니다",
+    "authors": ["김철수", "이영희", "홍길동"],
+    "venue": "예시 워크숍 (EXAMPLE Workshop)",
+    "year": 2023,
+    "type": "workshop",
+    "link": "https://example.edu/papers/example-c"
+  }
+]

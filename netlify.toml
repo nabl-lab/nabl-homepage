@@ -1,0 +1,14 @@
+# Netlify 배포 설정.
+# GitHub 저장소를 Netlify 사이트에 연결하면, push 할 때마다 아래 설정대로
+# 자동으로 빌드·배포된다. 이 파일을 저장소에 두면 Netlify UI에서 수동 설정한 값이
+# 유실되는 것을 막고, 나중에 연구실 공용 계정으로 사이트를 옮겨도 설정이 따라온다.
+
+[build]
+  # 프로덕션 빌드 명령
+  command = "npm run build"
+  # 정적 결과물이 생성되는 폴더 (Astro 기본값)
+  publish = "dist"
+
+[build.environment]
+  # 빌드에 사용할 Node.js 버전. 로컬 개발 환경과 맞춘다 (.nvmrc 와 동일하게 유지).
+  NODE_VERSION = "24"
