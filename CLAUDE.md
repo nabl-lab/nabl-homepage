@@ -26,14 +26,16 @@ AI 도구(Claude Code 등)로 작업할 때도 이 규칙을 지키도록 하세
 nabl-homepage/
 ├── public/              정적 파일 그대로 복사됨 (favicon 등)
 ├── src/
-│   ├── pages/           페이지. 파일 하나 = URL 하나 (index.astro → /)
+│   ├── pages/           페이지. [lang] 폴더 아래에 둔다 (11번 항목 참고)
 │   ├── layouts/         여러 페이지가 공유하는 공통 뼈대
-│   ├── components/      재사용하는 화면 조각 (아직 없음, 필요할 때 생성)
+│   ├── components/      재사용하는 화면 조각 (home/ 등 하위 폴더로 묶음)
+│   ├── i18n/            다국어. ui.ts(문구 사전) + utils.ts(라우팅 헬퍼)
 │   ├── lib/             로직 모듈
-│   │   └── content.ts   콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
+│   │   ├── content.ts       콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
+│   │   └── content-types.ts 콘텐츠 데이터의 형식(타입) 정의
 │   ├── data/            콘텐츠 더미 데이터 (JSON). 자세한 설명은 src/data/README.md
 │   └── styles/
-│       └── global.css   Tailwind 불러오는 파일
+│       └── global.css   Tailwind 불러오기 + 색상·폰트 토큰(@theme)
 ├── astro.config.mjs     Astro 설정         ← 5번 항목: 함부로 건드리지 말 것
 ├── netlify.toml         배포 설정          ← 5번 항목: 함부로 건드리지 말 것
 ├── tsconfig.json        TypeScript 설정    ← 5번 항목: 함부로 건드리지 말 것
@@ -142,3 +144,39 @@ nabl-homepage/
 - **파일명·폴더명:** 영문 소문자 + 하이픈 (`base-layout.astro`, `src/lib/`).
   공백·대문자·한글 파일명 금지.
 - **커밋 메시지:** 한국어로, 무엇을 왜 바꿨는지 짧게.
+
+---
+
+## 11. 다국어(i18n) 규칙
+
+이 사이트는 **영어(en) / 한국어(ko)** 두 언어로 만들어집니다. 새 페이지를 만들 때
+아래 규칙을 지키지 않으면 언어 전환이나 폴백이 깨집니다.
+
+### URL 구조
+- 모든 페이지는 `/en/…` 또는 `/ko/…` 로 접근합니다. 루트(`/`)는 `/en/` 으로 리디렉션됩니다.
+- 새 페이지 파일은 반드시 **`src/pages/[lang]/` 아래**에 둡니다.
+  `getStaticPaths` 는 직접 만들지 말고 `src/i18n/utils.ts` 의 `localePaths` 를 씁니다.
+  ```
+  export const getStaticPaths = localePaths;
+  const lang = Astro.params.lang as Locale;
+  ```
+
+### UI 문구 (메뉴·버튼·라벨·섹션 제목)
+- 반드시 `src/i18n/ui.ts` 사전에 **en 과 ko 를 둘 다** 추가하고, 컴포넌트에서는
+  `useTranslations(lang)` 로 꺼내 씁니다. 화면 문구를 `.astro` 에 직접 쓰지 마세요.
+
+### 콘텐츠 텍스트 (구성원·논문·뉴스 등 데이터에서 오는 값)
+- 반드시 `src/lib/content.ts` 의 **`localizedText(item, '필드명', lang)`** 로 가져옵니다.
+  `item.title_ko` 처럼 언어 필드에 직접 접근하지 마세요.
+- 폴백 규칙: 현재 언어 값이 있으면 그것, 없으면 반대 언어 값, **둘 다 비어 있으면
+  `null`** 을 돌려줍니다. `null` 이면 그 항목은 화면에서 건너뜁니다.
+  (실제 운영에서 뉴스는 한글로만, 논문 제목은 영문으로만 올 수 있기 때문입니다.)
+- 데이터의 언어 필드 이름: **영문 = 기본 필드명**(`title`), **한글 = `_ko` 접미사**(`title_ko`).
+
+### 언어 전환 버튼
+- 헤더의 KO/EN 버튼은 `switchLocalePath` 로 **현재 경로의 다른 언어 버전**으로 이동합니다.
+  홈으로 튕기면 안 됩니다. (`src/components/language-switcher.astro`)
+
+### 구성원 정렬
+- 직책 순서와 정렬은 `content.ts` 의 **`POSITION_ORDER` / `sortMembers`** 를 씁니다.
+  목록에 없는 새 직책이 들어와도 에러 없이 맨 뒤에 배치됩니다.

@@ -1,20 +1,56 @@
 [
   {
-    "id": "news-2025-09-01",
-    "date": "2025-09-01",
-    "title": "예시 소식: 연구실 홈페이지 준비를 시작했습니다",
-    "summary": "여기에 실제 소식 내용이 들어갑니다. 이 항목은 더미 데이터입니다."
+    "id": "news-2025-new-members",
+    "slug": "2025-new-members",
+    "date": "2025-03-04",
+    "title": "",
+    "title_ko": "2025학년도 신입 연구원이 합류했습니다",
+    "body": "",
+    "body_ko": "이번 학기에 석사과정 2명과 학부 연구원 1명이 새로 합류했습니다. NABL 가족이 된 것을 환영합니다."
   },
   {
-    "id": "news-2025-06-15",
-    "date": "2025-06-15",
-    "title": "예시 소식: 예시 논문이 예시 학회에 채택되었습니다",
-    "summary": "여기에 실제 소식 내용이 들어갑니다. 이 항목은 더미 데이터입니다."
+    "id": "news-2025-troponin-paper",
+    "slug": "2025-troponin-paper-accepted",
+    "date": "2025-02-11",
+    "title": "Troponin aptamer paper accepted in Biosensors and Bioelectronics",
+    "title_ko": "트로포닌 압타머 논문이 Biosensors and Bioelectronics에 게재 승인되었습니다",
+    "body": "Our work on high-affinity aptamers for label-free cardiac troponin I detection has been accepted for publication. Congratulations to Areum and the team.",
+    "body_ko": "표지 없는(label-free) 심근 트로포닌 I 검출을 위한 고친화도 압타머 연구가 게재 승인되었습니다. 서아름 연구원과 팀원 모두 축하합니다."
   },
   {
-    "id": "news-2025-03-02",
-    "date": "2025-03-02",
-    "title": "예시 소식: 신규 구성원이 합류했습니다",
-    "summary": "여기에 실제 소식 내용이 들어갑니다. 이 항목은 더미 데이터입니다."
+    "id": "news-2024-lab-workshop",
+    "slug": "2024-lab-workshop",
+    "date": "2024-12-20",
+    "title": "",
+    "title_ko": "2024 연구실 워크숍을 다녀왔습니다",
+    "body": "",
+    "body_ko": "강원도에서 1박 2일 연구실 워크숍을 진행했습니다. 한 해 연구를 돌아보고 내년 방향을 함께 논의했습니다."
+  },
+  {
+    "id": "news-2024-microtas",
+    "slug": "2024-microtas-presentation",
+    "date": "2024-10-21",
+    "title": "Hyewon Lee presented at MicroTAS 2024",
+    "title_ko": "이혜원 연구원이 MicroTAS 2024에서 발표했습니다",
+    "body": "Hyewon gave an oral presentation on our modular aptamer-enzyme conjugate platform at MicroTAS 2024.",
+    "body_ko": "이혜원 연구원이 MicroTAS 2024에서 모듈형 압타머-효소 접합체 플랫폼에 대해 구두 발표를 진행했습니다."
+  },
+  {
+    "id": "news-2024-nrf-grant",
+    "slug": "2024-nrf-grant",
+    "date": "2024-06-03",
+    "title": "Lab awarded a new NRF mid-career research grant",
+    "title_ko": "",
+    "body": "The lab has received a mid-career researcher grant from the National Research Foundation of Korea, supporting our aptamer biosensor program for the next three years.",
+    "body_ko": ""
+  },
+  {
+    "id": "news-2023-open-positions",
+    "slug": "2023-open-positions",
+    "date": "2023-11-15",
+    "title": "",
+    "title_ko": "대학원생 및 학부 연구원을 모집합니다",
+    "body": "",
+    "body_ko": "2024년 봄학기 입학 예정인 대학원생과 학부 연구원을 모집합니다. 관심 있는 분은 이메일로 문의해 주세요."
   }
 ]

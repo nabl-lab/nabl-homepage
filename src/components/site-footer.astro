@@ -1,0 +1,28 @@
+---
+// 사이트 푸터: 연구실 정식 명칭 · 소속 · 이메일 · 저작권.
+// 주소 등 상세 연락처는 /contact 및 홈 Contact 섹션에 있으므로 여기서는 반복하지 않는다.
+import { useTranslations, type Locale } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+const email = t("contact.emailValue");
+---
+
+<footer class="border-t border-line bg-surface-muted">
+  <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-ink-muted">
+    <p class="font-semibold text-ink">{t("site.name")}</p>
+    <p class="mt-1">{t("site.affiliation")}</p>
+    <p class="mt-1">
+      {t("common.email")}:
+      <a class="text-brand underline hover:text-brand-strong" href={`mailto:${email}`}>
+        {email}
+      </a>
+    </p>
+    <p class="mt-4 text-xs">© {year} {t("footer.copyright")}</p>
+  </div>
+</footer>

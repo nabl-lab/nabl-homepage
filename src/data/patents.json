@@ -1,0 +1,38 @@
+[
+  {
+    "id": "patent-troponin-aptamer",
+    "title": "Aptamer for detecting cardiac troponin I and biosensor comprising the same",
+    "title_ko": "심근 트로포닌 I 검출용 압타머 및 이를 포함하는 바이오센서",
+    "number": "KR 10-2456789",
+    "date": "2023-04-12",
+    "status": "registered",
+    "inventors": "Seung Pil Pack, Areum Seo"
+  },
+  {
+    "id": "patent-thermostable-laccase",
+    "title": "Method for producing a thermostable laccase variant",
+    "title_ko": "내열성 라카아제 변이체의 제조 방법",
+    "number": "KR 10-2398765",
+    "date": "2022-11-03",
+    "status": "registered",
+    "inventors": "Seung Pil Pack, Minjun Park"
+  },
+  {
+    "id": "patent-paper-heavy-metal",
+    "title": "Paper-based device for on-site detection of heavy metal ions",
+    "title_ko": "현장형 중금속 이온 검출용 종이 기반 디바이스",
+    "number": "KR 10-2024-0012345",
+    "date": "2024-01-30",
+    "status": "applied",
+    "inventors": "Seung Pil Pack, Yuna Kim"
+  },
+  {
+    "id": "patent-cell-free-platform",
+    "title": "Cell-free multi-enzyme immobilization platform and method of use",
+    "title_ko": "",
+    "number": "PCT/KR2023/018765",
+    "date": "2023-12-15",
+    "status": "applied",
+    "inventors": "Seung Pil Pack, Minhyuk Cho"
+  }
+]

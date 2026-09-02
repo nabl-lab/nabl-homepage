@@ -1,0 +1,25 @@
+---
+// 홈 - 연구실 소개 요약 + About 페이지 더보기 링크.
+import Section from "../section.astro";
+import { useTranslations, withLocale, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Section id="about" title={t("home.about.title")}>
+  <a
+    slot="cta"
+    href={withLocale(lang, "/about")}
+    class="shrink-0 text-sm font-medium text-brand hover:underline"
+  >
+    {t("common.readMore")} →
+  </a>
+  <p class="max-w-3xl text-lg leading-relaxed text-ink">
+    {t("home.about.body")}
+  </p>
+</Section>

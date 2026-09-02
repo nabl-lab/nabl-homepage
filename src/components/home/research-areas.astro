@@ -1,0 +1,43 @@
+---
+// 홈 - 연구 분야 카드. research.json 의 areas 를 언어 폴백 적용해 보여준다.
+import Section from "../section.astro";
+import { researchAreas, localizedText } from "../../lib/content";
+import { useTranslations, withLocale, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const areas = researchAreas
+  .map((a) => ({
+    id: a.id,
+    title: localizedText(a, "title", lang),
+    summary: localizedText(a, "summary", lang),
+  }))
+  .filter((a) => a.title);
+---
+
+<Section id="research" title={t("home.research.title")} muted>
+  <a
+    slot="cta"
+    href={withLocale(lang, "/research")}
+    class="shrink-0 text-sm font-medium text-brand hover:underline"
+  >
+    {t("common.viewAll")} →
+  </a>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      areas.map((a) => (
+        <article class="rounded-lg border border-line bg-surface p-5">
+          <h3 class="text-base font-semibold text-ink">{a.title}</h3>
+          {a.summary && (
+            <p class="mt-2 text-sm leading-relaxed text-ink">{a.summary}</p>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</Section>

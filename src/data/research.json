@@ -1,0 +1,68 @@
+{
+  "scope": "NABL studies how nucleic acid aptamers and engineered proteins can be designed, evolved, and assembled into practical tools for molecular recognition. Our work spans from in vitro selection and directed evolution to the integration of these binders into point-of-care biosensing devices.",
+  "scope_ko": "NABL은 핵산 압타머와 공학적으로 설계된 단백질을 어떻게 설계·진화·조립하여 분자 인식을 위한 실용적인 도구로 만들 수 있는지를 연구합니다. 시험관 내 선별과 유도 진화부터, 이렇게 얻은 결합체를 현장형 바이오센싱 디바이스에 통합하는 단계까지를 아우릅니다.",
+  "areas": [
+    {
+      "id": "aptamer-sensing",
+      "title": "Aptamer-based Molecular Sensing",
+      "title_ko": "압타머 기반 분자 센싱",
+      "summary": "Selection and engineering of aptamers that recognize protein biomarkers, small molecules, and pathogens with high affinity and specificity.",
+      "summary_ko": "단백질 바이오마커, 저분자, 병원균을 높은 친화도와 특이성으로 인식하는 압타머의 선별과 공학적 개량.",
+      "themes": ["Microfluidic SELEX", "Fluorogenic aptamer switches", "Split-aptamer assays"],
+      "themes_ko": ["미세유체 SELEX", "형광 발생 압타머 스위치", "분할 압타머 분석법"]
+    },
+    {
+      "id": "protein-engineering",
+      "title": "Protein Engineering & Directed Evolution",
+      "title_ko": "단백질 공학 및 유도 진화",
+      "summary": "Consensus design and laboratory evolution to improve the stability, activity, and solvent tolerance of industrial enzymes and binding scaffolds.",
+      "summary_ko": "컨센서스 설계와 실험실 진화를 통해 산업용 효소와 결합 스캐폴드의 안정성, 활성, 용매 내성을 개선.",
+      "themes": ["Thermostable enzyme variants", "Single-domain antibody scaffolds", "Oriented immobilization"],
+      "themes_ko": ["내열성 효소 변이체", "단일 도메인 항체 스캐폴드", "배향 고정화"]
+    },
+    {
+      "id": "biosensor-devices",
+      "title": "Point-of-care Biosensor Devices",
+      "title_ko": "현장형 바이오센서 디바이스",
+      "summary": "Translating molecular recognition elements into paper-based and nanoparticle-based readouts for rapid on-site diagnosis.",
+      "summary_ko": "분자 인식 요소를 종이 기반·나노입자 기반 신호로 옮겨 신속한 현장 진단을 구현.",
+      "themes": ["Paper colorimetric assays", "Gold nanoparticle readouts", "Lateral-flow formats"],
+      "themes_ko": ["종이 발색 분석법", "금 나노입자 신호", "측방유동 형식"]
+    },
+    {
+      "id": "cell-free-systems",
+      "title": "Cell-free Synthesis & Enzyme Cascades",
+      "title_ko": "무세포 합성 및 효소 캐스케이드",
+      "summary": "Building multi-enzyme reaction systems outside the cell for one-pot biocatalysis and biosensor component production.",
+      "summary_ko": "세포 밖에서 다효소 반응 시스템을 구축하여 원-팟 생촉매와 바이오센서 부품 생산에 활용.",
+      "themes": ["One-pot immobilization", "Cell-free protein synthesis", "Cascade optimization"],
+      "themes_ko": ["원-팟 고정화", "무세포 단백질 합성", "캐스케이드 최적화"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-troponin-poc",
+      "title": "Aptamer biosensor for point-of-care cardiac marker testing",
+      "title_ko": "현장형 심장 표지자 검사를 위한 압타머 바이오센서",
+      "period": "2024–2027",
+      "funder": "National Research Foundation of Korea",
+      "funder_ko": "한국연구재단"
+    },
+    {
+      "id": "project-thermostable-enzymes",
+      "title": "Directed evolution of thermostable oxidoreductases for green chemistry",
+      "title_ko": "친환경 화학을 위한 내열성 산화환원효소의 유도 진화",
+      "period": "2023–2026",
+      "funder": "Ministry of Trade, Industry and Energy",
+      "funder_ko": "산업통상자원부"
+    },
+    {
+      "id": "project-paper-diagnostics",
+      "title": "Paper-based multiplexed diagnostics for environmental monitoring",
+      "title_ko": "환경 모니터링을 위한 종이 기반 다중 진단",
+      "period": "2023–2025",
+      "funder": "Korea Environment Industry & Technology Institute",
+      "funder_ko": "한국환경산업기술원"
+    }
+  ]
+}

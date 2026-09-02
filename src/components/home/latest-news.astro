@@ -1,0 +1,56 @@
+---
+// 홈 - 최신 뉴스 5건. 제목은 언어 폴백 적용, 양쪽 언어 모두 비면 건너뛴다.
+import Section from "../section.astro";
+import { news, byDateDesc, localizedText } from "../../lib/content";
+import { useTranslations, withLocale, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const items = byDateDesc(news)
+  .map((n) => ({ slug: n.slug, date: n.date, title: localizedText(n, "title", lang) }))
+  .filter((n) => n.title)
+  .slice(0, 5);
+
+const fmtDate = (d: string) =>
+  new Date(d).toLocaleDateString(lang === "ko" ? "ko-KR" : "en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+---
+
+<Section id="news" title={t("home.news.title")} muted>
+  <a
+    slot="cta"
+    href={withLocale(lang, "/news")}
+    class="shrink-0 text-sm font-medium text-brand hover:underline"
+  >
+    {t("common.viewAll")} →
+  </a>
+  <ul class="divide-y divide-line border-y border-line">
+    {
+      items.map((n) => (
+        <li>
+          <a
+            href={withLocale(lang, `/news/${n.slug}`)}
+            class="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-4"
+          >
+            <time datetime={n.date} class="shrink-0 text-sm text-ink-muted">
+              {fmtDate(n.date)}
+            </time>
+            <span
+              class="font-medium text-ink underline-offset-2 group-hover:text-brand group-hover:underline"
+            >
+              {n.title}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

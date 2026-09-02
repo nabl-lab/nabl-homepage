@@ -1,0 +1,30 @@
+---
+// 홈·하위 페이지에서 공통으로 쓰는 섹션 래퍼.
+// 제목 + 오른쪽 상단 CTA(named slot "cta") + 본문(기본 slot) 구조를 통일한다.
+interface Props {
+  /** 페이지 내 앵커용 id (선택) */
+  id?: string;
+  /** 섹션 제목 (선택) */
+  title?: string;
+  /** 옅은 배경으로 인접 섹션과 구분 */
+  muted?: boolean;
+}
+
+const { id, title, muted = false } = Astro.props;
+---
+
+<section id={id} class:list={["py-12 sm:py-16", muted && "bg-surface-muted"]}>
+  <div class="mx-auto max-w-6xl px-4">
+    {
+      title && (
+        <div class="mb-8 flex items-end justify-between gap-4">
+          <h2 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+            {title}
+          </h2>
+          <slot name="cta" />
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,58 @@
+---
+// 홈 - 최근 수상 내역. 연도별로 묶어 같은 연도는 한 번만 표시한다.
+// (Awards 전용 페이지도 content.ts 의 groupByYear 를 같은 방식으로 쓴다.)
+import Section from "../section.astro";
+import { awards, byDateDesc, groupByYear, localizedText } from "../../lib/content";
+import { useTranslations, withLocale, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const recent = byDateDesc(awards)
+  .map((a) => ({
+    id: a.id,
+    date: a.date,
+    title: localizedText(a, "title", lang),
+    recipient: localizedText(a, "recipient", lang),
+    org: localizedText(a, "organization", lang),
+  }))
+  .filter((a) => a.title)
+  .slice(0, 6);
+
+const groups = groupByYear(recent);
+---
+
+<Section id="awards" title={t("home.awards.title")}>
+  <a
+    slot="cta"
+    href={withLocale(lang, "/achievements/awards")}
+    class="shrink-0 text-sm font-medium text-brand hover:underline"
+  >
+    {t("common.viewAll")} →
+  </a>
+  <div class="flex flex-col gap-6">
+    {
+      groups.map((g) => (
+        <div class="flex gap-4">
+          <h3 class="w-12 shrink-0 text-sm font-semibold text-ink-muted tabular-nums">
+            {g.year}
+          </h3>
+          <ul class="flex flex-1 flex-col gap-3">
+            {g.items.map((a) => (
+              <li>
+                <p class="font-medium text-ink">{a.title}</p>
+                <p class="text-sm text-ink-muted">
+                  {[a.recipient, a.org].filter(Boolean).join(" · ")}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</Section>

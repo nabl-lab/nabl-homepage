@@ -1,0 +1,33 @@
+---
+// 홈 - 숫자 요약. 값은 하드코딩하지 않고 데이터 개수로 계산한다.
+import Section from "../section.astro";
+import { publications, patents, members, awards } from "../../lib/content";
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const stats = [
+  { label: t("home.stats.publications"), value: publications.length },
+  { label: t("home.stats.patents"), value: patents.length },
+  { label: t("home.stats.researchers"), value: members.length },
+  { label: t("home.stats.awards"), value: awards.length },
+];
+---
+
+<Section id="stats" title={t("home.stats.title")}>
+  <dl class="grid grid-cols-2 gap-6 sm:grid-cols-4">
+    {
+      stats.map((s) => (
+        <div class="rounded-lg border border-line bg-surface p-6 text-center">
+          <dd class="text-4xl font-bold text-ink">{s.value}</dd>
+          <dt class="mt-1 text-sm text-ink-muted">{s.label}</dt>
+        </div>
+      ))
+    }
+  </dl>
+</Section>

@@ -1,0 +1,41 @@
+---
+// 언어 전환 버튼. 현재 보고 있는 경로의 다른 언어 버전으로 이동한다 (홈으로 튕기지 않음).
+import {
+  LOCALES,
+  switchLocalePath,
+  useTranslations,
+  type Locale,
+} from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const here = Astro.url.pathname;
+const labels: Record<Locale, string> = { en: "EN", ko: "KO" };
+---
+
+<nav
+  aria-label={t("a11y.language")}
+  class="flex items-center gap-1.5 text-xs font-medium tracking-wide"
+>
+  {
+    LOCALES.map((loc) => (
+      <a
+        href={switchLocalePath(here, loc)}
+        hreflang={loc}
+        aria-current={loc === lang ? "true" : undefined}
+        class:list={[
+          "rounded px-1 py-0.5",
+          loc === lang
+            ? "font-semibold text-brand"
+            : "text-ink-muted hover:text-ink",
+        ]}
+      >
+        {labels[loc]}
+      </a>
+    ))
+  }
+</nav>

@@ -1,0 +1,27 @@
+---
+// 홈페이지 (/en/, /ko/). 섹션은 각각 컴포넌트로 분리돼 있고 여기서 순서대로 조합만 한다.
+import BaseLayout from "../../layouts/base-layout.astro";
+import Hero from "../../components/home/hero.astro";
+import AboutSummary from "../../components/home/about-summary.astro";
+import ResearchAreas from "../../components/home/research-areas.astro";
+import StatCounters from "../../components/home/stat-counters.astro";
+import LatestNews from "../../components/home/latest-news.astro";
+import RecentAwards from "../../components/home/recent-awards.astro";
+import ContactSummary from "../../components/home/contact-summary.astro";
+import { localePaths, useTranslations, type Locale } from "../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title="" description={t("home.hero.tagline")}>
+  <Hero lang={lang} />
+  <AboutSummary lang={lang} />
+  <ResearchAreas lang={lang} />
+  <StatCounters lang={lang} />
+  <LatestNews lang={lang} />
+  <RecentAwards lang={lang} />
+  <ContactSummary lang={lang} />
+</BaseLayout>

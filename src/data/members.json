@@ -1,29 +1,126 @@
 [
   {
-    "id": "hong-gildong",
-    "name": "홍길동",
-    "nameEn": "Gildong Hong",
-    "role": "지도교수",
-    "field": "예시 연구분야 A",
-    "email": "gildong.hong@example.edu",
-    "joinedYear": 2020
+    "id": "seung-pil-pack",
+    "name": "Seung Pil Pack",
+    "name_ko": "박승필",
+    "position": "Principal Investigator",
+    "order": 1,
+    "joinedDate": "2005-03-01",
+    "email": "spack@korea.ac.kr",
+    "researchTopic": "Aptamer-based molecular sensing and protein engineering",
+    "researchTopic_ko": "압타머 기반 분자 센싱 및 단백질 공학"
   },
   {
-    "id": "kim-cheolsu",
-    "name": "김철수",
-    "nameEn": "Cheolsu Kim",
-    "role": "박사과정",
-    "field": "예시 연구분야 B",
-    "email": "cheolsu.kim@example.edu",
-    "joinedYear": 2022
+    "id": "jihoon-kim",
+    "name": "Ji-Hoon Kim",
+    "name_ko": "김지훈",
+    "position": "Research Professor",
+    "joinedDate": "2019-09-01",
+    "email": "jhkim.nabl@korea.ac.kr",
+    "researchTopic": "Cell-free multi-enzyme systems for biocatalysis",
+    "researchTopic_ko": "생촉매를 위한 무세포 다효소 시스템"
   },
   {
-    "id": "lee-younghee",
-    "name": "이영희",
-    "nameEn": "Younghee Lee",
-    "role": "석사과정",
-    "field": "예시 연구분야 C",
-    "email": "younghee.lee@example.edu",
-    "joinedYear": 2024
+    "id": "areum-seo",
+    "name": "Areum Seo",
+    "name_ko": "서아름",
+    "position": "Ph.D. Course",
+    "order": 2,
+    "joinedDate": "2020-03-02",
+    "email": "arseo@korea.ac.kr",
+    "researchTopic": "Directed evolution of thermostable enzymes",
+    "researchTopic_ko": ""
+  },
+  {
+    "id": "minjun-park",
+    "name": "Minjun Park",
+    "name_ko": "박민준",
+    "position": "Ph.D. Course",
+    "order": 1,
+    "joinedDate": "2021-03-02",
+    "email": "mjpark@korea.ac.kr",
+    "researchTopic": "",
+    "researchTopic_ko": "형광 압타머 스위치 설계"
+  },
+  {
+    "id": "hyewon-lee",
+    "name": "Hyewon Lee",
+    "name_ko": "이혜원",
+    "position": "Ph.D. Course",
+    "order": 3,
+    "joinedDate": "2021-09-01",
+    "email": "hwlee@korea.ac.kr",
+    "researchTopic": "Aptamer-enzyme conjugates for signal amplification",
+    "researchTopic_ko": "신호 증폭을 위한 압타머-효소 접합체"
+  },
+  {
+    "id": "jisoo-han",
+    "name": "Jisoo Han",
+    "name_ko": "한지수",
+    "position": "M.S.-Ph.D. Integrated",
+    "joinedDate": "2022-03-02",
+    "email": "jshan@korea.ac.kr",
+    "researchTopic": "Protein scaffolds for oriented antibody immobilization",
+    "researchTopic_ko": "항체 배향 고정을 위한 단백질 스캐폴드"
+  },
+  {
+    "id": "minhyuk-cho",
+    "name": "Minhyuk Cho",
+    "name_ko": "조민혁",
+    "position": "M.S.-Ph.D. Integrated",
+    "joinedDate": "2022-09-01",
+    "email": "mhcho@korea.ac.kr",
+    "researchTopic": "Cell-free protein synthesis platforms",
+    "researchTopic_ko": ""
+  },
+  {
+    "id": "yuna-kim",
+    "name": "Yuna Kim",
+    "name_ko": "김유나",
+    "position": "M.S. Course",
+    "joinedDate": "2023-03-02",
+    "email": "yunakim@korea.ac.kr",
+    "researchTopic": "",
+    "researchTopic_ko": "종이 기반 현장 진단 디바이스"
+  },
+  {
+    "id": "seojin-oh",
+    "name": "Seojin Oh",
+    "name_ko": "오서진",
+    "position": "M.S. Course",
+    "joinedDate": "2023-03-02",
+    "email": "sjoh@korea.ac.kr",
+    "researchTopic": "Aptamer-functionalized nanoparticles for pathogen detection",
+    "researchTopic_ko": "병원균 검출용 압타머 기능화 나노입자"
+  },
+  {
+    "id": "taehyun-yoon",
+    "name": "Taehyun Yoon",
+    "name_ko": "윤태현",
+    "position": "M.S. Course",
+    "joinedDate": "2023-09-01",
+    "email": "thyoon@korea.ac.kr",
+    "researchTopic": "Expression optimization of recombinant biosensors",
+    "researchTopic_ko": "재조합 바이오센서의 발현 최적화"
+  },
+  {
+    "id": "chaewon-jung",
+    "name": "Chaewon Jung",
+    "name_ko": "정채원",
+    "position": "Undergraduate Researcher",
+    "joinedDate": "2024-06-03",
+    "email": "cwjung@korea.ac.kr",
+    "researchTopic": "",
+    "researchTopic_ko": "대장균 발현 최적화 실험 보조"
+  },
+  {
+    "id": "junho-lim",
+    "name": "Junho Lim",
+    "name_ko": "임준호",
+    "position": "Undergraduate Researcher",
+    "joinedDate": "2024-09-02",
+    "email": "jhlim@korea.ac.kr",
+    "researchTopic": "Assisting SELEX experiments",
+    "researchTopic_ko": "SELEX 실험 보조"
   }
 ]

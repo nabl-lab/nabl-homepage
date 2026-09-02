@@ -1,14 +1,22 @@
 ---
-// 임시 홈페이지. 연구실 이름만 표시하는 최소 페이지다.
-// TODO: 사이트 콘텐츠 작업을 시작할 때 이 페이지를 실제 홈 화면으로 교체한다.
-// TODO: 필요하면 "NABL" 을 전체 명칭(국문/영문)으로 바꾼다.
-import BaseLayout from "../layouts/base-layout.astro";
-
-const labName = "NABL";
+// 루트(/) 접속을 기본 언어 홈(/en/)으로 즉시 보낸다.
+// 정적 호스팅 어디서나 동작하도록 meta refresh + 스크립트 + 링크를 함께 둔다.
+const target = "/en/";
 ---
 
-<BaseLayout title={labName}>
-  <main class="flex min-h-screen items-center justify-center">
-    <h1 class="text-6xl font-bold tracking-tight">{labName}</h1>
-  </main>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={target} />
+    <title>Redirecting to {target}</title>
+    <script is:inline>
+      window.location.replace("/en/");
+    </script>
+  </head>
+  <body>
+    <a href={target}>Continue to the NABL homepage</a>
+  </body>
+</html>

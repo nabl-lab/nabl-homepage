@@ -1,26 +1,46 @@
 ---
-// 모든 페이지가 공유하는 최소 레이아웃.
-// <head> 공통 태그와 전역 스타일(Tailwind)을 한곳에서 관리한다.
+// 모든 페이지가 공유하는 레이아웃.
+// <head> 공통 태그, 전역 스타일, 헤더/푸터를 한곳에서 관리한다.
 import "../styles/global.css";
+import SiteHeader from "../components/site-header.astro";
+import SiteFooter from "../components/site-footer.astro";
+import { useTranslations, type Locale } from "../i18n/utils";
 
 interface Props {
-  /** 브라우저 탭에 표시될 페이지 제목 */
+  /** 현재 페이지 언어 (URL 의 [lang] 세그먼트) */
+  lang: Locale;
+  /** 페이지 고유 제목. 비우면 사이트 정식 명칭이 <title> 에 들어간다. */
   title: string;
+  /** meta description (선택) */
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { lang, title, description } = Astro.props;
+const t = useTranslations(lang);
+const fullTitle = title ? `${title} · ${t("site.shortName")}` : t("site.name");
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <title>{fullTitle}</title>
   </head>
-  <body>
-    <slot />
+  <body class="flex min-h-screen flex-col bg-surface text-ink">
+    <a
+      href="#main"
+      class="sr-only rounded bg-brand px-4 py-2 text-brand-contrast focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
+    >
+      {t("a11y.skipToContent")}
+    </a>
+    <SiteHeader lang={lang} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <SiteFooter lang={lang} />
   </body>
 </html>

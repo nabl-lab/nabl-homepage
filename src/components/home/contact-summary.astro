@@ -1,0 +1,39 @@
+---
+// 홈 - 연락처 요약 (주소 · 이메일). 상세는 /contact 페이지.
+import Section from "../section.astro";
+import { useTranslations, withLocale, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const email = t("contact.emailValue");
+---
+
+<Section id="contact" title={t("home.contact.title")} muted>
+  <a
+    slot="cta"
+    href={withLocale(lang, "/contact")}
+    class="shrink-0 text-sm font-medium text-brand hover:underline"
+  >
+    {t("common.readMore")} →
+  </a>
+  <div class="grid gap-6 sm:grid-cols-2">
+    <div>
+      <p class="text-sm font-semibold text-ink">{t("common.address")}</p>
+      <p class="mt-1 text-sm text-ink-muted">{t("contact.addressLine1")}</p>
+      <p class="text-sm text-ink-muted">{t("contact.addressLine2")}</p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-ink">{t("common.email")}</p>
+      <a
+        class="mt-1 inline-block text-sm text-brand underline"
+        href={`mailto:${email}`}
+      >
+        {email}
+      </a>
+    </div>
+  </div>
+</Section>

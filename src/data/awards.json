@@ -1,0 +1,90 @@
+[
+  {
+    "id": "award-2025-ksbb-poster",
+    "title": "Best Poster Award",
+    "title_ko": "우수 포스터상",
+    "recipient": "Areum Seo",
+    "recipient_ko": "서아름",
+    "organization": "Korean Society for Biotechnology and Bioengineering (KSBB)",
+    "organization_ko": "한국생물공학회",
+    "date": "2025-04-18",
+    "year": 2025
+  },
+  {
+    "id": "award-2024-ksic-paper",
+    "title": "",
+    "title_ko": "우수 논문상",
+    "recipient": "",
+    "recipient_ko": "박민준",
+    "organization": "",
+    "organization_ko": "한국공업화학회",
+    "date": "2024-11-08",
+    "year": 2024
+  },
+  {
+    "id": "award-2024-nrf-fellowship",
+    "title": "Graduate Research Fellowship",
+    "title_ko": "대학원생 연구장학금",
+    "recipient": "Jisoo Han",
+    "recipient_ko": "한지수",
+    "organization": "National Research Foundation of Korea",
+    "organization_ko": "한국연구재단",
+    "date": "2024-03-01",
+    "year": 2024
+  },
+  {
+    "id": "award-2023-microtas-presentation",
+    "title": "Best Presentation Award",
+    "title_ko": "우수 발표상",
+    "recipient": "Hyewon Lee",
+    "recipient_ko": "이혜원",
+    "organization": "MicroTAS 2023",
+    "organization_ko": "",
+    "date": "2023-10-19",
+    "year": 2023
+  },
+  {
+    "id": "award-2023-msk-young-scientist",
+    "title": "Young Scientist Award",
+    "title_ko": "젊은 과학자상",
+    "recipient": "Seung Pil Pack",
+    "recipient_ko": "박승필",
+    "organization": "The Microbiological Society of Korea",
+    "organization_ko": "한국미생물학회",
+    "date": "2023-05-12",
+    "year": 2023
+  },
+  {
+    "id": "award-2022-biochip-poster",
+    "title": "",
+    "title_ko": "우수 포스터상",
+    "recipient": "",
+    "recipient_ko": "오서진",
+    "organization": "",
+    "organization_ko": "한국바이오칩학회",
+    "date": "2022-11-25",
+    "year": 2022
+  },
+  {
+    "id": "award-2022-ku-ta",
+    "title": "Outstanding Teaching Assistant Award",
+    "title_ko": "우수 조교상",
+    "recipient": "Minhyuk Cho",
+    "recipient_ko": "조민혁",
+    "organization": "Korea University",
+    "organization_ko": "고려대학교",
+    "date": "2022-12-20",
+    "year": 2022
+  },
+  {
+    "id": "award-2021-ksbb-paper",
+    "title": "Best Paper Award",
+    "title_ko": "우수 논문상",
+    "recipient": "Wontae Baek",
+    "recipient_ko": "백원태",
+    "organization": "Korean Society for Biotechnology and Bioengineering (KSBB)",
+    "organization_ko": "한국생물공학회",
+    "date": "2021-04-22",
+    "year": 2021
+  }
+]

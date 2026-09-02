@@ -1,0 +1,35 @@
+---
+// 홈 히어로: 연구실 정식 명칭 + 한 줄 소개 + 소속.
+// 시안 A(아주 진한 크림슨 그라데이션 + 흰 텍스트)로 확정.
+//
+// 배경 이미지: public/images/hero.jpg 를 참조한다. 파일이 없으면 반투명 그라데이션이
+// 배경색 위에 그대로 얹혀 단색처럼 보이므로 별도 처리 없이 자연스럽게 폴백된다.
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const HERO_IMAGE = "/images/hero.jpg";
+const style =
+  "background-color:var(--color-brand-deep);" +
+  "background-image:linear-gradient(160deg," +
+  " color-mix(in srgb, var(--color-brand-deep) 82%, transparent)," +
+  " color-mix(in srgb, var(--color-brand-deep) 94%, transparent))," +
+  `url('${HERO_IMAGE}');`;
+---
+
+<section class="bg-cover bg-center text-brand-contrast" style={style}>
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:py-20">
+    <h1 class="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl">
+      {t("site.name")}
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-brand-contrast/85">
+      {t("home.hero.tagline")}
+    </p>
+    <p class="mt-3 text-sm text-brand-contrast/65">{t("site.affiliation")}</p>
+  </div>
+</section>

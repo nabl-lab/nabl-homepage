@@ -1,0 +1,100 @@
+---
+// 사이트 헤더: 로고 · 주 메뉴 · 언어 전환. 모바일에서는 <details> 로 메뉴를 펼친다(무-JS).
+import LanguageSwitcher from "./language-switcher.astro";
+import { useTranslations, withLocale, type Locale, type UiKey } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// 메뉴 항목: ui.ts 사전 키 + 언어 접두사 없는 경로.
+const items: { key: UiKey; path: string }[] = [
+  { key: "nav.home", path: "" },
+  { key: "nav.about", path: "/about" },
+  { key: "nav.members", path: "/members" },
+  { key: "nav.research", path: "/research" },
+  { key: "nav.achievements", path: "/achievements/publications" },
+  { key: "nav.news", path: "/news" },
+  { key: "nav.contact", path: "/contact" },
+];
+
+const here = Astro.url.pathname.replace(/\/$/, "");
+const isActive = (path: string) => {
+  const target = withLocale(lang, path).replace(/\/$/, "");
+  if (path === "") return here === target;
+  return here === target || here.startsWith(target + "/");
+};
+---
+
+<header class="border-b border-line bg-surface">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+    <a href={withLocale(lang)} class="text-lg font-bold tracking-tight text-brand">
+      {t("site.shortName")}
+    </a>
+
+    <div class="flex items-center gap-3">
+      <nav aria-label="Primary" class="hidden md:block">
+        <ul class="flex items-center gap-6 text-sm">
+          {
+            items.map((it) => (
+              <li>
+                <a
+                  href={withLocale(lang, it.path)}
+                  aria-current={isActive(it.path) ? "page" : undefined}
+                  class:list={[
+                    "pb-1 hover:text-brand",
+                    isActive(it.path)
+                      ? "border-b-2 border-brand font-semibold text-brand"
+                      : "border-b-2 border-transparent text-ink",
+                  ]}
+                >
+                  {t(it.key)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="border-l border-line pl-3">
+        <LanguageSwitcher lang={lang} />
+      </div>
+
+      <details class="relative md:hidden">
+        <summary
+          class="flex cursor-pointer items-center rounded border border-line px-2 py-1 text-sm list-none [&::-webkit-details-marker]:hidden"
+        >
+          {t("a11y.openMenu")}
+        </summary>
+        <nav
+          aria-label="Primary"
+          class="absolute right-0 z-40 mt-2 w-52 rounded border border-line bg-surface p-2 shadow-lg"
+        >
+          <ul class="flex flex-col text-sm">
+            {
+              items.map((it) => (
+                <li>
+                  <a
+                    href={withLocale(lang, it.path)}
+                    aria-current={isActive(it.path) ? "page" : undefined}
+                    class:list={[
+                      "block rounded border-l-2 px-2 py-2 hover:bg-surface-muted",
+                      isActive(it.path)
+                        ? "border-brand bg-brand-tint font-semibold text-brand"
+                        : "border-transparent text-ink",
+                    ]}
+                  >
+                    {t(it.key)}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
