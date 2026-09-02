@@ -1,0 +1,64 @@
+---
+// 데스크톱 주 메뉴. 메뉴 구조는 src/i18n/nav.ts 에서 읽고 여기서는 렌더링만 한다.
+// 하위 메뉴는 CSS hover / 키보드 포커스만으로 펼친다 (JS 없음).
+// 부모→자식으로 마우스가 이동할 때 닫히지 않도록, 드롭다운을 부모 바로 아래에
+// 붙이고(top-full) 위쪽 여백을 투명 padding(pt-2)으로 채워 dead space 를 없앤다.
+import { NAV, isNavActive } from "../i18n/nav";
+import { useTranslations, withLocale, type Locale } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const here = Astro.url.pathname;
+---
+
+<ul class="flex items-center gap-6 text-sm">
+  {
+    NAV.map((item) => {
+      const active = isNavActive(here, lang, item);
+      return (
+        <li class="group relative">
+          <a
+            href={withLocale(lang, item.path)}
+            aria-current={active ? "page" : undefined}
+            class:list={[
+              "block border-b-2 py-1 hover:text-brand",
+              active
+                ? "border-brand font-semibold text-brand"
+                : "border-transparent text-ink",
+            ]}
+          >
+            {t(item.key)}
+          </a>
+
+          {item.children && (
+            <div class="absolute left-0 top-full z-40 hidden pt-2 group-hover:block group-focus-within:block">
+              <ul class="min-w-52 rounded border border-line bg-surface p-2 shadow-lg">
+                {item.children.map((child) => {
+                  const childActive = isNavActive(here, lang, child);
+                  return (
+                    <li>
+                      <a
+                        href={withLocale(lang, child.path)}
+                        aria-current={childActive ? "page" : undefined}
+                        class:list={[
+                          "block rounded px-2 py-1.5 hover:bg-surface-muted hover:text-brand",
+                          childActive ? "font-semibold text-brand" : "text-ink",
+                        ]}
+                      >
+                        {t(child.key)}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </li>
+      );
+    })
+  }
+</ul>

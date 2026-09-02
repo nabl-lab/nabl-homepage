@@ -3,165 +3,180 @@
     "id": "pub-2025-troponin-aptamer",
     "title": "Engineering high-affinity aptamers for label-free detection of cardiac troponin I",
     "title_ko": "",
-    "authors": "A. Seo, J.-H. Kim, S. P. Pack",
+    "authors": "Y. Lee, C. Kim, G. Hong",
     "venue": "Biosensors and Bioelectronics",
     "venue_ko": "",
     "year": 2025,
     "category": "international",
-    "link": "https://example.org/papers/troponin-aptamer"
+    "link": "https://example.org/papers/troponin-aptamer",
+    "featured": true
   },
   {
     "id": "pub-2024-thermostable-laccase",
     "title": "Thermostable variants of a bacterial laccase via consensus-guided directed evolution",
     "title_ko": "",
-    "authors": "M. Park, S. P. Pack",
+    "authors": "Y. Park, G. Hong",
     "venue": "ACS Catalysis",
     "venue_ko": "",
     "year": 2024,
     "category": "international",
-    "link": "https://example.org/papers/thermostable-laccase"
+    "link": "https://example.org/papers/thermostable-laccase",
+    "featured": false
   },
   {
     "id": "pub-2024-fluorogenic-switch",
     "title": "A fluorogenic aptamer switch for real-time monitoring of ATP in live cells",
     "title_ko": "",
-    "authors": "H. Lee, J. Han, S. P. Pack",
+    "authors": "M. Choi, S. Jeong, G. Hong",
     "venue": "Nucleic Acids Research",
     "venue_ko": "",
     "year": 2024,
     "category": "international",
-    "link": "https://example.org/papers/fluorogenic-switch"
+    "link": "https://example.org/papers/fluorogenic-switch",
+    "featured": true
   },
   {
     "id": "pub-2024-paper-heavy-metal",
     "title": "Paper-based colorimetric assay for on-site detection of heavy metal ions",
     "title_ko": "중금속 이온 현장 검출을 위한 종이 기반 발색 분석법",
-    "authors": "Y. Kim, S. P. Pack",
+    "authors": "S. Yoon, G. Hong",
     "venue": "Korean Journal of Biotechnology and Bioengineering",
     "venue_ko": "한국생물공학회지",
     "year": 2024,
     "category": "domestic",
-    "link": "https://example.org/papers/paper-heavy-metal"
+    "link": "https://example.org/papers/paper-heavy-metal",
+    "featured": false
   },
   {
     "id": "pub-2023-cell-free-cascade",
     "title": "Cell-free synthesis and one-pot immobilization of multi-enzyme cascades",
     "title_ko": "",
-    "authors": "M. Cho, J.-H. Kim, S. P. Pack",
+    "authors": "D. Kang, C. Kim, G. Hong",
     "venue": "Metabolic Engineering",
     "venue_ko": "",
     "year": 2023,
     "category": "international",
-    "link": "https://example.org/papers/cell-free-cascade"
+    "link": "https://example.org/papers/cell-free-cascade",
+    "featured": true
   },
   {
     "id": "pub-2023-antibody-scaffold",
     "title": "Structure-guided design of a protein scaffold for oriented antibody immobilization",
     "title_ko": "",
-    "authors": "J. Han, S. P. Pack",
+    "authors": "S. Jeong, G. Hong",
     "venue": "Biomacromolecules",
     "venue_ko": "",
     "year": 2023,
     "category": "international",
-    "link": "https://example.org/papers/antibody-scaffold"
+    "link": "https://example.org/papers/antibody-scaffold",
+    "featured": false
   },
   {
     "id": "pub-2023-microfluidic-selex",
     "title": "SELEX on a microfluidic chip for rapid aptamer discovery",
     "title_ko": "",
-    "authors": "A. Seo, S. P. Pack",
+    "authors": "Y. Lee, G. Hong",
     "venue": "Proc. MicroTAS 2023",
     "venue_ko": "",
     "year": 2023,
     "category": "conference",
-    "link": "https://example.org/papers/microfluidic-selex"
+    "link": "https://example.org/papers/microfluidic-selex",
+    "featured": false
   },
   {
     "id": "pub-2022-aunp-pathogen",
     "title": "Aptamer-functionalized gold nanoparticles for naked-eye detection of foodborne pathogens",
     "title_ko": "",
-    "authors": "S. Oh, Y. Kim, S. P. Pack",
+    "authors": "J. Lim, S. Yoon, G. Hong",
     "venue": "Food Chemistry",
     "venue_ko": "",
     "year": 2022,
     "category": "international",
-    "link": "https://example.org/papers/aunp-pathogen"
+    "link": "https://example.org/papers/aunp-pathogen",
+    "featured": false
   },
   {
     "id": "pub-2022-expression-optimization",
     "title": "Expression optimization of a recombinant fluorescent biosensor in E. coli",
     "title_ko": "대장균에서 재조합 형광 바이오센서의 발현 최적화",
-    "authors": "T. Yoon, S. P. Pack",
+    "authors": "J. Han, G. Hong",
     "venue": "Korean Society for Microbiology and Biotechnology",
     "venue_ko": "한국미생물·생명공학회지",
     "year": 2022,
     "category": "domestic",
-    "link": "https://example.org/papers/expression-optimization"
+    "link": "https://example.org/papers/expression-optimization",
+    "featured": false
   },
   {
     "id": "pub-2022-modular-conjugate",
     "title": "A modular aptamer-enzyme conjugate platform for signal amplification",
     "title_ko": "",
-    "authors": "H. Lee, S. P. Pack",
+    "authors": "M. Choi, G. Hong",
     "venue": "KSBB Spring Meeting 2022",
     "venue_ko": "",
     "year": 2022,
     "category": "conference",
-    "link": "https://example.org/papers/modular-conjugate"
+    "link": "https://example.org/papers/modular-conjugate",
+    "featured": false
   },
   {
     "id": "pub-2021-solvent-tolerant-lipase",
     "title": "Directed evolution of a solvent-tolerant lipase for biodiesel production",
     "title_ko": "",
-    "authors": "W. Baek, S. P. Pack",
+    "authors": "S. Bae, G. Hong",
     "venue": "Enzyme and Microbial Technology",
     "venue_ko": "",
     "year": 2021,
     "category": "international",
-    "link": "https://example.org/papers/solvent-tolerant-lipase"
+    "link": "https://example.org/papers/solvent-tolerant-lipase",
+    "featured": false
   },
   {
     "id": "pub-2021-split-aptamer",
     "title": "Split-aptamer assembly for proximity-based small-molecule sensing",
     "title_ko": "",
-    "authors": "S. Kang, S. P. Pack",
+    "authors": "J. Seo, G. Hong",
     "venue": "Analytical Chemistry",
     "venue_ko": "",
     "year": 2021,
     "category": "international",
-    "link": "https://example.org/papers/split-aptamer"
+    "link": "https://example.org/papers/split-aptamer",
+    "featured": true
   },
   {
     "id": "pub-2020-consensus-sdab",
     "title": "Consensus protein design improves the stability of a single-domain antibody",
     "title_ko": "",
-    "authors": "N. Jung, S. P. Pack",
+    "authors": "G. Moon, G. Hong",
     "venue": "Protein Science",
     "venue_ko": "",
     "year": 2020,
     "category": "international",
-    "link": "https://example.org/papers/consensus-sdab"
+    "link": "https://example.org/papers/consensus-sdab",
+    "featured": false
   },
   {
     "id": "pub-2020-lateral-flow",
     "title": "Development of a lateral-flow immunoassay for rapid point-of-care diagnosis",
     "title_ko": "신속 현장 진단을 위한 측방유동 면역분석법 개발",
-    "authors": "S. Kang, S. P. Pack",
+    "authors": "J. Seo, G. Hong",
     "venue": "Journal of Biomedical Science (Korea)",
     "venue_ko": "대한의생명과학회지",
     "year": 2020,
     "category": "domestic",
-    "link": "https://example.org/papers/lateral-flow"
+    "link": "https://example.org/papers/lateral-flow",
+    "featured": false
   },
   {
     "id": "pub-2019-immobilized-arrays",
     "title": "Immobilized aptamer arrays for multiplexed biomarker screening",
     "title_ko": "",
-    "authors": "W. Baek, S. P. Pack",
+    "authors": "S. Bae, G. Hong",
     "venue": "BIOCHIP 2019",
     "venue_ko": "",
     "year": 2019,
     "category": "conference",
-    "link": "https://example.org/papers/immobilized-arrays"
+    "link": "https://example.org/papers/immobilized-arrays",
+    "featured": false
   }
 ]

@@ -1,0 +1,98 @@
+---
+// 책임교수(PI) 전용 페이지 (/[lang]/members/pi).
+// 8개 섹션 중 프로필·연구관심사·타임라인은 컴포넌트로 분리, 목록형 3개는 여기서 조합.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import PiProfile from "../../../components/pi/profile.astro";
+import PiResearchInterests from "../../../components/pi/research-interests.astro";
+import PiTimeline from "../../../components/pi/timeline.astro";
+import PublicationItem from "../../../components/publication-item.astro";
+import { localizedText } from "../../../lib/content";
+import { piProfile, piAwards, featuredPublications } from "../../../lib/pi";
+import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+
+const awardRows = piAwards
+  .map((a) => ({
+    id: a.id,
+    year: a.year,
+    title: localizedText(a, "title", lang),
+    org: localizedText(a, "organization", lang),
+  }))
+  .filter((a) => a.title)
+  .sort((a, b) => b.year - a.year);
+
+const links = piProfile.links;
+---
+
+<BaseLayout lang={lang} title={t("pi.pageTitle")}>
+  <PageHeader title={t("pi.pageTitle")} />
+
+  <PiProfile lang={lang} />
+  <PiResearchInterests lang={lang} />
+  <PiTimeline title={t("pi.education")} entries={piProfile.education} lang={lang} />
+  <PiTimeline title={t("pi.career")} entries={piProfile.career} lang={lang} />
+  <PiTimeline title={t("pi.activities")} entries={piProfile.activities} lang={lang} />
+
+  {
+    awardRows.length > 0 && (
+      <Section title={t("pi.awards")} muted>
+        <ul class="flex flex-col divide-y divide-line border-y border-line">
+          {awardRows.map((a) => (
+            <li class="flex gap-4 py-3">
+              <span class="w-12 shrink-0 text-sm font-semibold text-ink-muted tabular-nums">
+                {a.year}
+              </span>
+              <span>
+                <span class="font-medium text-ink">{a.title}</span>
+                {a.org && <span class="text-ink-muted"> · {a.org}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  {
+    featuredPublications.length > 0 && (
+      <Section title={t("pi.selectedPublications")}>
+        <div class="divide-y divide-line border-y border-line">
+          {featuredPublications.map((p) => (
+            <PublicationItem publication={p} lang={lang} />
+          ))}
+        </div>
+      </Section>
+    )
+  }
+
+  <Section title={t("pi.links")} muted>
+    <ul class="flex flex-wrap gap-4 text-sm font-medium">
+      <li>
+        <a
+          href={links.scholar}
+          target="_blank"
+          rel="noopener"
+          class="text-brand hover:underline"
+        >
+          {t("pi.scholar")} →
+        </a>
+      </li>
+      <li>
+        <a
+          href={links.orcid}
+          target="_blank"
+          rel="noopener"
+          class="text-brand hover:underline"
+        >
+          {t("pi.orcid")} →
+        </a>
+      </li>
+    </ul>
+  </Section>
+</BaseLayout>

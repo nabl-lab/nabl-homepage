@@ -1,0 +1,19 @@
+---
+// 하위 페이지 상단의 제목 영역. 모든 2단계 페이지가 공통으로 쓴다.
+interface Props {
+  title: string;
+  /** 제목 아래 한 줄 설명 (선택) */
+  lede?: string;
+}
+
+const { title, lede } = Astro.props;
+---
+
+<div class="border-b border-line bg-surface-muted">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:py-14">
+    <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+      {title}
+    </h1>
+    {lede && <p class="mt-3 max-w-2xl text-ink-muted">{lede}</p>}
+  </div>
+</div>

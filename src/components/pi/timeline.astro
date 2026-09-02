@@ -1,0 +1,44 @@
+---
+// PI 페이지 3~5. 학력 / 경력 / 대외활동 — 항목 구조가 같아 한 컴포넌트로 재사용한다.
+import Section from "../section.astro";
+import { localizedText, type PiEntry, type Locale } from "../../lib/content";
+import { sortEntries } from "../../lib/pi";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  title: string;
+  entries: PiEntry[];
+  lang: Locale;
+}
+
+const { title, entries, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const rows = sortEntries(entries)
+  .map((e) => ({
+    text: localizedText(e, "text", lang),
+    org: e.organization,
+    period: `${e.startYear}–${e.endYear ?? t("pi.present")}`,
+  }))
+  .filter((r) => r.text);
+---
+
+{
+  rows.length > 0 && (
+    <Section title={title}>
+      <ul class="flex flex-col divide-y divide-line border-y border-line">
+        {rows.map((r) => (
+          <li class="flex flex-col gap-0.5 py-3 sm:flex-row sm:items-baseline sm:justify-between">
+            <span>
+              <span class="font-medium text-ink">{r.text}</span>
+              {r.org && <span class="text-ink-muted"> · {r.org}</span>}
+            </span>
+            <span class="shrink-0 text-sm text-ink-muted tabular-nums">
+              {r.period}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )
+}

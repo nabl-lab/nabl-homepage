@@ -1,0 +1,46 @@
+---
+// 현재 구성원 (/[lang]/members). PI 를 제외한 5개 직책을 섹션으로 나눠 보여준다.
+// (PI 는 /[lang]/members/pi 전용 페이지)
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import MemberCard from "../../../components/member-card.astro";
+import { members, groupByPosition } from "../../../lib/content";
+import {
+  localePaths,
+  useTranslations,
+  POSITION_LABEL_KEY,
+  type Locale,
+  type UiKey,
+} from "../../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+const groups = groupByPosition(members).filter(
+  (g) => g.position !== "Principal Investigator",
+);
+
+// 직책 표기: 매핑에 있으면 번역, 없으면(새 직책) 원문 그대로.
+const positionLabel = (position: string): string => {
+  const key = POSITION_LABEL_KEY[position] as UiKey | undefined;
+  return key ? t(key) : position;
+};
+---
+
+<BaseLayout lang={lang} title={t("members.currentTitle")}>
+  <PageHeader title={t("members.currentTitle")} lede={t("members.lede")} />
+
+  {
+    groups.map((g) => (
+      <Section title={positionLabel(g.position)}>
+        <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+          {g.items.map((m) => (
+            <MemberCard member={m} lang={lang} />
+          ))}
+        </div>
+      </Section>
+    ))
+  }
+</BaseLayout>

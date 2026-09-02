@@ -32,7 +32,8 @@ nabl-homepage/
 │   ├── i18n/            다국어. ui.ts(문구 사전) + utils.ts(라우팅 헬퍼)
 │   ├── lib/             로직 모듈
 │   │   ├── content.ts       콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
-│   │   └── content-types.ts 콘텐츠 데이터의 형식(타입) 정의
+│   │   ├── content-types.ts 콘텐츠 데이터의 형식(타입) 정의
+│   │   └── pi.ts            PI 페이지용 파생 데이터 (content.ts 에서만 데이터를 받음)
 │   ├── data/            콘텐츠 더미 데이터 (JSON). 자세한 설명은 src/data/README.md
 │   └── styles/
 │       └── global.css   Tailwind 불러오기 + 색상·폰트 토큰(@theme)
@@ -164,6 +165,16 @@ nabl-homepage/
 ### UI 문구 (메뉴·버튼·라벨·섹션 제목)
 - 반드시 `src/i18n/ui.ts` 사전에 **en 과 ko 를 둘 다** 추가하고, 컴포넌트에서는
   `useTranslations(lang)` 로 꺼내 씁니다. 화면 문구를 `.astro` 에 직접 쓰지 마세요.
+  (실제 문구는 `src/i18n/en.ts` / `ko.ts` 에 있고 `ui.ts` 가 둘을 묶습니다.)
+
+### 헤더 네비게이션 메뉴
+- 메뉴 구조(상위 항목·하위 드롭다운·경로)는 **`src/i18n/nav.ts` 의 `NAV` 배열 한 곳**에서만
+  정의합니다. 메뉴를 추가·삭제·재배치하려면 이 파일만 고칩니다.
+- 헤더 컴포넌트(`site-nav.astro` = 데스크톱, `site-nav-mobile.astro` = 모바일)는 `NAV` 를
+  읽어 렌더링만 합니다. 두 컴포넌트에 메뉴 항목을 직접 쓰지 마세요.
+- 각 항목의 문구는 `nav.ts` 에 두지 않고 `en.ts`/`ko.ts` 의 키(`key`)로 참조합니다.
+- 드롭다운은 **JS 없이** 동작합니다 (데스크톱: CSS `hover`/`focus-within`,
+  모바일: 중첩 `<details>`). 이 방식을 깨지 마세요.
 
 ### 콘텐츠 텍스트 (구성원·논문·뉴스 등 데이터에서 오는 값)
 - 반드시 `src/lib/content.ts` 의 **`localizedText(item, '필드명', lang)`** 로 가져옵니다.

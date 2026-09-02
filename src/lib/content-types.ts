@@ -8,6 +8,14 @@
  */
 export type { Locale } from "../i18n/ui";
 
+/** 연구실 소개 (about.json). 페이지 본문은 localizedText 로 언어를 고른다. */
+export interface About {
+  intro: string;
+  intro_ko: string;
+  mission: string;
+  mission_ko: string;
+}
+
 export interface Member {
   id: string;
   name: string;
@@ -19,6 +27,8 @@ export interface Member {
   email: string;
   researchTopic: string;
   researchTopic_ko: string;
+  /** 사진 경로 (예: /images/members/xxx.jpg). 없으면 카드에서 플레이스홀더로 표시. */
+  photo?: string;
 }
 
 export interface Alumnus {
@@ -41,6 +51,8 @@ export interface Publication {
   year: number;
   category: "international" | "domestic" | "conference";
   link: string;
+  /** true 인 것만 PI 페이지의 "대표 논문" 에 노출된다. */
+  featured?: boolean;
 }
 
 export interface Patent {
@@ -92,4 +104,37 @@ export interface ResearchProject {
   period: string;
   funder: string;
   funder_ko: string;
+}
+
+/**
+ * PI 페이지의 학력·경력·대외활동 항목. 세 배열이 같은 모양을 쓴다.
+ * 나중에 Notion DB 의 행 하나와 1:1 로 매핑할 구조다.
+ */
+export interface PiEntry {
+  text: string;
+  text_ko: string;
+  organization: string;
+  startYear: number;
+  /** 진행 중이면 null */
+  endYear: number | null;
+  /** 있으면 정렬에서 시작연도보다 우선 (작을수록 위) */
+  order?: number;
+}
+
+/** PI 프로필 (pi-profile.json). 신원(이름·이메일·사진)은 members.json 의 PI 항목을 쓴다. */
+export interface PiProfile {
+  title: string;
+  title_ko: string;
+  office: string;
+  office_ko: string;
+  researchInterests: {
+    keywords: string[];
+    keywords_ko: string[];
+    description: string;
+    description_ko: string;
+  };
+  education: PiEntry[];
+  career: PiEntry[];
+  activities: PiEntry[];
+  links: { scholar: string; orcid: string };
 }

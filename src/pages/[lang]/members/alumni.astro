@@ -1,0 +1,60 @@
+---
+// 졸업생 (/[lang]/members/alumni). 졸업 연도별 그룹, 졸업 후 소속을 강조한다.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import { alumni, localizedText } from "../../../lib/content";
+import { localePaths, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+
+const rows = alumni
+  .map((a) => ({
+    id: a.id,
+    year: a.graduatedYear,
+    name: localizedText(a, "name", lang),
+    degree: a.degree,
+    after: localizedText(a, "afterAffiliation", lang),
+  }))
+  .filter((a) => a.name);
+
+const years = [...new Set(rows.map((r) => r.year))].sort((a, b) => b - a);
+---
+
+<BaseLayout lang={lang} title={t("alumni.title")}>
+  <PageHeader title={t("alumni.title")} lede={t("alumni.lede")} />
+
+  <div class="mx-auto max-w-6xl px-4 pt-6">
+    <a
+      href={withLocale(lang, "/members")}
+      class="text-sm font-medium text-brand hover:underline"
+    >
+      {t("alumni.backToMembers")}
+    </a>
+  </div>
+
+  {
+    years.map((year) => (
+      <Section title={String(year)}>
+        <ul class="flex flex-col divide-y divide-line border-y border-line">
+          {rows
+            .filter((r) => r.year === year)
+            .map((r) => (
+              <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                <span class="text-ink-muted">
+                  {r.name}
+                  {r.degree ? ` · ${r.degree}` : ""}
+                </span>
+                <span class="font-semibold text-ink">
+                  {t("alumni.afterLabel")}: {r.after ?? "—"}
+                </span>
+              </li>
+            ))}
+        </ul>
+      </Section>
+    ))
+  }
+</BaseLayout>

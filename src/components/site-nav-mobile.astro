@@ -1,0 +1,81 @@
+---
+// 모바일 주 메뉴. 메뉴 구조는 src/i18n/nav.ts 에서 읽는다.
+// 하위 메뉴가 있는 항목은 중첩 <details> 로 만들어, 탭하면 펼쳐진다 (JS 없음).
+// 상위 항목의 대표 페이지는 펼친 하위 목록의 해당 항목으로 이동한다
+// (예: Members → "Current Members" 가 /members).
+import { NAV, isNavActive } from "../i18n/nav";
+import { useTranslations, withLocale, type Locale } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const here = Astro.url.pathname;
+
+const linkClass = (isActive: boolean) =>
+  isActive ? "font-semibold text-brand" : "text-ink";
+---
+
+<ul class="flex flex-col text-sm">
+  {
+    NAV.map((item) => {
+      const active = isNavActive(here, lang, item);
+
+      if (!item.children) {
+        return (
+          <li>
+            <a
+              href={withLocale(lang, item.path)}
+              aria-current={active ? "page" : undefined}
+              class:list={["block rounded px-2 py-2 hover:text-brand", linkClass(active)]}
+            >
+              {t(item.key)}
+            </a>
+          </li>
+        );
+      }
+
+      return (
+        <li>
+          <details open={active} class="group/sub">
+            <summary
+              class:list={[
+                "flex cursor-pointer items-center justify-between rounded px-2 py-2 list-none [&::-webkit-details-marker]:hidden hover:text-brand",
+                linkClass(active),
+              ]}
+            >
+              {t(item.key)}
+              <span
+                aria-hidden="true"
+                class="ml-2 text-xs text-ink-muted transition-transform group-open/sub:rotate-180"
+              >
+                ▾
+              </span>
+            </summary>
+            <ul class="mb-1 ml-3 flex flex-col border-l border-line">
+              {item.children.map((child) => {
+                const childActive = isNavActive(here, lang, child);
+                return (
+                  <li>
+                    <a
+                      href={withLocale(lang, child.path)}
+                      aria-current={childActive ? "page" : undefined}
+                      class:list={[
+                        "block rounded px-3 py-2 hover:text-brand",
+                        linkClass(childActive),
+                      ]}
+                    >
+                      {t(child.key)}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </details>
+        </li>
+      );
+    })
+  }
+</ul>

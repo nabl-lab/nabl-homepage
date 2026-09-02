@@ -1,35 +1,35 @@
 [
   {
-    "id": "sunwoo-kang",
-    "name": "Sunwoo Kang",
-    "name_ko": "강선우",
+    "id": "seo-junho",
+    "name": "Junho Seo",
+    "name_ko": "서준호",
     "degree": "Ph.D.",
     "graduatedYear": 2021,
     "afterAffiliation": "Senior Scientist, Samsung Biologics",
     "afterAffiliation_ko": "삼성바이오로직스 책임연구원"
   },
   {
-    "id": "narae-jung",
-    "name": "Narae Jung",
-    "name_ko": "정나래",
+    "id": "moon-gayoung",
+    "name": "Gayoung Moon",
+    "name_ko": "문가영",
     "degree": "M.S.",
     "graduatedYear": 2020,
     "afterAffiliation": "Ph.D. student, KAIST",
     "afterAffiliation_ko": "KAIST 박사과정"
   },
   {
-    "id": "wontae-baek",
-    "name": "Wontae Baek",
-    "name_ko": "백원태",
+    "id": "bae-seongwoo",
+    "name": "Seongwoo Bae",
+    "name_ko": "배성우",
     "degree": "Ph.D.",
     "graduatedYear": 2019,
     "afterAffiliation": "Postdoctoral Researcher, ETH Zürich",
     "afterAffiliation_ko": ""
   },
   {
-    "id": "hyunji-moon",
-    "name": "Hyunji Moon",
-    "name_ko": "문현지",
+    "id": "nam-jisu",
+    "name": "Jisu Nam",
+    "name_ko": "남지수",
     "degree": "M.S.",
     "graduatedYear": 2022,
     "afterAffiliation": "",

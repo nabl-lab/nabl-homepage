@@ -1,0 +1,108 @@
+{
+  "title": "Professor, Department of Biotechnology & Bioinformatics",
+  "title_ko": "생명공학부 생명정보공학과 교수",
+  "office": "Industry–University Cooperation Bldg., Room 321",
+  "office_ko": "산학협력관 321호",
+  "researchInterests": {
+    "keywords": [
+      "Aptamers",
+      "SELEX",
+      "Protein engineering",
+      "Directed evolution",
+      "Biosensors",
+      "Cell-free systems"
+    ],
+    "keywords_ko": [
+      "압타머",
+      "SELEX",
+      "단백질 공학",
+      "유도 진화",
+      "바이오센서",
+      "무세포 시스템"
+    ],
+    "description": "My group develops nucleic acid aptamers and engineered proteins as molecular recognition elements, and translates them into point-of-care biosensing platforms — from in vitro selection to field-deployable devices.",
+    "description_ko": "우리 그룹은 핵산 압타머와 공학적으로 설계된 단백질을 분자 인식 요소로 개발하고, 시험관 내 선별부터 현장 배치형 디바이스까지 이를 현장형 바이오센싱 플랫폼으로 옮기는 연구를 합니다."
+  },
+  "education": [
+    {
+      "text": "Ph.D. in Chemical & Biomolecular Engineering",
+      "text_ko": "화학생명공학 박사",
+      "organization": "Example Institute of Science and Technology",
+      "startYear": 2000,
+      "endYear": 2004,
+      "order": 1
+    },
+    {
+      "text": "B.S. in Chemical Engineering",
+      "text_ko": "화학공학 학사",
+      "organization": "Example National University",
+      "startYear": 1996,
+      "endYear": 2000,
+      "order": 2
+    }
+  ],
+  "career": [
+    {
+      "text": "Professor",
+      "text_ko": "교수",
+      "organization": "Korea University, Sejong Campus",
+      "startYear": 2016,
+      "endYear": null,
+      "order": 1
+    },
+    {
+      "text": "Associate Professor",
+      "text_ko": "부교수",
+      "organization": "Korea University, Sejong Campus",
+      "startYear": 2011,
+      "endYear": 2016,
+      "order": 2
+    },
+    {
+      "text": "Assistant Professor",
+      "text_ko": "조교수",
+      "organization": "Korea University, Sejong Campus",
+      "startYear": 2007,
+      "endYear": 2011,
+      "order": 3
+    },
+    {
+      "text": "Postdoctoral Researcher",
+      "text_ko": "박사후연구원",
+      "organization": "Example University",
+      "startYear": 2004,
+      "endYear": 2007,
+      "order": 4
+    }
+  ],
+  "activities": [
+    {
+      "text": "Editorial Board Member",
+      "text_ko": "편집위원",
+      "organization": "Journal of Molecular Sensing (example)",
+      "startYear": 2019,
+      "endYear": null,
+      "order": 1
+    },
+    {
+      "text": "Director",
+      "text_ko": "이사",
+      "organization": "Korean Society for Biotechnology and Bioengineering",
+      "startYear": 2020,
+      "endYear": 2022,
+      "order": 2
+    },
+    {
+      "text": "Organizing Committee",
+      "text_ko": "조직위원",
+      "organization": "International Aptamer Symposium (example)",
+      "startYear": 2021,
+      "endYear": 2021,
+      "order": 3
+    }
+  ],
+  "links": {
+    "scholar": "https://scholar.google.com/citations?user=EXAMPLE123",
+    "orcid": "https://orcid.org/0000-0002-1825-0097"
+  }
+}

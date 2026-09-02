@@ -1,0 +1,38 @@
+---
+// 논문 한 건. PI 페이지의 "대표 논문" 과 (나중에) 논문 목록 페이지에서 공용으로 쓴다.
+import { localizedText, type Publication, type Locale } from "../lib/content";
+import { useTranslations } from "../i18n/utils";
+
+interface Props {
+  publication: Publication;
+  lang: Locale;
+}
+
+const { publication, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const title = localizedText(publication, "title", lang);
+const venue = localizedText(publication, "venue", lang);
+const meta = [publication.authors, venue, String(publication.year)]
+  .filter(Boolean)
+  .join(" · ");
+---
+
+{
+  title && (
+    <article class="py-3">
+      <p class="font-medium text-ink">{title}</p>
+      <p class="mt-0.5 text-sm text-ink-muted">{meta}</p>
+      {publication.link && (
+        <a
+          href={publication.link}
+          target="_blank"
+          rel="noopener"
+          class="mt-1 inline-block text-sm text-brand hover:underline"
+        >
+          {t("common.viewPaper")} →
+        </a>
+      )}
+    </article>
+  )
+}

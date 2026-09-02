@@ -6,7 +6,7 @@
     "number": "KR 10-2456789",
     "date": "2023-04-12",
     "status": "registered",
-    "inventors": "Seung Pil Pack, Areum Seo"
+    "inventors": "Gildong Hong, Younghee Lee"
   },
   {
     "id": "patent-thermostable-laccase",
@@ -15,7 +15,7 @@
     "number": "KR 10-2398765",
     "date": "2022-11-03",
     "status": "registered",
-    "inventors": "Seung Pil Pack, Minjun Park"
+    "inventors": "Gildong Hong, Youngsu Park"
   },
   {
     "id": "patent-paper-heavy-metal",
@@ -24,7 +24,7 @@
     "number": "KR 10-2024-0012345",
     "date": "2024-01-30",
     "status": "applied",
-    "inventors": "Seung Pil Pack, Yuna Kim"
+    "inventors": "Gildong Hong, Seoyeon Yoon"
   },
   {
     "id": "patent-cell-free-platform",
@@ -33,6 +33,6 @@
     "number": "PCT/KR2023/018765",
     "date": "2023-12-15",
     "status": "applied",
-    "inventors": "Seung Pil Pack, Minhyuk Cho"
+    "inventors": "Gildong Hong, Dohyun Kang"
   }
 ]

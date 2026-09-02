@@ -8,6 +8,8 @@
  * Notion API 연동을 붙일 때는 **이 파일만** 고치면 된다 (같은 형태의 배열로 가공해 export).
  * 데이터 "모양"(타입)은 `content-types.ts` 에 있다.
  */
+import aboutData from "../data/about.json";
+import piProfileData from "../data/pi-profile.json";
 import membersData from "../data/members.json";
 import alumniData from "../data/alumni.json";
 import publicationsData from "../data/publications.json";
@@ -16,6 +18,8 @@ import awardsData from "../data/awards.json";
 import newsData from "../data/news.json";
 import researchData from "../data/research.json";
 import type {
+  About,
+  PiProfile,
   Member,
   Alumnus,
   Publication,
@@ -24,10 +28,13 @@ import type {
   NewsItem,
   ResearchArea,
   ResearchProject,
+  PiEntry,
   Locale,
 } from "./content-types";
 
 export type {
+  About,
+  PiProfile,
   Member,
   Alumnus,
   Publication,
@@ -36,9 +43,12 @@ export type {
   NewsItem,
   ResearchArea,
   ResearchProject,
+  PiEntry,
   Locale,
 } from "./content-types";
 
+export const about = aboutData as About;
+export const piProfile = piProfileData as PiProfile;
 export const members = membersData as Member[];
 export const alumni = alumniData as Alumnus[];
 export const publications = publicationsData as Publication[];
@@ -92,6 +102,22 @@ export function sortMembers(list: Member[]): Member[] {
       (a.order ?? far) - (b.order ?? far) ||
       a.joinedDate.localeCompare(b.joinedDate),
   );
+}
+
+/**
+ * 구성원을 직책별로 묶는다. 그룹 순서는 sortMembers 를 따르므로
+ * POSITION_ORDER 순이고, 목록에 없는 직책은 맨 뒤에 온다.
+ */
+export function groupByPosition(
+  list: Member[],
+): { position: string; items: Member[] }[] {
+  const groups: { position: string; items: Member[] }[] = [];
+  for (const m of sortMembers(list)) {
+    const g = groups.find((x) => x.position === m.position);
+    if (g) g.items.push(m);
+    else groups.push({ position: m.position, items: [m] });
+  }
+  return groups;
 }
 
 /** 날짜 문자열(ISO) 내림차순 정렬. 뉴스·수상 목록에 쓴다. */

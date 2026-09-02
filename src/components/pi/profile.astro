@@ -1,0 +1,72 @@
+---
+// PI 페이지 1. 프로필 — 사진, 성명(한/영), 직위, 이메일, 연구실 위치.
+// 신원(이름·이메일·사진)은 members.json 의 PI 항목, 직위·연구실은 pi-profile.json.
+import { localizedText, type Locale } from "../../lib/content";
+import { pi, piProfile } from "../../lib/pi";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const name = pi ? (localizedText(pi, "name", lang) ?? pi.id) : "";
+const title = localizedText(piProfile, "title", lang);
+const office = localizedText(piProfile, "office", lang);
+const initial = name.trim().charAt(0).toUpperCase();
+---
+
+<section class="mx-auto max-w-6xl px-4 py-10">
+  <div class="flex flex-col gap-6 sm:flex-row sm:items-start">
+    {
+      pi?.photo ? (
+        <img
+          src={pi.photo}
+          alt={name}
+          class="h-40 w-40 shrink-0 rounded-lg border border-line object-cover"
+        />
+      ) : (
+        <div
+          role="img"
+          aria-label={t("members.noPhoto")}
+          class="flex h-40 w-40 shrink-0 items-center justify-center rounded-lg border border-line bg-surface-muted text-4xl font-semibold text-ink-muted"
+        >
+          {initial}
+        </div>
+      )
+    }
+
+    <div>
+      <h2 class="text-2xl font-bold text-ink">{name}</h2>
+      {title && <p class="mt-1 text-ink-muted">{title}</p>}
+
+      <dl class="mt-4 flex flex-col gap-1 text-sm">
+        {
+          pi && (
+            <div class="flex gap-2">
+              <dt class="w-16 shrink-0 text-ink-muted">{t("common.email")}</dt>
+              <dd>
+                <a
+                  href={`mailto:${pi.email}`}
+                  class="text-brand hover:underline"
+                >
+                  {pi.email}
+                </a>
+              </dd>
+            </div>
+          )
+        }
+        {
+          office && (
+            <div class="flex gap-2">
+              <dt class="w-16 shrink-0 text-ink-muted">{t("pi.officeLabel")}</dt>
+              <dd class="text-ink">{office}</dd>
+            </div>
+          )
+        }
+      </dl>
+    </div>
+  </div>
+</section>

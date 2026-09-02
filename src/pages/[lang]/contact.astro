@@ -1,0 +1,47 @@
+---
+// 연락처 (/[lang]/contact). 주소·이메일·찾아오는 길. 지도는 자리만 표시.
+import BaseLayout from "../../layouts/base-layout.astro";
+import PageHeader from "../../components/page-header.astro";
+import Section from "../../components/section.astro";
+import { localePaths, useTranslations, type Locale } from "../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+const email = t("contact.emailValue");
+---
+
+<BaseLayout lang={lang} title={t("contact.title")}>
+  <PageHeader title={t("contact.title")} lede={t("contact.lede")} />
+
+  <Section>
+    <div class="grid gap-8 sm:grid-cols-2">
+      <div>
+        <h2 class="text-sm font-semibold text-ink">{t("common.address")}</h2>
+        <p class="mt-1 text-ink-muted">{t("contact.addressLine1")}</p>
+        <p class="text-ink-muted">{t("contact.addressLine2")}</p>
+      </div>
+      <div>
+        <h2 class="text-sm font-semibold text-ink">{t("common.email")}</h2>
+        <a
+          class="mt-1 inline-block text-brand underline hover:text-brand-strong"
+          href={`mailto:${email}`}
+        >
+          {email}
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  <Section title={t("contact.directionsTitle")} muted>
+    <p class="max-w-3xl leading-relaxed text-ink">{t("contact.directionsBody")}</p>
+
+    {/* TODO: 지도(Google Maps 임베드 또는 정적 이미지)는 나중에 이 자리에 추가한다. */}
+    <div
+      class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-line text-sm text-ink-muted"
+    >
+      {t("contact.mapPlaceholder")}
+    </div>
+  </Section>
+</BaseLayout>

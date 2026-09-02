@@ -1,0 +1,40 @@
+---
+// PI 페이지 2. 연구 관심사 — 키워드 + 짧은 서술.
+import Section from "../section.astro";
+import { localizedText, type Locale } from "../../lib/content";
+import { piProfile } from "../../lib/pi";
+import { useTranslations } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const ri = piProfile.researchInterests;
+// 키워드도 텍스트와 같은 폴백 규칙: 현재 언어가 비면 다른 언어 목록을 쓴다.
+const primary = lang === "ko" ? ri.keywords_ko : ri.keywords;
+const fallback = lang === "ko" ? ri.keywords : ri.keywords_ko;
+const keywords = primary.length ? primary : fallback;
+const description = localizedText(ri, "description", lang);
+---
+
+<Section title={t("pi.researchInterests")} muted>
+  {
+    keywords.length > 0 && (
+      <ul class="flex flex-wrap gap-2">
+        {keywords.map((k) => (
+          <li class="rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink">
+            {k}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    description && (
+      <p class="mt-4 max-w-3xl leading-relaxed text-ink">{description}</p>
+    )
+  }
+</Section>
