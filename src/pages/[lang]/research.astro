@@ -1,0 +1,99 @@
+---
+// 연구 (/[lang]/research). Scope / Themes / Projects 세 섹션. 헤더 하위 메뉴가 앵커로 연결된다.
+import BaseLayout from "../../layouts/base-layout.astro";
+import PageHeader from "../../components/page-header.astro";
+import Section from "../../components/section.astro";
+import {
+  researchScope,
+  researchAreas,
+  researchProjects,
+  localizedText,
+} from "../../lib/content";
+import {
+  localePaths,
+  useTranslations,
+  type Locale,
+} from "../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+
+const scope = localizedText(researchScope, "scope", lang);
+
+const areas = researchAreas
+  .map((a) => {
+    // 키워드도 텍스트와 같은 폴백: 현재 언어 목록이 비면 다른 언어 목록을 쓴다.
+    const primary = lang === "ko" ? a.themes_ko : a.themes;
+    const fallback = lang === "ko" ? a.themes : a.themes_ko;
+    return {
+      id: a.id,
+      title: localizedText(a, "title", lang),
+      summary: localizedText(a, "summary", lang),
+      themes: primary.length ? primary : fallback,
+    };
+  })
+  .filter((a) => a.title);
+
+const projects = researchProjects
+  .map((p) => ({
+    id: p.id,
+    title: localizedText(p, "title", lang),
+    period: p.period,
+    funder: localizedText(p, "funder", lang),
+  }))
+  .filter((p) => p.title);
+---
+
+<BaseLayout lang={lang} title={t("nav.research")} description={scope ?? undefined}>
+  <PageHeader title={t("nav.research")} lede={t("research.lede")} />
+
+  {
+    scope && (
+      <Section id="scope" title={t("nav.research.scope")}>
+        <p class="max-w-3xl text-lg leading-relaxed text-ink">{scope}</p>
+      </Section>
+    )
+  }
+
+  <Section id="themes" title={t("nav.research.themes")} muted>
+    <div class="grid gap-6 sm:grid-cols-2">
+      {
+        areas.map((a) => (
+          <article class="rounded-lg border border-line bg-surface p-5">
+            <h3 class="text-base font-semibold text-ink">{a.title}</h3>
+            {a.summary && (
+              <p class="mt-2 text-sm leading-relaxed text-ink">{a.summary}</p>
+            )}
+            {a.themes.length > 0 && (
+              <ul class="mt-3 flex flex-wrap gap-2">
+                {a.themes.map((th) => (
+                  <li class="rounded-full border border-line px-2.5 py-0.5 text-xs text-ink-muted">
+                    {th}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section id="projects" title={t("nav.research.projects")}>
+    <ul class="flex flex-col divide-y divide-line border-y border-line">
+      {
+        projects.map((p) => (
+          <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+            <span class="font-medium text-ink">{p.title}</span>
+            <span class="shrink-0 text-sm text-ink-muted">
+              {p.funder ? `${t("research.projectFunder")}: ${p.funder} · ` : ""}
+              {p.period}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+</BaseLayout>

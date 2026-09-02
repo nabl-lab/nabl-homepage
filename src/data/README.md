@@ -106,6 +106,20 @@
 | `areas[]` | 연구 분야. `id`, `title`/`title_ko`, `summary`/`summary_ko`, `themes[]`/`themes_ko[]` |
 | `projects[]` | 프로젝트. `id`, `title`/`title_ko`, `period`, `funder`/`funder_ko` |
 
+### achievements-etc.json — 기타 성과 (초청강연·저서·언론 등)
+
+| 필드 | 설명 |
+| --- | --- |
+| `id` | 식별자 |
+| `kind` / `kind_ko` | 종류 (예: Invited Talk / 초청 강연) |
+| `title` / `title_ko` | 제목 |
+| `venue` / `venue_ko` | 장소·매체 |
+| `date` | 날짜 (`YYYY-MM-DD`) — 연도별 그룹에 쓰임 |
+
+### about.json / pi-profile.json — 소개 · PI 프로필 (객체 하나)
+
+필드 구조는 `src/lib/content-types.ts` 의 `About` / `PiProfile` 타입을 참고하세요.
+
 ## 규칙
 
 - 이 폴더의 데이터 파일에는 파일 줄 수 상한 규칙을 적용하지 않습니다.

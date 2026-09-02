@@ -1,0 +1,52 @@
+[
+  {
+    "id": "etc-2025-invited-talk-symposium",
+    "kind": "Invited Talk",
+    "kind_ko": "초청 강연",
+    "title": "Aptamer engineering for point-of-care diagnostics",
+    "title_ko": "",
+    "venue": "International Symposium on Biosensors (example)",
+    "venue_ko": "",
+    "date": "2025-05-20"
+  },
+  {
+    "id": "etc-2024-book-chapter",
+    "kind": "Book Chapter",
+    "kind_ko": "저서 (장 집필)",
+    "title": "Directed evolution of enzymes: methods and applications",
+    "title_ko": "효소의 유도 진화: 방법과 응용",
+    "venue": "Handbook of Protein Engineering (example)",
+    "venue_ko": "단백질 공학 핸드북 (예시)",
+    "date": "2024-08-01"
+  },
+  {
+    "id": "etc-2024-media",
+    "kind": "",
+    "kind_ko": "언론 보도",
+    "title": "",
+    "title_ko": "종이 기반 진단 키트 연구, 지역 방송 소개",
+    "venue": "",
+    "venue_ko": "예시 지역 방송",
+    "date": "2024-03-14"
+  },
+  {
+    "id": "etc-2023-invited-seminar",
+    "kind": "Invited Seminar",
+    "kind_ko": "초청 세미나",
+    "title": "Cell-free multi-enzyme systems",
+    "title_ko": "무세포 다효소 시스템",
+    "venue": "Example National University, Dept. of Chemistry",
+    "venue_ko": "예시대학교 화학과",
+    "date": "2023-11-02"
+  },
+  {
+    "id": "etc-2022-workshop-organizer",
+    "kind": "Workshop Organizer",
+    "kind_ko": "워크숍 주관",
+    "title": "Regional Aptamer Research Workshop (example)",
+    "title_ko": "지역 압타머 연구 워크숍 (예시)",
+    "venue": "Sejong",
+    "venue_ko": "세종",
+    "date": "2022-06-24"
+  }
+]

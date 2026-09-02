@@ -106,6 +106,28 @@ const en = {
   "position.ms": "M.S. Course",
   "position.undergrad": "Undergraduate Researcher",
 
+  // Research 페이지
+  "research.lede": "Our research scope, themes, and current projects.",
+  "research.projectFunder": "Funded by",
+
+  // Publications 페이지
+  "pub.lede": "Peer-reviewed papers and conference proceedings.",
+  "pub.filterAll": "All",
+  "pub.catInternational": "International",
+  "pub.catDomestic": "Domestic",
+  "pub.catConference": "Conference",
+  "pub.empty": "No publications in this category yet.",
+
+  // Patents 페이지
+  "patent.registered": "Registered",
+  "patent.applied": "Applied",
+  "patent.inventorsLabel": "Inventors",
+
+  // News 페이지
+  "news.lede": "Announcements and updates from the lab.",
+  "news.prev": "Previous",
+  "news.next": "Next",
+
   // 푸터
   "footer.copyright": "Nano & Artificial Biotechnology Laboratory",
 } satisfies Record<string, string>;

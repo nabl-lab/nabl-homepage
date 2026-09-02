@@ -1,0 +1,52 @@
+---
+// 기타 성과 (/[lang]/achievements/etc). 초청강연·저서·언론 등. 연도별 그룹.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import YearGroup from "../../../components/year-group.astro";
+import { achievementsEtc, groupByYear, localizedText } from "../../../lib/content";
+import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+const groups = groupByYear(achievementsEtc);
+---
+
+<BaseLayout lang={lang} title={t("nav.achievements.etc")}>
+  <PageHeader title={t("nav.achievements.etc")} />
+
+  <Section>
+    <div class="flex flex-col gap-2">
+      {
+        groups.map((group) => (
+          <YearGroup year={group.year}>
+            <ul class="divide-y divide-line">
+              {group.items.map((item) => {
+                const title = localizedText(item, "title", lang);
+                const kind = localizedText(item, "kind", lang);
+                const venue = localizedText(item, "venue", lang);
+                return (
+                  title && (
+                    <li class="py-3">
+                      <p class="font-medium text-ink">
+                        {kind && (
+                          <span class="text-ink-muted">{kind} — </span>
+                        )}
+                        {title}
+                      </p>
+                      {venue && (
+                        <p class="text-sm text-ink-muted">{venue}</p>
+                      )}
+                    </li>
+                  )
+                );
+              })}
+            </ul>
+          </YearGroup>
+        ))
+      }
+    </div>
+  </Section>
+</BaseLayout>

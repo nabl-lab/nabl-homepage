@@ -102,6 +102,28 @@ const ko = {
   "position.ms": "석사과정",
   "position.undergrad": "학부연구생",
 
+  // Research 페이지
+  "research.lede": "연구 범위, 주제, 진행 중인 프로젝트입니다.",
+  "research.projectFunder": "지원 기관",
+
+  // Publications 페이지
+  "pub.lede": "동료 심사 논문과 학회 발표 논문입니다.",
+  "pub.filterAll": "전체",
+  "pub.catInternational": "국제",
+  "pub.catDomestic": "국내",
+  "pub.catConference": "학회",
+  "pub.empty": "이 분류에 해당하는 논문이 아직 없습니다.",
+
+  // Patents 페이지
+  "patent.registered": "등록",
+  "patent.applied": "출원",
+  "patent.inventorsLabel": "발명자",
+
+  // News 페이지
+  "news.lede": "연구실 소식과 공지입니다.",
+  "news.prev": "이전 글",
+  "news.next": "다음 글",
+
   // 푸터
   "footer.copyright": "나노 및 인공 생명공학 연구실",
 } satisfies Record<string, string>;

@@ -1,0 +1,54 @@
+---
+// 특허 (/[lang]/achievements/patents). patents.json 을 그대로 쓰고 연도별로 묶는다.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import YearGroup from "../../../components/year-group.astro";
+import { patents, groupByYear, localizedText } from "../../../lib/content";
+import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+const groups = groupByYear(patents);
+---
+
+<BaseLayout lang={lang} title={t("nav.achievements.patents")}>
+  <PageHeader title={t("nav.achievements.patents")} />
+
+  <Section>
+    <div class="flex flex-col gap-2">
+      {
+        groups.map((group) => (
+          <YearGroup year={group.year}>
+            <ul class="divide-y divide-line">
+              {group.items.map((p) => {
+                const title = localizedText(p, "title", lang);
+                const statusKey =
+                  p.status === "registered"
+                    ? "patent.registered"
+                    : "patent.applied";
+                return (
+                  title && (
+                    <li class="py-3">
+                      <div class="flex flex-wrap items-baseline gap-2">
+                        <span class="font-medium text-ink">{title}</span>
+                        <span class="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-ink-muted">
+                          {t(statusKey)}
+                        </span>
+                      </div>
+                      <p class="mt-0.5 text-sm text-ink-muted">
+                        {p.number} · {t("patent.inventorsLabel")}: {p.inventors}
+                      </p>
+                    </li>
+                  )
+                );
+              })}
+            </ul>
+          </YearGroup>
+        ))
+      }
+    </div>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,80 @@
+---
+// 소식 상세 (/[lang]/news/[slug]). 목록으로 돌아가기 + 이전/다음 글 이동.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import { news, byDateDesc, localizedText } from "../../../lib/content";
+import { LOCALES, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
+import type { NewsItem } from "../../../lib/content";
+
+export function getStaticPaths() {
+  const sorted = byDateDesc(news); // 최신 → 과거
+  return LOCALES.flatMap((lang) =>
+    sorted.map((item, i) => ({
+      params: { lang, slug: item.slug },
+      props: {
+        item,
+        newer: sorted[i - 1] ?? null,
+        older: sorted[i + 1] ?? null,
+      },
+    })),
+  );
+}
+
+const lang = Astro.params.lang as Locale;
+const { item, newer, older } = Astro.props as {
+  item: NewsItem;
+  newer: NewsItem | null;
+  older: NewsItem | null;
+};
+const t = useTranslations(lang);
+
+const title = localizedText(item, "title", lang) ?? item.slug;
+const body = localizedText(item, "body", lang);
+const dateLabel = new Date(item.date).toLocaleDateString(
+  lang === "ko" ? "ko-KR" : "en-US",
+  { year: "numeric", month: "long", day: "numeric" },
+);
+---
+
+<BaseLayout lang={lang} title={title} description={body ?? undefined}>
+  <PageHeader title={title} lede={dateLabel} />
+
+  <Section>
+    {body && <p class="max-w-3xl whitespace-pre-line leading-relaxed text-ink">{body}</p>}
+
+    <div class="mt-10 border-t border-line pt-6">
+      <a
+        href={withLocale(lang, "/news")}
+        class="text-sm font-medium text-brand hover:underline"
+      >
+        ← {t("common.backToList")}
+      </a>
+
+      <nav class="mt-4 flex flex-col gap-3 text-sm sm:flex-row sm:justify-between">
+        {
+          older ? (
+            <a
+              href={withLocale(lang, `/news/${older.slug}`)}
+              class="text-brand hover:underline"
+            >
+              ← {t("news.prev")}: {localizedText(older, "title", lang) ?? older.slug}
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          newer && (
+            <a
+              href={withLocale(lang, `/news/${newer.slug}`)}
+              class="text-brand hover:underline sm:text-right"
+            >
+              {t("news.next")}: {localizedText(newer, "title", lang) ?? newer.slug} →
+            </a>
+          )
+        }
+      </nav>
+    </div>
+  </Section>
+</BaseLayout>

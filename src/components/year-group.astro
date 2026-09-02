@@ -1,0 +1,20 @@
+---
+// 연도별 목록 한 그룹 — 왼쪽에 연도, 오른쪽에 항목들(slot).
+// 논문·특허·수상·기타 성과 페이지에서 공통으로 쓴다. (groupByYear 결과와 짝)
+interface Props {
+  year: number | string;
+}
+
+const { year } = Astro.props;
+---
+
+<div class="flex gap-4 py-2 sm:gap-6">
+  <h3
+    class="w-12 shrink-0 pt-3 text-sm font-semibold text-ink-muted tabular-nums sm:w-16"
+  >
+    {year}
+  </h3>
+  <div class="min-w-0 flex-1">
+    <slot />
+  </div>
+</div>

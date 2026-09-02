@@ -1,0 +1,40 @@
+---
+// 논문 분류 필터 — JS 없이 별도 경로로 이동하는 링크 바.
+// 활성 항목만 크림슨(클릭 가능한 요소이므로 원칙에 부합).
+import { useTranslations, withLocale, type Locale, type UiKey } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+  /** 현재 분류. null 이면 "전체" */
+  active: "international" | "domestic" | "conference" | null;
+}
+
+const { lang, active } = Astro.props;
+const t = useTranslations(lang);
+
+const tabs: { key: UiKey; value: Props["active"]; path: string }[] = [
+  { key: "pub.filterAll", value: null, path: "/achievements/publications" },
+  { key: "pub.catInternational", value: "international", path: "/achievements/publications/international" },
+  { key: "pub.catDomestic", value: "domestic", path: "/achievements/publications/domestic" },
+  { key: "pub.catConference", value: "conference", path: "/achievements/publications/conference" },
+];
+---
+
+<nav class="flex flex-wrap gap-2 border-b border-line pb-3 text-sm">
+  {
+    tabs.map((tab) => (
+      <a
+        href={withLocale(lang, tab.path)}
+        aria-current={tab.value === active ? "page" : undefined}
+        class:list={[
+          "rounded px-3 py-1.5",
+          tab.value === active
+            ? "bg-brand-tint font-semibold text-brand"
+            : "text-ink hover:bg-surface-muted hover:text-brand",
+        ]}
+      >
+        {t(tab.key)}
+      </a>
+    ))
+  }
+</nav>

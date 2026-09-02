@@ -1,0 +1,71 @@
+---
+// 논문 (/[lang]/achievements/publications[/international|domestic|conference]).
+// 분류 필터는 JS 없이 별도 경로로 구현한다 (공유 가능·SEO·견고함).
+import BaseLayout from "../../../../layouts/base-layout.astro";
+import PageHeader from "../../../../components/page-header.astro";
+import Section from "../../../../components/section.astro";
+import YearGroup from "../../../../components/year-group.astro";
+import PublicationItem from "../../../../components/publication-item.astro";
+import PublicationFilter from "../../../../components/publication-filter.astro";
+import { publications } from "../../../../lib/content";
+import { LOCALES, useTranslations, type Locale } from "../../../../i18n/utils";
+
+type Category = "international" | "domestic" | "conference";
+
+export function getStaticPaths() {
+  const cats: (Category | undefined)[] = [
+    undefined,
+    "international",
+    "domestic",
+    "conference",
+  ];
+  return LOCALES.flatMap((lang) =>
+    cats.map((category) => ({
+      params: { lang, category },
+      props: { category: category ?? null },
+    })),
+  );
+}
+
+const lang = Astro.params.lang as Locale;
+const { category } = Astro.props as { category: Category | null };
+const t = useTranslations(lang);
+
+const list = category
+  ? publications.filter((p) => p.category === category)
+  : publications;
+const years = [...new Set(list.map((p) => p.year))].sort((a, b) => b - a);
+---
+
+<BaseLayout lang={lang} title={t("nav.achievements.publications")}>
+  <PageHeader
+    title={t("nav.achievements.publications")}
+    lede={t("pub.lede")}
+  />
+
+  <div class="mx-auto max-w-6xl px-4 pt-6">
+    <PublicationFilter lang={lang} active={category} />
+  </div>
+
+  <Section>
+    {
+      list.length === 0 ? (
+        <p class="text-ink-muted">{t("pub.empty")}</p>
+      ) : (
+        <div class="flex flex-col gap-2">
+          {years.map((year) => (
+            <YearGroup year={year}>
+              <div class="divide-y divide-line">
+                {list
+                  .filter((p) => p.year === year)
+                  .map((p) => (
+                    <PublicationItem publication={p} lang={lang} />
+                  ))}
+              </div>
+            </YearGroup>
+          ))}
+        </div>
+      )
+    }
+  </Section>
+</BaseLayout>

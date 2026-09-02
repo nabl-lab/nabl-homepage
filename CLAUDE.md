@@ -31,9 +31,10 @@ nabl-homepage/
 │   ├── components/      재사용하는 화면 조각 (home/ 등 하위 폴더로 묶음)
 │   ├── i18n/            다국어. ui.ts(문구 사전) + utils.ts(라우팅 헬퍼)
 │   ├── lib/             로직 모듈
-│   │   ├── content.ts       콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
-│   │   ├── content-types.ts 콘텐츠 데이터의 형식(타입) 정의
-│   │   └── pi.ts            PI 페이지용 파생 데이터 (content.ts 에서만 데이터를 받음)
+│   │   ├── content.ts         콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
+│   │   ├── content-types.ts   콘텐츠 데이터의 형식(타입) 정의
+│   │   ├── content-helpers.ts 정렬·그룹핑·언어 폴백 헬퍼 (content.ts 가 re-export)
+│   │   └── pi.ts              PI 페이지용 파생 데이터 (content.ts 에서만 데이터를 받음)
 │   ├── data/            콘텐츠 더미 데이터 (JSON). 자세한 설명은 src/data/README.md
 │   └── styles/
 │       └── global.css   Tailwind 불러오기 + 색상·폰트 토큰(@theme)

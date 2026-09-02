@@ -6,7 +6,8 @@
  *
  * 지금은 `src/data/` 의 더미 JSON 을 그대로 내보낸다. 나중에 Google Sheets(CSV) /
  * Notion API 연동을 붙일 때는 **이 파일만** 고치면 된다 (같은 형태의 배열로 가공해 export).
- * 데이터 "모양"(타입)은 `content-types.ts` 에 있다.
+ * - 데이터 "모양"(타입) → `content-types.ts`
+ * - 가공 헬퍼(정렬·그룹핑·폴백) → `content-helpers.ts` (아래에서 re-export)
  */
 import aboutData from "../data/about.json";
 import piProfileData from "../data/pi-profile.json";
@@ -17,6 +18,7 @@ import patentsData from "../data/patents.json";
 import awardsData from "../data/awards.json";
 import newsData from "../data/news.json";
 import researchData from "../data/research.json";
+import etcData from "../data/achievements-etc.json";
 import type {
   About,
   PiProfile,
@@ -28,8 +30,8 @@ import type {
   NewsItem,
   ResearchArea,
   ResearchProject,
+  EtcItem,
   PiEntry,
-  Locale,
 } from "./content-types";
 
 export type {
@@ -43,9 +45,12 @@ export type {
   NewsItem,
   ResearchArea,
   ResearchProject,
+  EtcItem,
   PiEntry,
   Locale,
 } from "./content-types";
+
+export * from "./content-helpers";
 
 export const about = aboutData as About;
 export const piProfile = piProfileData as PiProfile;
@@ -55,90 +60,12 @@ export const publications = publicationsData as Publication[];
 export const patents = patentsData as Patent[];
 export const awards = awardsData as Award[];
 export const news = newsData as NewsItem[];
+export const achievementsEtc = etcData as EtcItem[];
 export const researchAreas = researchData.areas as ResearchArea[];
 export const researchProjects = researchData.projects as ResearchProject[];
-export const researchScope: Record<Locale, string> = {
-  en: researchData.scope,
-  ko: researchData.scope_ko,
+
+/** 연구 범위 소개문. localizedText(researchScope, "scope", lang) 로 읽는다. */
+export const researchScope = {
+  scope: researchData.scope,
+  scope_ko: researchData.scope_ko,
 };
-
-/**
- * 언어 폴백 헬퍼 — 콘텐츠 텍스트는 반드시 이 함수로 가져온다.
- * `base` 는 영문 필드명, `${base}_ko` 는 한글 필드명.
- * 현재 로케일 값 우선 → 없으면 반대 언어 → 둘 다 비었으면 null (호출부에서 항목을 건너뛴다).
- */
-export function localizedText(
-  item: Record<string, unknown>,
-  base: string,
-  locale: Locale,
-): string | null {
-  const en = String(item[base] ?? "").trim();
-  const ko = String(item[`${base}_ko`] ?? "").trim();
-  const [primary, secondary] = locale === "ko" ? [ko, en] : [en, ko];
-  return primary || secondary || null;
-}
-
-/** 직책 표시 순서. 목록에 없는 직책이 들어오면 맨 뒤로 보낸다. */
-export const POSITION_ORDER = [
-  "Principal Investigator",
-  "Research Professor",
-  "Ph.D. Course",
-  "M.S.-Ph.D. Integrated",
-  "M.S. Course",
-  "Undergraduate Researcher",
-] as const;
-
-export function positionRank(position: string): number {
-  const i = (POSITION_ORDER as readonly string[]).indexOf(position);
-  return i === -1 ? POSITION_ORDER.length : i;
-}
-
-/** 직책 순 → 같은 직책 안에서는 order(있으면) → 입실일 순으로 정렬한다. */
-export function sortMembers(list: Member[]): Member[] {
-  const far = Number.MAX_SAFE_INTEGER;
-  return [...list].sort(
-    (a, b) =>
-      positionRank(a.position) - positionRank(b.position) ||
-      (a.order ?? far) - (b.order ?? far) ||
-      a.joinedDate.localeCompare(b.joinedDate),
-  );
-}
-
-/**
- * 구성원을 직책별로 묶는다. 그룹 순서는 sortMembers 를 따르므로
- * POSITION_ORDER 순이고, 목록에 없는 직책은 맨 뒤에 온다.
- */
-export function groupByPosition(
-  list: Member[],
-): { position: string; items: Member[] }[] {
-  const groups: { position: string; items: Member[] }[] = [];
-  for (const m of sortMembers(list)) {
-    const g = groups.find((x) => x.position === m.position);
-    if (g) g.items.push(m);
-    else groups.push({ position: m.position, items: [m] });
-  }
-  return groups;
-}
-
-/** 날짜 문자열(ISO) 내림차순 정렬. 뉴스·수상 목록에 쓴다. */
-export function byDateDesc<T extends { date: string }>(list: T[]): T[] {
-  return [...list].sort((a, b) => b.date.localeCompare(a.date));
-}
-
-/**
- * 날짜가 있는 목록을 연도별로 묶는다. 연도는 내림차순, 각 그룹 안도 날짜 내림차순.
- * 수상·소식 목록에서 같은 연도를 한 번만 표시할 때 쓴다 (홈·전용 페이지 공통).
- */
-export function groupByYear<T extends { date: string }>(
-  list: T[],
-): { year: number; items: T[] }[] {
-  const groups = new Map<number, T[]>();
-  for (const item of byDateDesc(list)) {
-    const year = new Date(item.date).getFullYear();
-    if (!groups.has(year)) groups.set(year, []);
-    groups.get(year)!.push(item);
-  }
-  return [...groups.entries()]
-    .sort((a, b) => b[0] - a[0])
-    .map(([year, items]) => ({ year, items }));
-}

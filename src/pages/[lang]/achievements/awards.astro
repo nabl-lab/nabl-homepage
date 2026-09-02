@@ -1,0 +1,47 @@
+---
+// 수상 (/[lang]/achievements/awards). content.ts 의 groupByYear() 로 연도별 그룹.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import YearGroup from "../../../components/year-group.astro";
+import { awards, groupByYear, localizedText } from "../../../lib/content";
+import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+
+export const getStaticPaths = localePaths;
+
+const lang = Astro.params.lang as Locale;
+const t = useTranslations(lang);
+const groups = groupByYear(awards);
+---
+
+<BaseLayout lang={lang} title={t("nav.achievements.awards")}>
+  <PageHeader title={t("nav.achievements.awards")} />
+
+  <Section>
+    <div class="flex flex-col gap-2">
+      {
+        groups.map((group) => (
+          <YearGroup year={group.year}>
+            <ul class="divide-y divide-line">
+              {group.items.map((a) => {
+                const title = localizedText(a, "title", lang);
+                const recipient = localizedText(a, "recipient", lang);
+                const org = localizedText(a, "organization", lang);
+                return (
+                  title && (
+                    <li class="py-3">
+                      <p class="font-medium text-ink">{title}</p>
+                      <p class="text-sm text-ink-muted">
+                        {[recipient, org].filter(Boolean).join(" · ")}
+                      </p>
+                    </li>
+                  )
+                );
+              })}
+            </ul>
+          </YearGroup>
+        ))
+      }
+    </div>
+  </Section>
+</BaseLayout>

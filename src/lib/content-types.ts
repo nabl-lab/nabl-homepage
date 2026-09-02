@@ -1,14 +1,10 @@
 /**
- * 콘텐츠 데이터 형식(타입) 정의.
- *
- * 데이터의 "모양"만 여기서 정의한다. 실제 데이터 로딩과 헬퍼 함수는 `content.ts` 담당이며,
- * 페이지·컴포넌트는 여전히 `content.ts` 를 통해서만 타입과 데이터를 가져온다.
- *
+ * 콘텐츠 데이터 형식(타입) 정의. "모양"만 여기 두고, 로딩·헬퍼는 content.ts 담당.
  * 언어 필드 규칙: 영문은 기본 필드명(`title`), 한글은 `_ko` 접미사(`title_ko`).
  */
 export type { Locale } from "../i18n/ui";
 
-/** 연구실 소개 (about.json). 페이지 본문은 localizedText 로 언어를 고른다. */
+/** 연구실 소개 (about.json). 본문은 localizedText 로 언어를 고른다. */
 export interface About {
   intro: string;
   intro_ko: string;
@@ -85,6 +81,18 @@ export interface NewsItem {
   title_ko: string;
   body: string;
   body_ko: string;
+}
+
+/** 기타 성과 (초청강연·저서·언론 등). achievements-etc.json. */
+export interface EtcItem {
+  id: string;
+  kind: string;
+  kind_ko: string;
+  title: string;
+  title_ko: string;
+  venue: string;
+  venue_ko: string;
+  date: string;
 }
 
 export interface ResearchArea {
