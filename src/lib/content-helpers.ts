@@ -50,17 +50,23 @@ export function sortMembers(list: Member[]): Member[] {
 }
 
 /**
- * 구성원을 직책별로 묶는다. 그룹 순서는 sortMembers 를 따르므로
- * POSITION_ORDER 순이고, 목록에 없는 직책은 맨 뒤에 온다.
+ * `position` 필드로 묶는다. 그룹 순서는 POSITION_ORDER 를 따르고, 목록에 없는
+ * 직책은 맨 뒤로 간다. 그룹 안의 정렬은 호출부에서 미리 해서 넘긴다
+ * (JS sort 는 안정적이라 여기서 다시 정렬해도 그 순서가 유지된다).
+ * 예) 구성원: groupByPosition(sortMembers(members))
+ *     졸업생: groupByPosition([...alumni].sort(졸업연도·이름순))
  */
-export function groupByPosition(
-  list: Member[],
-): { position: string; items: Member[] }[] {
-  const groups: { position: string; items: Member[] }[] = [];
-  for (const m of sortMembers(list)) {
-    const g = groups.find((x) => x.position === m.position);
-    if (g) g.items.push(m);
-    else groups.push({ position: m.position, items: [m] });
+export function groupByPosition<T extends { position: string }>(
+  list: T[],
+): { position: string; items: T[] }[] {
+  const sorted = [...list].sort(
+    (a, b) => positionRank(a.position) - positionRank(b.position),
+  );
+  const groups: { position: string; items: T[] }[] = [];
+  for (const item of sorted) {
+    const g = groups.find((x) => x.position === item.position);
+    if (g) g.items.push(item);
+    else groups.push({ position: item.position, items: [item] });
   }
   return groups;
 }

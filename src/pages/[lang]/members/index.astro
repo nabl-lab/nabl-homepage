@@ -5,7 +5,7 @@ import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
 import MemberCard from "../../../components/member-card.astro";
-import { members, groupByPosition } from "../../../lib/content";
+import { members, sortMembers, groupByPosition } from "../../../lib/content";
 import {
   localePaths,
   useTranslations,
@@ -18,7 +18,7 @@ export const getStaticPaths = localePaths;
 
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
-const groups = groupByPosition(members).filter(
+const groups = groupByPosition(sortMembers(members)).filter(
   (g) => g.position !== "Principal Investigator",
 );
 

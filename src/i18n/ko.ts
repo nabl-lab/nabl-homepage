@@ -65,7 +65,7 @@ const ko = {
 
   // Alumni
   "alumni.title": "졸업생",
-  "alumni.lede": "연구실을 거쳐 간 구성원과 현재 소속입니다.",
+  "alumni.lede": "학위 과정별로 정리한 NABL 졸업생입니다.",
   "alumni.afterLabel": "졸업 후",
   "alumni.backToMembers": "← 현재 구성원",
 

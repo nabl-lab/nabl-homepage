@@ -1,0 +1,34 @@
+---
+// 인물 사진 (정사각). 사진이 없으면 이름 첫 글자 플레이스홀더로 레이아웃을 유지한다.
+// 구성원 카드·졸업생 카드·PI 프로필에서 공용으로 쓴다.
+import { useTranslations, type Locale } from "../i18n/utils";
+
+interface Props {
+  name: string;
+  photo?: string;
+  lang: Locale;
+}
+
+const { name, photo, lang } = Astro.props;
+const t = useTranslations(lang);
+const initial = name.trim().charAt(0).toUpperCase();
+---
+
+{
+  photo ? (
+    <img
+      src={photo}
+      alt={name}
+      loading="lazy"
+      class="aspect-square w-full rounded-lg border border-line object-cover"
+    />
+  ) : (
+    <div
+      role="img"
+      aria-label={t("members.noPhoto")}
+      class="flex aspect-square w-full items-center justify-center rounded-lg border border-line bg-surface-muted text-3xl font-semibold text-ink-muted"
+    >
+      {initial}
+    </div>
+  )
+}

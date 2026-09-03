@@ -31,8 +31,12 @@ export interface Alumnus {
   id: string;
   name: string;
   name_ko: string;
-  degree: string;
+  /** 수료한 학위 과정. members.json 의 position 과 같은 어휘 (예: "Ph.D. Course"). */
+  position: string;
   graduatedYear: number;
+  thesis_title: string;
+  thesis_title_ko: string;
+  /** 데이터는 유지하되 현재 화면에는 표시하지 않음 (alumni.astro 주석 참고). */
   afterAffiliation: string;
   afterAffiliation_ko: string;
 }
@@ -47,8 +51,7 @@ export interface Publication {
   year: number;
   category: "international" | "domestic" | "conference";
   link: string;
-  /** true 인 것만 PI 페이지의 "대표 논문" 에 노출된다. */
-  featured?: boolean;
+  featured?: boolean; // true 인 것만 PI 페이지 "대표 논문" 에 노출
 }
 
 export interface Patent {
@@ -83,7 +86,7 @@ export interface NewsItem {
   body_ko: string;
 }
 
-/** 기타 성과 (초청강연·저서·언론 등). achievements-etc.json. */
+/** 기타 성과 (초청강연·저서·언론 등, achievements-etc.json) */
 export interface EtcItem {
   id: string;
   kind: string;
@@ -115,17 +118,15 @@ export interface ResearchProject {
 }
 
 /**
- * PI 페이지의 학력·경력·대외활동 항목. 세 배열이 같은 모양을 쓴다.
- * 나중에 Notion DB 의 행 하나와 1:1 로 매핑할 구조다.
+ * PI 페이지의 학력·경력·대외활동 항목 (세 배열 공용). Notion DB 행과 1:1 매핑 예정.
+ * endYear: 진행 중이면 null. order: 있으면 시작연도보다 우선(작을수록 위).
  */
 export interface PiEntry {
   text: string;
   text_ko: string;
   organization: string;
   startYear: number;
-  /** 진행 중이면 null */
   endYear: number | null;
-  /** 있으면 정렬에서 시작연도보다 우선 (작을수록 위) */
   order?: number;
 }
 

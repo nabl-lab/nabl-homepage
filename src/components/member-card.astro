@@ -1,5 +1,6 @@
 ---
-// 구성원 카드. 사진이 없으면 이름 첫 글자 플레이스홀더로 레이아웃을 유지한다.
+// 구성원 카드. 사진은 person-photo.astro 가 담당 (없으면 이니셜 플레이스홀더).
+import PersonPhoto from "./person-photo.astro";
 import { localizedText, type Member } from "../lib/content";
 import { useTranslations, type Locale } from "../i18n/utils";
 
@@ -13,28 +14,10 @@ const t = useTranslations(lang);
 
 const name = localizedText(member, "name", lang) ?? member.id;
 const topic = localizedText(member, "researchTopic", lang);
-const initial = name.trim().charAt(0).toUpperCase();
 ---
 
 <article class="flex flex-col">
-  {
-    member.photo ? (
-      <img
-        src={member.photo}
-        alt={name}
-        loading="lazy"
-        class="aspect-square w-full rounded-lg border border-line object-cover"
-      />
-    ) : (
-      <div
-        role="img"
-        aria-label={t("members.noPhoto")}
-        class="flex aspect-square w-full items-center justify-center rounded-lg border border-line bg-surface-muted text-3xl font-semibold text-ink-muted"
-      >
-        {initial}
-      </div>
-    )
-  }
+  <PersonPhoto name={name} photo={member.photo} lang={lang} />
   <h3 class="mt-3 font-semibold text-ink">{name}</h3>
   {topic && <p class="mt-1 text-sm text-ink-muted">{topic}</p>}
   <a

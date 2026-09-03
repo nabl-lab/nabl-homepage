@@ -1,27 +1,40 @@
 ---
-// 졸업생 (/[lang]/members/alumni). 졸업 연도별 그룹, 졸업 후 소속을 강조한다.
+// 졸업생 (/[lang]/members/alumni). Current Members 와 같은 "학위 과정별 섹션" 구조.
+// 그룹 안 정렬: 졸업연도 내림차순 → 같은 해면 이름순.
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
-import { alumni, localizedText } from "../../../lib/content";
-import { localePaths, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
+import PersonPhoto from "../../../components/person-photo.astro";
+import { alumni, groupByPosition, localizedText } from "../../../lib/content";
+import {
+  localePaths,
+  useTranslations,
+  withLocale,
+  POSITION_LABEL_KEY,
+  type Locale,
+  type UiKey,
+} from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 
-const rows = alumni
-  .map((a) => ({
-    id: a.id,
-    year: a.graduatedYear,
-    name: localizedText(a, "name", lang),
-    degree: a.degree,
-    after: localizedText(a, "afterAffiliation", lang),
-  }))
-  .filter((a) => a.name);
+const sorted = [...alumni].sort(
+  (a, b) =>
+    b.graduatedYear - a.graduatedYear ||
+    (localizedText(a, "name", lang) ?? "").localeCompare(
+      localizedText(b, "name", lang) ?? "",
+      lang,
+    ),
+);
+const groups = groupByPosition(sorted);
 
-const years = [...new Set(rows.map((r) => r.year))].sort((a, b) => b - a);
+// 직책 표기: 매핑에 있으면 번역, 없으면 원문 그대로 (PI·연구교수가 데이터에 있어도 표시됨).
+const positionLabel = (position: string): string => {
+  const key = POSITION_LABEL_KEY[position] as UiKey | undefined;
+  return key ? t(key) : position;
+};
 ---
 
 <BaseLayout lang={lang} title={t("alumni.title")}>
@@ -37,22 +50,33 @@ const years = [...new Set(rows.map((r) => r.year))].sort((a, b) => b - a);
   </div>
 
   {
-    years.map((year) => (
-      <Section title={String(year)}>
-        <ul class="flex flex-col divide-y divide-line border-y border-line">
-          {rows
-            .filter((r) => r.year === year)
-            .map((r) => (
-              <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
-                <span class="text-ink-muted">
-                  {r.name}
-                  {r.degree ? ` · ${r.degree}` : ""}
-                </span>
-                <span class="font-semibold text-ink">
-                  {t("alumni.afterLabel")}: {r.after ?? "—"}
-                </span>
+    groups.map((g) => (
+      <Section title={positionLabel(g.position)}>
+        <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {g.items.map((a) => {
+            const name = localizedText(a, "name", lang) ?? a.id;
+            const thesis = localizedText(a, "thesis_title", lang);
+            return (
+              <li class="flex flex-col rounded-lg border border-line bg-surface p-5">
+                <PersonPhoto name={name} lang={lang} />
+                <p class="mt-3 font-semibold text-ink">{name}</p>
+                <p class="mt-0.5 text-sm text-ink-muted">{a.graduatedYear}</p>
+                {thesis && (
+                  <p class="mt-2 text-sm leading-relaxed text-ink">{thesis}</p>
+                )}
+                {/*
+                  졸업 후 소속(afterAffiliation / afterAffiliation_ko)은 데이터에
+                  남아 있으나 지금은 화면에 표시하지 않는다. 다시 넣으려면 아래 해제:
+                  {localizedText(a, "afterAffiliation", lang) && (
+                    <p class="mt-2 text-sm text-ink-muted">
+                      {t("alumni.afterLabel")}:{" "}
+                      {localizedText(a, "afterAffiliation", lang)}
+                    </p>
+                  )}
+                */}
               </li>
-            ))}
+            );
+          })}
         </ul>
       </Section>
     ))

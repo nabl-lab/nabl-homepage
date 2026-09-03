@@ -67,7 +67,7 @@ const en = {
 
   // Alumni
   "alumni.title": "Alumni",
-  "alumni.lede": "Former members and where they are now.",
+  "alumni.lede": "Former members of NABL, by degree program.",
   "alumni.afterLabel": "Now",
   "alumni.backToMembers": "← Current members",
 

@@ -3,8 +3,10 @@
     "id": "seo-junho",
     "name": "Junho Seo",
     "name_ko": "서준호",
-    "degree": "Ph.D.",
+    "position": "Ph.D. Course",
     "graduatedYear": 2021,
+    "thesis_title": "Directed evolution of solvent-tolerant lipases for non-aqueous biocatalysis",
+    "thesis_title_ko": "",
     "afterAffiliation": "Senior Scientist, Samsung Biologics",
     "afterAffiliation_ko": "삼성바이오로직스 책임연구원"
   },
@@ -12,8 +14,10 @@
     "id": "moon-gayoung",
     "name": "Gayoung Moon",
     "name_ko": "문가영",
-    "degree": "M.S.",
-    "graduatedYear": 2020,
+    "position": "M.S. Course",
+    "graduatedYear": 2022,
+    "thesis_title": "",
+    "thesis_title_ko": "형광 압타머 스위치의 세포 내 ATP 이미징 응용",
     "afterAffiliation": "Ph.D. student, KAIST",
     "afterAffiliation_ko": "KAIST 박사과정"
   },
@@ -21,8 +25,10 @@
     "id": "bae-seongwoo",
     "name": "Seongwoo Bae",
     "name_ko": "배성우",
-    "degree": "Ph.D.",
+    "position": "M.S.-Ph.D. Integrated",
     "graduatedYear": 2019,
+    "thesis_title": "Immobilized aptamer microarrays for multiplexed biomarker screening",
+    "thesis_title_ko": "다중 바이오마커 스크리닝을 위한 고정형 압타머 마이크로어레이",
     "afterAffiliation": "Postdoctoral Researcher, ETH Zürich",
     "afterAffiliation_ko": ""
   },
@@ -30,9 +36,22 @@
     "id": "nam-jisu",
     "name": "Jisu Nam",
     "name_ko": "남지수",
-    "degree": "M.S.",
+    "position": "M.S. Course",
     "graduatedYear": 2022,
+    "thesis_title": "",
+    "thesis_title_ko": "",
     "afterAffiliation": "",
     "afterAffiliation_ko": "국립보건연구원 연구원"
+  },
+  {
+    "id": "lim-doyun",
+    "name": "Doyun Lim",
+    "name_ko": "임도윤",
+    "position": "Undergraduate Researcher",
+    "graduatedYear": 2023,
+    "thesis_title": "",
+    "thesis_title_ko": "",
+    "afterAffiliation": "Graduate student, Example National University",
+    "afterAffiliation_ko": "예시대학교 대학원생"
   }
 ]
