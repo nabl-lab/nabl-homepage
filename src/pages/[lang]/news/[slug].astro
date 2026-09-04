@@ -51,7 +51,10 @@ const dateLabel = new Date(item.date).toLocaleDateString(
         ← {t("common.backToList")}
       </a>
 
-      <nav class="mt-4 flex flex-col gap-3 text-sm sm:flex-row sm:justify-between">
+      <nav
+        aria-label={t("a11y.articleNav")}
+        class="mt-4 flex flex-col gap-3 text-sm sm:flex-row sm:justify-between"
+      >
         {
           older ? (
             <a

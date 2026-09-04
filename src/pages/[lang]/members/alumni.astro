@@ -37,7 +37,11 @@ const positionLabel = (position: string): string => {
 };
 ---
 
-<BaseLayout lang={lang} title={t("alumni.title")}>
+<BaseLayout
+  lang={lang}
+  title={t("alumni.title")}
+  description={t("alumni.lede")}
+>
   <PageHeader title={t("alumni.title")} lede={t("alumni.lede")} />
 
   <div class="mx-auto max-w-6xl px-4 pt-6">

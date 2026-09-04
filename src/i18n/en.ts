@@ -7,6 +7,8 @@ const en = {
   "site.name": "Nano & Artificial Biotechnology Laboratory",
   "site.shortName": "NABL",
   "site.affiliation": "Korea University, Sejong Campus",
+  "site.description":
+    "Nano & Artificial Biotechnology Laboratory at Korea University Sejong Campus — aptamer engineering, protein design, and point-of-care biosensors.",
 
   // 주 메뉴 (구조는 src/i18n/nav.ts, 문구는 여기)
   "nav.home": "Home",
@@ -29,6 +31,9 @@ const en = {
   "a11y.openMenu": "Open menu",
   "a11y.closeMenu": "Close menu",
   "a11y.language": "Language",
+  "a11y.primaryNav": "Main navigation",
+  "a11y.filterPublications": "Filter publications by type",
+  "a11y.articleNav": "News article navigation",
 
   // 공통 라벨
   "common.readMore": "Read more",
@@ -73,6 +78,7 @@ const en = {
 
   // PI (책임교수) 페이지
   "pi.pageTitle": "Principal Investigator",
+  "pi.lede": "The principal investigator of NABL.",
   "pi.officeLabel": "Office",
   "pi.present": "Present",
   "pi.researchInterests": "Research interests",

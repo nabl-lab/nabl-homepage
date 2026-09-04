@@ -27,9 +27,11 @@ nabl-homepage/
 ├── public/              정적 파일 그대로 복사됨 (favicon 등)
 ├── src/
 │   ├── pages/           페이지. [lang] 폴더 아래에 둔다 (11번 항목 참고)
-│   ├── layouts/         여러 페이지가 공유하는 공통 뼈대
+│   ├── layouts/         여러 페이지가 공유하는 공통 뼈대 (base-layout: <head> 메타·SEO)
 │   ├── components/      재사용하는 화면 조각 (home/ 등 하위 폴더로 묶음)
-│   ├── i18n/            다국어. ui.ts(문구 사전) + utils.ts(라우팅 헬퍼)
+│   ├── config/
+│   │   └── site.ts      도메인·OG 이미지 경로 (12번 항목). 도메인 바뀌면 여기만 수정
+│   ├── i18n/            다국어. ui.ts(문구 사전) + utils.ts(라우팅) + nav.ts(메뉴 구조)
 │   ├── lib/             로직 모듈
 │   │   ├── content.ts         콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
 │   │   ├── content-types.ts   콘텐츠 데이터의 형식(타입) 정의
@@ -135,7 +137,8 @@ nabl-homepage/
 
 - 라이브러리를 추가하기 전에 **정말 필요한지** 다시 생각하세요.
   의존성이 적을수록 나중에 인수인계와 유지보수가 쉽습니다.
-- 현재 런타임 의존성은 3개뿐입니다: `astro`, `tailwindcss`, `@tailwindcss/vite`.
+- 현재 의존성: `astro`, `tailwindcss`, `@tailwindcss/vite`, `@astrojs/sitemap`.
+  (`@astrojs/sitemap` 은 빌드 시 sitemap.xml 만 만드는 공식 통합입니다.)
 - 새 라이브러리 추가는 5번 항목(`package.json` 변경)에 해당합니다. 사람에게 확인하세요.
 
 ---
@@ -192,3 +195,20 @@ nabl-homepage/
 ### 구성원 정렬
 - 직책 순서와 정렬은 `content.ts` 의 **`POSITION_ORDER` / `sortMembers`** 를 씁니다.
   목록에 없는 새 직책이 들어와도 에러 없이 맨 뒤에 배치됩니다.
+
+---
+
+## 12. SEO · 사이트 기본 정보
+
+- **도메인·대표 이미지 경로는 `src/config/site.ts` 한 곳**에서만 관리합니다.
+  학교 도메인이 정해지면 `SITE.url` 만 바꾸면 canonical·Open Graph·sitemap·robots 가
+  모두 따라갑니다. (사이트 이름·설명은 문구이므로 `en.ts`/`ko.ts` 의 `site.*` 키)
+- `<title>` / `meta description` / Open Graph / hreflang / canonical 은 전부
+  **`src/layouts/base-layout.astro` 가 자동 생성**합니다. 새 페이지는 `<BaseLayout>` 에
+  `title` 과 (가능하면) `description` 만 넘기면 됩니다. description 을 안 주면
+  `site.description` 으로 폴백합니다. **`.astro` 에 메타 태그를 직접 쓰지 마세요.**
+- 공유 미리보기 이미지: `public/images/og-default.png` 등을 넣고
+  `site.ts` 의 `ogImage` 에 경로를 적으면 OG/Twitter 이미지 태그가 자동으로 붙습니다.
+- `sitemap.xml` 은 `@astrojs/sitemap` 이 빌드 시 자동 생성합니다(언어 대체 링크 포함).
+  `robots.txt` 는 `src/pages/robots.txt.ts` 가 생성합니다.
+- 404 페이지는 `src/pages/404.astro` (언어별이 아니라 한 파일, 두 언어 병기).

@@ -24,7 +24,7 @@ const t = useTranslations(lang);
     </a>
 
     <div class="flex items-center gap-3">
-      <nav aria-label="Primary" class="hidden md:block">
+      <nav aria-label={t("a11y.primaryNav")} class="hidden md:block">
         <SiteNav lang={lang} />
       </nav>
 
@@ -39,7 +39,7 @@ const t = useTranslations(lang);
           {t("a11y.openMenu")}
         </summary>
         <nav
-          aria-label="Primary"
+          aria-label={t("a11y.primaryNav")}
           class="absolute right-0 z-50 mt-2 w-60 rounded border border-line bg-surface p-2 shadow-lg"
         >
           <SiteNavMobile lang={lang} />

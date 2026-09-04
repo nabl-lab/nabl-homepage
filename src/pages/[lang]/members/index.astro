@@ -29,7 +29,11 @@ const positionLabel = (position: string): string => {
 };
 ---
 
-<BaseLayout lang={lang} title={t("members.currentTitle")}>
+<BaseLayout
+  lang={lang}
+  title={t("members.currentTitle")}
+  description={t("members.lede")}
+>
   <PageHeader title={t("members.currentTitle")} lede={t("members.lede")} />
 
   {

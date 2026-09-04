@@ -30,8 +30,8 @@ const awardRows = piAwards
 const links = piProfile.links;
 ---
 
-<BaseLayout lang={lang} title={t("pi.pageTitle")}>
-  <PageHeader title={t("pi.pageTitle")} />
+<BaseLayout lang={lang} title={t("pi.pageTitle")} description={t("pi.lede")}>
+  <PageHeader title={t("pi.pageTitle")} lede={t("pi.lede")} />
 
   <PiProfile lang={lang} />
   <PiResearchInterests lang={lang} />

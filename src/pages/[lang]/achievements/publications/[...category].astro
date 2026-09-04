@@ -37,7 +37,11 @@ const list = category
 const years = [...new Set(list.map((p) => p.year))].sort((a, b) => b - a);
 ---
 
-<BaseLayout lang={lang} title={t("nav.achievements.publications")}>
+<BaseLayout
+  lang={lang}
+  title={t("nav.achievements.publications")}
+  description={t("pub.lede")}
+>
   <PageHeader
     title={t("nav.achievements.publications")}
     lede={t("pub.lede")}

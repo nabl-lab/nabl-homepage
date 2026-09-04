@@ -6,6 +6,8 @@ const ko = {
   "site.name": "나노 및 인공 생명공학 연구실",
   "site.shortName": "NABL",
   "site.affiliation": "고려대학교 세종캠퍼스",
+  "site.description":
+    "고려대학교 세종캠퍼스 나노 및 인공 생명공학 연구실 — 압타머 공학, 단백질 설계, 현장형 바이오센서 연구.",
 
   // 주 메뉴 (구조는 src/i18n/nav.ts, 문구는 여기)
   "nav.home": "홈",
@@ -28,6 +30,9 @@ const ko = {
   "a11y.openMenu": "메뉴 열기",
   "a11y.closeMenu": "메뉴 닫기",
   "a11y.language": "언어",
+  "a11y.primaryNav": "주 메뉴",
+  "a11y.filterPublications": "논문 분류 필터",
+  "a11y.articleNav": "글 이동",
 
   // 공통 라벨
   "common.readMore": "자세히 보기",
@@ -71,6 +76,7 @@ const ko = {
 
   // PI (책임교수) 페이지
   "pi.pageTitle": "책임교수",
+  "pi.lede": "NABL 책임교수 소개입니다.",
   "pi.officeLabel": "연구실",
   "pi.present": "현재",
   "pi.researchInterests": "연구 관심사",

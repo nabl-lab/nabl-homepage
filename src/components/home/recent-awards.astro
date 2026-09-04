@@ -30,6 +30,7 @@ const groups = groupByYear(recent);
   <a
     slot="cta"
     href={withLocale(lang, "/achievements/awards")}
+    aria-label={`${t("common.viewAll")} — ${t("home.awards.title")}`}
     class="shrink-0 text-sm font-medium text-brand hover:underline"
   >
     {t("common.viewAll")} →

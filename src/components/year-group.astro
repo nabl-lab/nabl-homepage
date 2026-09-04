@@ -1,6 +1,8 @@
 ---
 // 연도별 목록 한 그룹 — 왼쪽에 연도, 오른쪽에 항목들(slot).
 // 논문·특허·수상·기타 성과 페이지에서 공통으로 쓴다. (groupByYear 결과와 짝)
+// 연도는 h2: 이 컴포넌트가 쓰이는 페이지들은 제목 없는 <Section> 안에 놓이므로
+// 페이지 h1 바로 아래 최상위 그룹 헤딩이 된다 (h1 → h2 순서 유지).
 interface Props {
   year: number | string;
 }
@@ -9,11 +11,11 @@ const { year } = Astro.props;
 ---
 
 <div class="flex gap-4 py-2 sm:gap-6">
-  <h3
+  <h2
     class="w-12 shrink-0 pt-3 text-sm font-semibold text-ink-muted tabular-nums sm:w-16"
   >
     {year}
-  </h3>
+  </h2>
   <div class="min-w-0 flex-1">
     <slot />
   </div>

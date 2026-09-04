@@ -15,6 +15,7 @@ const t = useTranslations(lang);
   <a
     slot="cta"
     href={withLocale(lang, "/about")}
+    aria-label={`${t("common.readMore")} — ${t("home.about.title")}`}
     class="shrink-0 text-sm font-medium text-brand hover:underline"
   >
     {t("common.readMore")} →

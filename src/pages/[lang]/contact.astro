@@ -12,7 +12,11 @@ const t = useTranslations(lang);
 const email = t("contact.emailValue");
 ---
 
-<BaseLayout lang={lang} title={t("contact.title")}>
+<BaseLayout
+  lang={lang}
+  title={t("contact.title")}
+  description={t("contact.lede")}
+>
   <PageHeader title={t("contact.title")} lede={t("contact.lede")} />
 
   <Section>
