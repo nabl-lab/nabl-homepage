@@ -3,6 +3,7 @@
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
+import EmptyState from "../../../components/empty-state.astro";
 import { news, byDateDesc, localizedText } from "../../../lib/content";
 import { localePaths, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
 
@@ -27,7 +28,13 @@ const fmtDate = (d: string) =>
   <PageHeader title={t("nav.news")} lede={t("news.lede")} />
 
   <Section>
-    <ul class="divide-y divide-line border-y border-line">
+    {items.length === 0 && <EmptyState lang={lang} />}
+    <ul
+      class:list={[
+        "divide-y divide-line",
+        items.length > 0 && "border-y border-line",
+      ]}
+    >
       {
         items.map((n) => (
           <li>

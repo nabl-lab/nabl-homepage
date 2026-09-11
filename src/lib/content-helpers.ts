@@ -23,29 +23,59 @@ export function localizedText(
   return primary || secondary || null;
 }
 
-/** 직책 표시 순서. 목록에 없는 직책이 들어오면 맨 뒤로 보낸다. */
+/**
+ * 값 두 개 중 현재 언어에 맞는 것을 고른다 — Notion 매핑 계층용.
+ *
+ * `localizedText` 는 `title`/`title_ko` 처럼 이름 규칙이 있는 객체에서 꺼내지만,
+ * Notion 은 속성명이 제각각이라 이미 꺼낸 값 두 개를 받아야 한다.
+ * 폴백 규칙은 동일하다: 현재 언어 → 반대 언어 → 둘 다 비면 null.
+ */
+export function localized(
+  primary: string | null | undefined,
+  korean: string | null | undefined,
+  locale: Locale,
+): string | null {
+  const en = (primary ?? "").trim();
+  const ko = (korean ?? "").trim();
+  const [first, second] = locale === "ko" ? [ko, en] : [en, ko];
+  return first || second || null;
+}
+
+/**
+ * 직책 표시 순서 — Notion `직책·과정` 선택지의 한국어 값 그대로.
+ * 값이 비어 있거나 목록에 없는 직책은 맨 뒤로 보낸다 (화면에 "미분류" 같은 문구는 쓰지 않는다).
+ * 영문 화면 라벨은 i18n 의 optionLabel("memberPosition", …) 이 담당한다.
+ */
 export const POSITION_ORDER = [
-  "Principal Investigator",
-  "Research Professor",
-  "Ph.D. Course",
-  "M.S.-Ph.D. Integrated",
-  "M.S. Course",
-  "Undergraduate Researcher",
+  "지도교수",
+  "연구교수",
+  "박사후연구원",
+  "박사과정",
+  "석사과정",
+  "학부연구생",
+  "연구원",
+  "행정",
 ] as const;
+
+/** 지도교수(PI)를 가리키는 직책 값. PI 식별은 문자열을 직접 쓰지 말고 이 상수를 쓴다. */
+export const PI_POSITION: string = POSITION_ORDER[0];
 
 export function positionRank(position: string): number {
   const i = (POSITION_ORDER as readonly string[]).indexOf(position);
   return i === -1 ? POSITION_ORDER.length : i;
 }
 
-/** 직책 순 → 같은 직책 안에서는 order(있으면) → 입실일 순으로 정렬한다. */
+/**
+ * 구성원 정렬: 직책 순 → 홈페이지 순서(비면 뒤) → 이름 가나다순.
+ * 이름은 영문 화면에서도 같은 순서가 되도록 항상 한국어 이름(name_ko)으로 비교한다.
+ */
 export function sortMembers(list: Member[]): Member[] {
   const far = Number.MAX_SAFE_INTEGER;
   return [...list].sort(
     (a, b) =>
       positionRank(a.position) - positionRank(b.position) ||
       (a.order ?? far) - (b.order ?? far) ||
-      a.joinedDate.localeCompare(b.joinedDate),
+      (a.name_ko || "").localeCompare(b.name_ko || "", "ko"),
   );
 }
 
@@ -69,6 +99,25 @@ export function groupByPosition<T extends { position: string }>(
     else groups.push({ position: item.position, items: [item] });
   }
   return groups;
+}
+
+/** Order 오름차순 정렬. 값이 없으면 맨 뒤. */
+export function byOrder<T extends { order?: number }>(list: T[]): T[] {
+  const far = Number.MAX_SAFE_INTEGER;
+  return [...list].sort((a, b) => (a.order ?? far) - (b.order ?? far));
+}
+
+/**
+ * 연구 항목을 Category 로 나눈다 (Notion Research DB 는 한 DB 에 둘을 같이 담는다).
+ * 한쪽이 0건이어도 빈 배열을 돌려주므로 호출부에서 레이아웃이 깨지지 않는다.
+ */
+export function splitResearch<T extends { category: string; order?: number }>(
+  list: T[],
+): { scopes: T[]; themes: T[] } {
+  return {
+    scopes: byOrder(list.filter((r) => r.category === RESEARCH_CATEGORY.scope)),
+    themes: byOrder(list.filter((r) => r.category === RESEARCH_CATEGORY.theme)),
+  };
 }
 
 /** 날짜 문자열(ISO) 내림차순 정렬. 뉴스·수상 목록에 쓴다. */

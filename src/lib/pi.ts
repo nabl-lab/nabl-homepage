@@ -4,13 +4,13 @@
  * 원본 JSON 은 여전히 content.ts 만 읽는다. 이 파일은 content.ts 가 내보낸 값에서
  * PI 페이지에 필요한 형태(수상 필터, 대표 논문, 항목 정렬)를 만든다.
  */
-import { members, awards, publications, piProfile } from "./content";
+import { members, awards, publications, piProfile, PI_POSITION } from "./content";
 import type { Award, Publication, PiEntry } from "./content";
 
 export { piProfile };
 
-/** PI 멤버. members.json 에서 position 이 "Principal Investigator" 인 항목으로 식별한다. */
-export const pi = members.find((m) => m.position === "Principal Investigator") ?? null;
+/** PI 멤버. position 이 PI_POSITION(지도교수)인 항목으로 식별한다. */
+export const pi = members.find((m) => m.position === PI_POSITION) ?? null;
 
 /**
  * awards.json 에서 PI 가 수상자인 것만. 별도 입력 없이 수상자 이름(영/한)으로 매칭한다.

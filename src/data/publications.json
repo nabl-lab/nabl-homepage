@@ -7,7 +7,7 @@
     "venue": "Biosensors and Bioelectronics",
     "venue_ko": "",
     "year": 2025,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/troponin-aptamer",
     "featured": true
   },
@@ -19,7 +19,7 @@
     "venue": "ACS Catalysis",
     "venue_ko": "",
     "year": 2024,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/thermostable-laccase",
     "featured": false
   },
@@ -31,7 +31,7 @@
     "venue": "Nucleic Acids Research",
     "venue_ko": "",
     "year": 2024,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/fluorogenic-switch",
     "featured": true
   },
@@ -43,7 +43,7 @@
     "venue": "Korean Journal of Biotechnology and Bioengineering",
     "venue_ko": "한국생물공학회지",
     "year": 2024,
-    "category": "domestic",
+    "category": "Domestic",
     "link": "https://example.org/papers/paper-heavy-metal",
     "featured": false
   },
@@ -55,7 +55,7 @@
     "venue": "Metabolic Engineering",
     "venue_ko": "",
     "year": 2023,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/cell-free-cascade",
     "featured": true
   },
@@ -67,7 +67,7 @@
     "venue": "Biomacromolecules",
     "venue_ko": "",
     "year": 2023,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/antibody-scaffold",
     "featured": false
   },
@@ -79,7 +79,7 @@
     "venue": "Proc. MicroTAS 2023",
     "venue_ko": "",
     "year": 2023,
-    "category": "conference",
+    "category": "Conference",
     "link": "https://example.org/papers/microfluidic-selex",
     "featured": false
   },
@@ -91,7 +91,7 @@
     "venue": "Food Chemistry",
     "venue_ko": "",
     "year": 2022,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/aunp-pathogen",
     "featured": false
   },
@@ -103,7 +103,7 @@
     "venue": "Korean Society for Microbiology and Biotechnology",
     "venue_ko": "한국미생물·생명공학회지",
     "year": 2022,
-    "category": "domestic",
+    "category": "Domestic",
     "link": "https://example.org/papers/expression-optimization",
     "featured": false
   },
@@ -115,7 +115,7 @@
     "venue": "KSBB Spring Meeting 2022",
     "venue_ko": "",
     "year": 2022,
-    "category": "conference",
+    "category": "Conference",
     "link": "https://example.org/papers/modular-conjugate",
     "featured": false
   },
@@ -127,7 +127,7 @@
     "venue": "Enzyme and Microbial Technology",
     "venue_ko": "",
     "year": 2021,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/solvent-tolerant-lipase",
     "featured": false
   },
@@ -139,7 +139,7 @@
     "venue": "Analytical Chemistry",
     "venue_ko": "",
     "year": 2021,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/split-aptamer",
     "featured": true
   },
@@ -151,7 +151,7 @@
     "venue": "Protein Science",
     "venue_ko": "",
     "year": 2020,
-    "category": "international",
+    "category": "International",
     "link": "https://example.org/papers/consensus-sdab",
     "featured": false
   },
@@ -163,7 +163,7 @@
     "venue": "Journal of Biomedical Science (Korea)",
     "venue_ko": "대한의생명과학회지",
     "year": 2020,
-    "category": "domestic",
+    "category": "Domestic",
     "link": "https://example.org/papers/lateral-flow",
     "featured": false
   },
@@ -175,7 +175,7 @@
     "venue": "BIOCHIP 2019",
     "venue_ko": "",
     "year": 2019,
-    "category": "conference",
+    "category": "Conference",
     "link": "https://example.org/papers/immobilized-arrays",
     "featured": false
   }

@@ -1,47 +1,7 @@
 /**
- * 한국어 UI 문구. `en.ts` 와 키가 정확히 일치해야 한다 (ui.ts 가 타입으로 강제).
+ * 한국어 UI 문구 — 페이지별. `en-pages.ts` 와 키가 정확히 일치해야 한다.
  */
-const ko = {
-  // 사이트 정체성
-  "site.name": "나노 및 인공 생명공학 연구실",
-  "site.shortName": "NABL",
-  "site.affiliation": "고려대학교 세종캠퍼스",
-  "site.description":
-    "고려대학교 세종캠퍼스 나노 및 인공 생명공학 연구실 — 압타머 공학, 단백질 설계, 현장형 바이오센서 연구.",
-
-  // 주 메뉴 (구조는 src/i18n/nav.ts, 문구는 여기)
-  "nav.home": "홈",
-  "nav.about": "연구실 소개",
-  "nav.members": "구성원",
-  "nav.research": "연구",
-  "nav.research.scope": "연구 범위",
-  "nav.research.themes": "연구 주제",
-  "nav.research.projects": "프로젝트",
-  "nav.achievements": "연구 성과",
-  "nav.achievements.publications": "논문",
-  "nav.achievements.patents": "특허",
-  "nav.achievements.awards": "수상",
-  "nav.achievements.etc": "기타",
-  "nav.news": "소식",
-  "nav.contact": "연락처",
-
-  // 접근성
-  "a11y.skipToContent": "본문으로 건너뛰기",
-  "a11y.openMenu": "메뉴 열기",
-  "a11y.closeMenu": "메뉴 닫기",
-  "a11y.language": "언어",
-  "a11y.primaryNav": "주 메뉴",
-  "a11y.filterPublications": "논문 분류 필터",
-  "a11y.articleNav": "글 이동",
-
-  // 공통 라벨
-  "common.readMore": "자세히 보기",
-  "common.viewAll": "전체 보기",
-  "common.email": "이메일",
-  "common.address": "주소",
-  "common.backToList": "목록으로 돌아가기",
-  "common.viewPaper": "논문 보기",
-
+const koPages = {
   // 홈
   "home.hero.tagline": "분자 센싱을 위한 압타머와 공학적 단백질을 설계합니다.",
   "home.about.title": "연구실 소개",
@@ -61,12 +21,15 @@ const ko = {
   "about.title": "연구실 소개",
   "about.lede": "우리가 누구이고 무엇을 연구하는지 소개합니다.",
   "about.missionTitle": "연구 목표",
+  "about.piLabel": "지도교수",
 
   // Members
   "members.title": "구성원",
   "members.currentTitle": "현재 구성원",
   "members.lede": "직책별로 정리한 NABL 현재 구성원입니다.",
   "members.noPhoto": "사진 없음",
+  "member.topicLabel": "연구 주제",
+  "member.joinedLabel": "입실일",
 
   // Alumni
   "alumni.title": "졸업생",
@@ -100,38 +63,39 @@ const ko = {
   "contact.addressLine2": "30019 세종특별자치시 세종로 2511 고려대학교 세종캠퍼스",
   "contact.emailValue": "nabl.webmaster@gmail.com",
 
-  // 직책 라벨
-  "position.pi": "책임교수 (PI)",
-  "position.researchProfessor": "연구교수",
-  "position.phd": "박사과정",
-  "position.msphd": "석·박사통합과정",
-  "position.ms": "석사과정",
-  "position.undergrad": "학부연구생",
-
-  // Research 페이지
+  // Research
   "research.lede": "연구 범위, 주제, 진행 중인 프로젝트입니다.",
   "research.projectFunder": "지원 기관",
 
-  // Publications 페이지
+  // Projects
+  "projects.lede": "진행 중이거나 완료된 연구 프로젝트입니다.",
+  "projects.filterAll": "전체",
+  "projects.piLabel": "연구책임자",
+  "projects.participantsLabel": "참여 연구원",
+  "projects.funderLabel": "지원 기관",
+  "projects.periodLabel": "기간",
+
+  // Publications
   "pub.lede": "동료 심사 논문과 학회 발표 논문입니다.",
   "pub.filterAll": "전체",
-  "pub.catInternational": "국제",
-  "pub.catDomestic": "국내",
-  "pub.catConference": "학회",
-  "pub.empty": "이 분류에 해당하는 논문이 아직 없습니다.",
 
-  // Patents 페이지
-  "patent.registered": "등록",
-  "patent.applied": "출원",
+  // Patents
+  "patent.lede": "연구실이 출원·등록한 특허입니다.",
   "patent.inventorsLabel": "발명자",
+  "patent.numberLabel": "출원·등록번호",
+  "patent.applicantLabel": "출원인",
 
-  // News 페이지
+  // Awards
+  "award.lede": "연구실 구성원의 수상 내역입니다.",
+
+  // News
   "news.lede": "연구실 소식과 공지입니다.",
   "news.prev": "이전 글",
   "news.next": "다음 글",
 
-  // 푸터
-  "footer.copyright": "나노 및 인공 생명공학 연구실",
+  // Resources
+  "resources.lede": "보고서, 포스터, 발표자료, 데이터셋, 프로토콜입니다.",
+  "resources.download": "파일 열기",
 } satisfies Record<string, string>;
 
-export default ko;
+export default koPages;

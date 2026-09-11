@@ -5,16 +5,13 @@
  * - 모든 `[lang]` 페이지는 `localePaths` 로 정적 경로를 생성한다.
  * - UI 문구는 `ui.ts` 사전을 통해서만 가져온다 (`useTranslations`).
  */
-import {
-  ui,
-  DEFAULT_LOCALE,
-  POSITION_LABEL_KEY,
-  type Locale,
-  type UiKey,
-} from "./ui";
+import { ui, DEFAULT_LOCALE, type Locale, type UiKey } from "./ui";
 
-export { DEFAULT_LOCALE, POSITION_LABEL_KEY };
+export { DEFAULT_LOCALE };
 export type { Locale, UiKey };
+
+// Notion 선택지 값 → 화면 라벨. 매핑에 없으면 원문을 그대로 쓴다.
+export { optionLabel, type OptionSet } from "./options";
 
 /** 지원하는 로케일 목록. 순서는 언어 전환 버튼 노출 순서이기도 하다. */
 export const LOCALES: Locale[] = ["en", "ko"];

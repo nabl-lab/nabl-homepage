@@ -3,7 +3,7 @@
 import BaseLayout from "../../layouts/base-layout.astro";
 import PageHeader from "../../components/page-header.astro";
 import Section from "../../components/section.astro";
-import { about, members, localizedText } from "../../lib/content";
+import { about, members, localizedText, PI_POSITION } from "../../lib/content";
 import { localePaths, useTranslations, withLocale, type Locale } from "../../i18n/utils";
 
 export const getStaticPaths = localePaths;
@@ -13,7 +13,7 @@ const t = useTranslations(lang);
 
 const intro = localizedText(about, "intro", lang);
 const mission = localizedText(about, "mission", lang);
-const pi = members.find((m) => m.position === "Principal Investigator");
+const pi = members.find((m) => m.position === PI_POSITION);
 const piName = pi ? localizedText(pi, "name", lang) : null;
 ---
 
@@ -25,7 +25,7 @@ const piName = pi ? localizedText(pi, "name", lang) : null;
     {
       piName && (
         <p class="mt-6 text-sm text-ink-muted">
-          {t("position.pi")}:
+          {t("about.piLabel")}:
           <span class="font-medium text-ink"> {piName}</span>
         </p>
       )

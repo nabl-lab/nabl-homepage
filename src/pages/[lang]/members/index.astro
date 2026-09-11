@@ -5,13 +5,17 @@ import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
 import MemberCard from "../../../components/member-card.astro";
-import { members, sortMembers, groupByPosition } from "../../../lib/content";
+import {
+  members,
+  sortMembers,
+  groupByPosition,
+  PI_POSITION,
+} from "../../../lib/content";
 import {
   localePaths,
   useTranslations,
-  POSITION_LABEL_KEY,
+  optionLabel,
   type Locale,
-  type UiKey,
 } from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
@@ -19,14 +23,12 @@ export const getStaticPaths = localePaths;
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 const groups = groupByPosition(sortMembers(members)).filter(
-  (g) => g.position !== "Principal Investigator",
+  (g) => g.position !== PI_POSITION,
 );
 
 // 직책 표기: 매핑에 있으면 번역, 없으면(새 직책) 원문 그대로.
-const positionLabel = (position: string): string => {
-  const key = POSITION_LABEL_KEY[position] as UiKey | undefined;
-  return key ? t(key) : position;
-};
+const positionLabel = (position: string): string =>
+  optionLabel("memberPosition", position, lang);
 ---
 
 <BaseLayout

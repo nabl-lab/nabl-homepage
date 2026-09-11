@@ -26,34 +26,36 @@ const recent = byDateDesc(awards)
 const groups = groupByYear(recent);
 ---
 
-<Section id="awards" title={t("home.awards.title")}>
-  <a
-    slot="cta"
-    href={withLocale(lang, "/achievements/awards")}
-    aria-label={`${t("common.viewAll")} — ${t("home.awards.title")}`}
-    class="shrink-0 text-sm font-medium text-brand hover:underline"
-  >
-    {t("common.viewAll")} →
-  </a>
-  <div class="flex flex-col gap-6">
-    {
-      groups.map((g) => (
-        <div class="flex gap-4">
-          <h3 class="w-12 shrink-0 text-sm font-semibold text-ink-muted tabular-nums">
-            {g.year}
-          </h3>
-          <ul class="flex flex-1 flex-col gap-3">
-            {g.items.map((a) => (
-              <li>
-                <p class="font-medium text-ink">{a.title}</p>
-                <p class="text-sm text-ink-muted">
-                  {[a.recipient, a.org].filter(Boolean).join(" · ")}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))
-    }
-  </div>
-</Section>
+{groups.length > 0 && (
+  <Section id="awards" title={t("home.awards.title")}>
+    <a
+      slot="cta"
+      href={withLocale(lang, "/achievements/awards")}
+      aria-label={`${t("common.viewAll")} — ${t("home.awards.title")}`}
+      class="shrink-0 text-sm font-medium text-brand hover:underline"
+    >
+      {t("common.viewAll")} →
+    </a>
+    <div class="flex flex-col gap-6">
+      {
+        groups.map((g) => (
+          <div class="flex gap-4">
+            <h3 class="w-12 shrink-0 text-sm font-semibold text-ink-muted tabular-nums">
+              {g.year}
+            </h3>
+            <ul class="flex flex-1 flex-col gap-3">
+              {g.items.map((a) => (
+                <li>
+                  <p class="font-medium text-ink">{a.title}</p>
+                  <p class="text-sm text-ink-muted">
+                    {[a.recipient, a.org].filter(Boolean).join(" · ")}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+)}

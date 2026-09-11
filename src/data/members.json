@@ -3,124 +3,160 @@
     "id": "hong-gildong",
     "name": "Gildong Hong",
     "name_ko": "홍길동",
-    "position": "Principal Investigator",
+    "position": "지도교수",
     "order": 1,
     "joinedDate": "2005-03-01",
     "email": "gildong.hong@example.edu",
     "researchTopic": "Aptamer-based molecular sensing and protein engineering",
-    "researchTopic_ko": "압타머 기반 분자 센싱 및 단백질 공학"
+    "researchTopic_ko": "압타머 기반 분자 센싱 및 단백질 공학",
+    "slug": "hong-gildong",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "kim-cheolsu",
     "name": "Cheolsu Kim",
     "name_ko": "김철수",
-    "position": "Research Professor",
+    "position": "연구교수",
     "joinedDate": "2019-09-01",
     "email": "cheolsu.kim@example.edu",
     "researchTopic": "Cell-free multi-enzyme systems for biocatalysis",
-    "researchTopic_ko": "생촉매를 위한 무세포 다효소 시스템"
+    "researchTopic_ko": "생촉매를 위한 무세포 다효소 시스템",
+    "slug": "kim-cheolsu",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "lee-younghee",
     "name": "Younghee Lee",
     "name_ko": "이영희",
-    "position": "Ph.D. Course",
+    "position": "박사과정",
     "order": 2,
     "joinedDate": "2020-03-02",
     "email": "younghee.lee@example.edu",
     "researchTopic": "Directed evolution of thermostable enzymes",
-    "researchTopic_ko": ""
+    "researchTopic_ko": "",
+    "slug": "lee-younghee",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "park-youngsu",
     "name": "Youngsu Park",
     "name_ko": "박영수",
-    "position": "Ph.D. Course",
+    "position": "박사과정",
     "order": 1,
     "joinedDate": "2021-03-02",
     "email": "youngsu.park@example.edu",
     "researchTopic": "",
-    "researchTopic_ko": "형광 압타머 스위치 설계"
+    "researchTopic_ko": "형광 압타머 스위치 설계",
+    "slug": "park-youngsu",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "choi-minjun",
     "name": "Minjun Choi",
     "name_ko": "최민준",
-    "position": "Ph.D. Course",
+    "position": "박사과정",
     "order": 3,
     "joinedDate": "2021-09-01",
     "email": "minjun.choi@example.edu",
     "researchTopic": "Aptamer-enzyme conjugates for signal amplification",
-    "researchTopic_ko": "신호 증폭을 위한 압타머-효소 접합체"
+    "researchTopic_ko": "신호 증폭을 위한 압타머-효소 접합체",
+    "slug": "choi-minjun",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "jeong-sujin",
     "name": "Sujin Jeong",
     "name_ko": "정수진",
-    "position": "M.S.-Ph.D. Integrated",
+    "position": "박사과정",
     "joinedDate": "2022-03-02",
     "email": "sujin.jeong@example.edu",
     "researchTopic": "Protein scaffolds for oriented antibody immobilization",
-    "researchTopic_ko": "항체 배향 고정을 위한 단백질 스캐폴드"
+    "researchTopic_ko": "항체 배향 고정을 위한 단백질 스캐폴드",
+    "slug": "jeong-sujin",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "kang-dohyun",
     "name": "Dohyun Kang",
     "name_ko": "강도현",
-    "position": "M.S.-Ph.D. Integrated",
+    "position": "박사과정",
     "joinedDate": "2022-09-01",
     "email": "dohyun.kang@example.edu",
     "researchTopic": "Cell-free protein synthesis platforms",
-    "researchTopic_ko": ""
+    "researchTopic_ko": "",
+    "slug": "kang-dohyun",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "yoon-seoyeon",
     "name": "Seoyeon Yoon",
     "name_ko": "윤서연",
-    "position": "M.S. Course",
+    "position": "석사과정",
     "joinedDate": "2023-03-02",
     "email": "seoyeon.yoon@example.edu",
     "researchTopic": "",
-    "researchTopic_ko": "종이 기반 현장 진단 디바이스"
+    "researchTopic_ko": "종이 기반 현장 진단 디바이스",
+    "slug": "yoon-seoyeon",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "lim-jaehyun",
     "name": "Jaehyun Lim",
     "name_ko": "임재현",
-    "position": "M.S. Course",
+    "position": "석사과정",
     "joinedDate": "2023-03-02",
     "email": "jaehyun.lim@example.edu",
     "researchTopic": "Aptamer-functionalized nanoparticles for pathogen detection",
-    "researchTopic_ko": "병원균 검출용 압타머 기능화 나노입자"
+    "researchTopic_ko": "병원균 검출용 압타머 기능화 나노입자",
+    "slug": "lim-jaehyun",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "han-jimin",
     "name": "Jimin Han",
     "name_ko": "한지민",
-    "position": "M.S. Course",
+    "position": "석사과정",
     "joinedDate": "2023-09-01",
     "email": "jimin.han@example.edu",
     "researchTopic": "Expression optimization of recombinant biosensors",
-    "researchTopic_ko": "재조합 바이오센서의 발현 최적화"
+    "researchTopic_ko": "재조합 바이오센서의 발현 최적화",
+    "slug": "han-jimin",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "oh-sehun",
     "name": "Sehun Oh",
     "name_ko": "오세훈",
-    "position": "Undergraduate Researcher",
+    "position": "학부연구생",
     "joinedDate": "2024-06-03",
     "email": "sehun.oh@example.edu",
     "researchTopic": "",
-    "researchTopic_ko": "대장균 발현 최적화 실험 보조"
+    "researchTopic_ko": "대장균 발현 최적화 실험 보조",
+    "slug": "oh-sehun",
+    "status": "재직·재학",
+    "leftDate": ""
   },
   {
     "id": "shin-yuna",
     "name": "Yuna Shin",
     "name_ko": "신유나",
-    "position": "Undergraduate Researcher",
+    "position": "학부연구생",
     "joinedDate": "2024-09-02",
     "email": "yuna.shin@example.edu",
     "researchTopic": "Assisting SELEX experiments",
-    "researchTopic_ko": "SELEX 실험 보조"
+    "researchTopic_ko": "SELEX 실험 보조",
+    "slug": "shin-yuna",
+    "status": "재직·재학",
+    "leftDate": ""
   }
 ]

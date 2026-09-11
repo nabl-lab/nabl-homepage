@@ -4,8 +4,14 @@ import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
 import YearGroup from "../../../components/year-group.astro";
+import EmptyState from "../../../components/empty-state.astro";
 import { patents, groupByYear, localizedText } from "../../../lib/content";
-import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+import {
+  localePaths,
+  useTranslations,
+  optionLabel,
+  type Locale,
+} from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
@@ -18,6 +24,7 @@ const groups = groupByYear(patents);
   <PageHeader title={t("nav.achievements.patents")} />
 
   <Section>
+    {groups.length === 0 && <EmptyState lang={lang} />}
     <div class="flex flex-col gap-2">
       {
         groups.map((group) => (
@@ -25,18 +32,18 @@ const groups = groupByYear(patents);
             <ul class="divide-y divide-line">
               {group.items.map((p) => {
                 const title = localizedText(p, "title", lang);
-                const statusKey =
-                  p.status === "registered"
-                    ? "patent.registered"
-                    : "patent.applied";
+                // Notion Status 값 그대로 라벨링. 모르는 값이면 원문을 표시한다.
+                const statusLabel = optionLabel("patentStatus", p.status, lang);
                 return (
                   title && (
                     <li class="py-3">
                       <div class="flex flex-wrap items-baseline gap-2">
                         <span class="font-medium text-ink">{title}</span>
-                        <span class="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-ink-muted">
-                          {t(statusKey)}
-                        </span>
+                        {statusLabel && (
+                          <span class="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-ink-muted">
+                            {statusLabel}
+                          </span>
+                        )}
                       </div>
                       <p class="mt-0.5 text-sm text-ink-muted">
                         {p.number} · {t("patent.inventorsLabel")}: {p.inventors}

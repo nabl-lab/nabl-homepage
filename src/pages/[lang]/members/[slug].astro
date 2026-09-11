@@ -1,0 +1,90 @@
+---
+// 구성원 상세 (/[lang]/members/[slug]).
+// Slug 가 있는 구성원만 생성된다. Slug 가 비면 목록에만 나오고 이 페이지는 만들어지지 않는다.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import PersonPhoto from "../../../components/person-photo.astro";
+import { members, localizedText, type Member } from "../../../lib/content";
+import { withUniqueSlug } from "../../../lib/notion/validate";
+import {
+  LOCALES,
+  useTranslations,
+  withLocale,
+  optionLabel,
+  type Locale,
+} from "../../../i18n/utils";
+
+export function getStaticPaths() {
+  const detailable = withUniqueSlug(members);
+  return LOCALES.flatMap((lang) =>
+    detailable.map((m) => ({
+      params: { lang, slug: m.slug },
+      props: { member: m },
+    })),
+  );
+}
+
+const lang = Astro.params.lang as Locale;
+const { member } = Astro.props as { member: Member };
+const t = useTranslations(lang);
+
+const name = localizedText(member, "name", lang) ?? member.name_ko;
+const topic = localizedText(member, "researchTopic", lang);
+const positionLabel = optionLabel("memberPosition", member.position, lang);
+---
+
+<BaseLayout lang={lang} title={name} description={topic ?? undefined}>
+  <PageHeader title={name} lede={positionLabel} />
+
+  <Section>
+    <div class="flex flex-col gap-8 sm:flex-row sm:items-start">
+      <div class="w-full max-w-48 shrink-0">
+        <PersonPhoto name={name} photo={member.photo} lang={lang} />
+      </div>
+
+      <dl class="flex flex-1 flex-col gap-3 text-sm">
+        {
+          topic && (
+            <div>
+              <dt class="font-semibold text-ink">{t("member.topicLabel")}</dt>
+              <dd class="mt-0.5 leading-relaxed text-ink-muted">{topic}</dd>
+            </div>
+          )
+        }
+        {
+          member.email && (
+            <div>
+              <dt class="font-semibold text-ink">{t("common.email")}</dt>
+              <dd class="mt-0.5">
+                <a
+                  href={`mailto:${member.email}`}
+                  class="text-brand hover:underline"
+                >
+                  {member.email}
+                </a>
+              </dd>
+            </div>
+          )
+        }
+        {
+          member.joinedDate && (
+            <div>
+              <dt class="font-semibold text-ink">{t("member.joinedLabel")}</dt>
+              <dd class="mt-0.5 text-ink-muted">{member.joinedDate}</dd>
+            </div>
+          )
+        }
+      </dl>
+    </div>
+
+    <p class="mt-10 border-t border-line pt-6">
+      <a
+        href={withLocale(lang, "/members")}
+        class="text-sm font-medium text-brand hover:underline"
+      >
+        ← {t("members.currentTitle")}
+      </a>
+    </p>
+  </Section>
+</BaseLayout>

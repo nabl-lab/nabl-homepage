@@ -31,6 +31,7 @@ import type {
   ResearchArea,
   ResearchProject,
   EtcItem,
+  Resource,
   PiEntry,
 } from "./content-types";
 
@@ -46,23 +47,59 @@ export type {
   ResearchArea,
   ResearchProject,
   EtcItem,
+  Resource,
   PiEntry,
   Locale,
 } from "./content-types";
 
 export * from "./content-helpers";
 
+// Notion 연동: 토큰이 있으면 Notion, 없으면 JSON 더미로 폴백한다.
+// 9개 DB 를 한 번에 불러오고(relation 인덱스를 한 번만 만들기 위해) 여기서 고른다.
+// 오류는 던져서 빌드를 실패시키고, 0건(빈 배열)은 정상으로 본다 — notion/fallback.ts 참고.
+import { notionEnabled } from "../config/notion";
+import { pick } from "./notion/fallback";
+import { loadAll } from "./notion/query";
+
+const notion = notionEnabled ? await loadAll() : null;
+
 export const about = aboutData as About;
-export const piProfile = piProfileData as PiProfile;
-export const members = membersData as Member[];
-export const alumni = alumniData as Alumnus[];
-export const publications = publicationsData as Publication[];
-export const patents = patentsData as Patent[];
-export const awards = awardsData as Award[];
-export const news = newsData as NewsItem[];
-export const achievementsEtc = etcData as EtcItem[];
-export const researchAreas = researchData.areas as ResearchArea[];
-export const researchProjects = researchData.projects as ResearchProject[];
+export const members = pick("members", notion?.members, membersData as Member[]);
+export const alumni = alumniData as Alumnus[]; // Notion 에 대응 DB 없음 (구성원 상태로 파생 예정)
+export const publications = pick(
+  "publications",
+  notion?.publications,
+  publicationsData as Publication[],
+);
+export const patents = pick("patents", notion?.patents, patentsData as Patent[]);
+export const awards = pick("awards", notion?.awards, awardsData as Award[]);
+export const news = pick("news", notion?.news, newsData as NewsItem[]);
+export const resources = pick("resources", notion?.resources, [] as Resource[]);
+export const achievementsEtc = etcData as EtcItem[]; // Notion 에 대응 DB 없음
+export const researchAreas = pick(
+  "research",
+  notion?.researchAreas,
+  researchData.areas as ResearchArea[],
+);
+export const researchProjects = pick(
+  "projects",
+  notion?.researchProjects,
+  researchData.projects as ResearchProject[],
+);
+
+/**
+ * PI 프로필 — 경계가 둘로 나뉜다.
+ *  - 학력·경력·대외활동: **Notion** PI Profile DB (Section 으로 구분)
+ *  - 직위·연구실·관심사·외부링크: **JSON**(pi-profile.json). 아직 Notion 에 대응 속성이 없다.
+ * 나중에 Notion 으로 옮기려면 해당 속성을 DB 에 추가하고 아래 세 줄처럼 pick() 으로 바꾼다.
+ */
+const piJson = piProfileData as PiProfile;
+export const piProfile: PiProfile = {
+  ...piJson,
+  education: pick("pi.education", notion?.piEducation, piJson.education),
+  career: pick("pi.career", notion?.piCareer, piJson.career),
+  activities: pick("pi.activities", notion?.piActivities, piJson.activities),
+};
 
 /** 연구 범위 소개문. localizedText(researchScope, "scope", lang) 로 읽는다. */
 export const researchScope = {

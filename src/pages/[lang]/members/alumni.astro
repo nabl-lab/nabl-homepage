@@ -10,9 +10,8 @@ import {
   localePaths,
   useTranslations,
   withLocale,
-  POSITION_LABEL_KEY,
+  optionLabel,
   type Locale,
-  type UiKey,
 } from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
@@ -31,10 +30,8 @@ const sorted = [...alumni].sort(
 const groups = groupByPosition(sorted);
 
 // 직책 표기: 매핑에 있으면 번역, 없으면 원문 그대로 (PI·연구교수가 데이터에 있어도 표시됨).
-const positionLabel = (position: string): string => {
-  const key = POSITION_LABEL_KEY[position] as UiKey | undefined;
-  return key ? t(key) : position;
-};
+const positionLabel = (position: string): string =>
+  optionLabel("memberPosition", position, lang);
 ---
 
 <BaseLayout

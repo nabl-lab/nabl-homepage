@@ -1,39 +1,41 @@
 ---
-// 논문 (/[lang]/achievements/publications[/international|domestic|conference]).
+// 논문 (/[lang]/achievements/publications[/international|domestic|conference|book]).
 // 분류 필터는 JS 없이 별도 경로로 구현한다 (공유 가능·SEO·견고함).
+// 분류값은 Notion `Type` 을 그대로 쓰고 URL 만 소문자 슬러그로 바꾼다.
 import BaseLayout from "../../../../layouts/base-layout.astro";
 import PageHeader from "../../../../components/page-header.astro";
 import Section from "../../../../components/section.astro";
 import YearGroup from "../../../../components/year-group.astro";
 import PublicationItem from "../../../../components/publication-item.astro";
 import PublicationFilter from "../../../../components/publication-filter.astro";
+import EmptyState from "../../../../components/empty-state.astro";
 import { publications } from "../../../../lib/content";
+import {
+  PUBLICATION_TYPES,
+  typeToSlug,
+} from "../../../../lib/notion/publication-types";
 import { LOCALES, useTranslations, type Locale } from "../../../../i18n/utils";
 
-type Category = "international" | "domestic" | "conference";
-
 export function getStaticPaths() {
-  const cats: (Category | undefined)[] = [
-    undefined,
-    "international",
-    "domestic",
-    "conference",
-  ];
+  // undefined = 전체 목록, 나머지는 Type 별 목록
+  const types: (string | undefined)[] = [undefined, ...PUBLICATION_TYPES];
   return LOCALES.flatMap((lang) =>
-    cats.map((category) => ({
-      params: { lang, category },
-      props: { category: category ?? null },
+    types.map((type) => ({
+      params: { lang, category: type ? typeToSlug(type) : undefined },
+      props: { type: type ?? null },
     })),
   );
 }
 
 const lang = Astro.params.lang as Locale;
-const { category } = Astro.props as { category: Category | null };
+const { type } = Astro.props as { type: string | null };
 const t = useTranslations(lang);
 
-const list = category
-  ? publications.filter((p) => p.category === category)
-  : publications;
+// 전체 목록에서도 Patent 는 제외한다 (특허는 Patents 페이지 담당).
+const visible = publications.filter((p) =>
+  (PUBLICATION_TYPES as readonly string[]).includes(p.category),
+);
+const list = type ? visible.filter((p) => p.category === type) : visible;
 const years = [...new Set(list.map((p) => p.year))].sort((a, b) => b - a);
 ---
 
@@ -48,13 +50,13 @@ const years = [...new Set(list.map((p) => p.year))].sort((a, b) => b - a);
   />
 
   <div class="mx-auto max-w-6xl px-4 pt-6">
-    <PublicationFilter lang={lang} active={category} />
+    <PublicationFilter lang={lang} active={type} />
   </div>
 
   <Section>
     {
       list.length === 0 ? (
-        <p class="text-ink-muted">{t("pub.empty")}</p>
+        <EmptyState lang={lang} />
       ) : (
         <div class="flex flex-col gap-2">
           {years.map((year) => (

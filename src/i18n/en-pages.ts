@@ -1,48 +1,9 @@
 /**
- * 영어 UI 문구. 한국어는 `ko.ts` 에 같은 키로 존재해야 한다 (ui.ts 가 타입으로 강제).
- * 화면에 고정으로 나오는 문구만 여기 둔다. 콘텐츠(구성원·논문·뉴스 등)는 src/data + content.ts.
+ * 영어 UI 문구 — 페이지별.
+ * 공통 문구는 `en-common.ts`, Notion 선택지 라벨은 `options.ts`.
+ * `ko-pages.ts` 에 같은 키가 있어야 한다 (ui.ts 가 타입으로 강제).
  */
-const en = {
-  // 사이트 정체성
-  "site.name": "Nano & Artificial Biotechnology Laboratory",
-  "site.shortName": "NABL",
-  "site.affiliation": "Korea University, Sejong Campus",
-  "site.description":
-    "Nano & Artificial Biotechnology Laboratory at Korea University Sejong Campus — aptamer engineering, protein design, and point-of-care biosensors.",
-
-  // 주 메뉴 (구조는 src/i18n/nav.ts, 문구는 여기)
-  "nav.home": "Home",
-  "nav.about": "About",
-  "nav.members": "Members",
-  "nav.research": "Research",
-  "nav.research.scope": "Research Scope",
-  "nav.research.themes": "Themes",
-  "nav.research.projects": "Projects",
-  "nav.achievements": "Achievements",
-  "nav.achievements.publications": "Publications",
-  "nav.achievements.patents": "Patents",
-  "nav.achievements.awards": "Awards",
-  "nav.achievements.etc": "Etc.",
-  "nav.news": "News",
-  "nav.contact": "Contact",
-
-  // 접근성
-  "a11y.skipToContent": "Skip to main content",
-  "a11y.openMenu": "Open menu",
-  "a11y.closeMenu": "Close menu",
-  "a11y.language": "Language",
-  "a11y.primaryNav": "Main navigation",
-  "a11y.filterPublications": "Filter publications by type",
-  "a11y.articleNav": "News article navigation",
-
-  // 공통 라벨
-  "common.readMore": "Read more",
-  "common.viewAll": "View all",
-  "common.email": "Email",
-  "common.address": "Address",
-  "common.backToList": "Back to the list",
-  "common.viewPaper": "View paper",
-
+const enPages = {
   // 홈
   "home.hero.tagline":
     "Designing aptamers and engineered proteins for molecular sensing.",
@@ -63,12 +24,15 @@ const en = {
   "about.title": "About",
   "about.lede": "Who we are and what we work on.",
   "about.missionTitle": "Our goal",
+  "about.piLabel": "Principal Investigator",
 
   // Members
   "members.title": "Members",
   "members.currentTitle": "Current Members",
   "members.lede": "Current members of NABL, grouped by role.",
   "members.noPhoto": "No photo",
+  "member.topicLabel": "Research topic",
+  "member.joinedLabel": "Joined",
 
   // Alumni
   "alumni.title": "Alumni",
@@ -104,38 +68,39 @@ const en = {
     "Korea University Sejong Campus, 2511 Sejong-ro, Sejong 30019, Republic of Korea",
   "contact.emailValue": "nabl.webmaster@gmail.com",
 
-  // 직책 라벨 (data 의 position 값 → 화면 표기)
-  "position.pi": "Principal Investigator",
-  "position.researchProfessor": "Research Professor",
-  "position.phd": "Ph.D. Course",
-  "position.msphd": "M.S.–Ph.D. Integrated",
-  "position.ms": "M.S. Course",
-  "position.undergrad": "Undergraduate Researcher",
-
-  // Research 페이지
+  // Research
   "research.lede": "Our research scope, themes, and current projects.",
   "research.projectFunder": "Funded by",
 
-  // Publications 페이지
+  // Projects
+  "projects.lede": "Ongoing and past research projects.",
+  "projects.filterAll": "All",
+  "projects.piLabel": "Principal investigator",
+  "projects.participantsLabel": "Participants",
+  "projects.funderLabel": "Funded by",
+  "projects.periodLabel": "Period",
+
+  // Publications
   "pub.lede": "Peer-reviewed papers and conference proceedings.",
   "pub.filterAll": "All",
-  "pub.catInternational": "International",
-  "pub.catDomestic": "Domestic",
-  "pub.catConference": "Conference",
-  "pub.empty": "No publications in this category yet.",
 
-  // Patents 페이지
-  "patent.registered": "Registered",
-  "patent.applied": "Applied",
+  // Patents
+  "patent.lede": "Patents filed and registered by the lab.",
   "patent.inventorsLabel": "Inventors",
+  "patent.numberLabel": "Application / Registration no.",
+  "patent.applicantLabel": "Applicant",
 
-  // News 페이지
+  // Awards
+  "award.lede": "Awards received by lab members.",
+
+  // News
   "news.lede": "Announcements and updates from the lab.",
   "news.prev": "Previous",
   "news.next": "Next",
 
-  // 푸터
-  "footer.copyright": "Nano & Artificial Biotechnology Laboratory",
+  // Resources
+  "resources.lede": "Reports, posters, presentations, datasets and protocols.",
+  "resources.download": "Open file",
 } satisfies Record<string, string>;
 
-export default en;
+export default enPages;

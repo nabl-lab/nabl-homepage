@@ -24,34 +24,36 @@ const fmtDate = (d: string) =>
   });
 ---
 
-<Section id="news" title={t("home.news.title")} muted>
-  <a
-    slot="cta"
-    href={withLocale(lang, "/news")}
-    aria-label={`${t("common.viewAll")} — ${t("home.news.title")}`}
-    class="shrink-0 text-sm font-medium text-brand hover:underline"
-  >
-    {t("common.viewAll")} →
-  </a>
-  <ul class="divide-y divide-line border-y border-line">
-    {
-      items.map((n) => (
-        <li>
-          <a
-            href={withLocale(lang, `/news/${n.slug}`)}
-            class="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-4"
-          >
-            <time datetime={n.date} class="shrink-0 text-sm text-ink-muted">
-              {fmtDate(n.date)}
-            </time>
-            <span
-              class="font-medium text-ink underline-offset-2 group-hover:text-brand group-hover:underline"
+{items.length > 0 && (
+  <Section id="news" title={t("home.news.title")} muted>
+    <a
+      slot="cta"
+      href={withLocale(lang, "/news")}
+      aria-label={`${t("common.viewAll")} — ${t("home.news.title")}`}
+      class="shrink-0 text-sm font-medium text-brand hover:underline"
+    >
+      {t("common.viewAll")} →
+    </a>
+    <ul class="divide-y divide-line border-y border-line">
+      {
+        items.map((n) => (
+          <li>
+            <a
+              href={withLocale(lang, `/news/${n.slug}`)}
+              class="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-4"
             >
-              {n.title}
-            </span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-</Section>
+              <time datetime={n.date} class="shrink-0 text-sm text-ink-muted">
+                {fmtDate(n.date)}
+              </time>
+              <span
+                class="font-medium text-ink underline-offset-2 group-hover:text-brand group-hover:underline"
+              >
+                {n.title}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+)}

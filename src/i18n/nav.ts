@@ -37,7 +37,7 @@ export const NAV: NavNode[] = [
     children: [
       { key: "nav.research.scope", path: "/research" },
       { key: "nav.research.themes", path: "/research#themes" },
-      { key: "nav.research.projects", path: "/research#projects" },
+      { key: "nav.projects", path: "/research#projects" },
     ],
   },
   {

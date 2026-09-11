@@ -3,6 +3,7 @@
 import BaseLayout from "../../layouts/base-layout.astro";
 import PageHeader from "../../components/page-header.astro";
 import Section from "../../components/section.astro";
+import EmptyState from "../../components/empty-state.astro";
 import {
   researchScope,
   researchAreas,
@@ -58,6 +59,7 @@ const projects = researchProjects
   }
 
   <Section id="themes" title={t("nav.research.themes")} muted>
+    {areas.length === 0 && <EmptyState lang={lang} />}
     <div class="grid gap-6 sm:grid-cols-2">
       {
         areas.map((a) => (
@@ -81,8 +83,14 @@ const projects = researchProjects
     </div>
   </Section>
 
-  <Section id="projects" title={t("nav.research.projects")}>
-    <ul class="flex flex-col divide-y divide-line border-y border-line">
+  <Section id="projects" title={t("nav.projects")}>
+    {projects.length === 0 && <EmptyState lang={lang} />}
+    <ul
+      class:list={[
+        "flex flex-col divide-y divide-line",
+        projects.length > 0 && "border-y border-line",
+      ]}
+    >
       {
         projects.map((p) => (
           <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">

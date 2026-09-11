@@ -7,8 +7,10 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/check-i18n.mjs && node --env-file-if-exists=.env scripts/fetch-notion-assets.mjs",
     "build": "astro build",
     "preview": "astro preview",
+    "check:i18n": "node scripts/check-i18n.mjs",
     "astro": "astro"
   },
   "dependencies": {

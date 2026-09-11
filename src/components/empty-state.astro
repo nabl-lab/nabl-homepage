@@ -1,0 +1,20 @@
+---
+// 목록이 0건일 때 보여주는 안내. 전용 목록 페이지에서만 쓴다.
+// (홈은 쇼케이스라 0건이면 섹션 자체를 숨긴다 — 제목만 남지 않게)
+import { useTranslations, type Locale } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+  /** 기본 문구(common.empty) 대신 쓸 안내 */
+  message?: string;
+}
+
+const { lang, message } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<p
+  class="rounded-lg border border-dashed border-line px-4 py-10 text-center text-sm text-ink-muted"
+>
+  {message ?? t("common.empty")}
+</p>

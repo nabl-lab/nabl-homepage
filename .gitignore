@@ -21,6 +21,9 @@ pnpm-debug.log*
 # Netlify 로컬 캐시
 .netlify/
 
+# Notion 에서 빌드 시 내려받는 이미지·목록 (저장소에 커밋하지 않는다)
+public/notion/
+
 # 에디터·OS 파일
 .DS_Store
 .idea/
