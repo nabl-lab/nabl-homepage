@@ -101,8 +101,5 @@ export const piProfile: PiProfile = {
   activities: pick("pi.activities", notion?.piActivities, piJson.activities),
 };
 
-/** 연구 범위 소개문. localizedText(researchScope, "scope", lang) 로 읽는다. */
-export const researchScope = {
-  scope: researchData.scope,
-  scope_ko: researchData.scope_ko,
-};
+// 연구 범위 소개문은 더 이상 별도 필드가 아니다.
+// Notion Research DB 의 Category=Scope 행이 담당하며, splitResearch() 로 갈라 쓴다.

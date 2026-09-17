@@ -6,6 +6,7 @@
  * `src/lib/content.ts` 에서만 가져오면 된다.
  */
 import type { Member, Locale } from "./content-types";
+import { RESEARCH_CATEGORY } from "./notion/schema-work";
 
 /**
  * 언어 폴백 헬퍼 — 콘텐츠 텍스트는 반드시 이 함수로 가져온다.
