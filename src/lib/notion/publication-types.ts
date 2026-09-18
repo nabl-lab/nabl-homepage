@@ -2,7 +2,7 @@
  * 논문 분류 ↔ URL 슬러그 변환.
  *
  * Notion `Type` 선택지 값을 그대로 쓰되, URL 은 소문자 슬러그로 만든다
- * (예: "International" → /achievements/publications/international).
+ * (예: "International" → /research/publications/international).
  */
 
 /**

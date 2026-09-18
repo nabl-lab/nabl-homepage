@@ -38,13 +38,13 @@ export const NAV: NavNode[] = [
       { key: "nav.research.scope", path: "/research" },
       { key: "nav.research.themes", path: "/research#themes" },
       { key: "nav.projects", path: "/research#projects" },
+      { key: "nav.research.publications", path: "/research/publications" },
     ],
   },
   {
     key: "nav.achievements",
-    path: "/achievements/publications",
+    path: "/achievements/patents",
     children: [
-      { key: "nav.achievements.publications", path: "/achievements/publications" },
       { key: "nav.achievements.patents", path: "/achievements/patents" },
       { key: "nav.achievements.awards", path: "/achievements/awards" },
       { key: "nav.achievements.etc", path: "/achievements/etc" },

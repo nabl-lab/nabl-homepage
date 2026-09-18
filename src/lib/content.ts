@@ -75,7 +75,10 @@ export const patents = pick("patents", notion?.patents, patentsData as Patent[])
 export const awards = pick("awards", notion?.awards, awardsData as Award[]);
 export const news = pick("news", notion?.news, newsData as NewsItem[]);
 export const resources = pick("resources", notion?.resources, [] as Resource[]);
-export const achievementsEtc = etcData as EtcItem[]; // Notion 에 대응 DB 없음
+// TODO: Notion 미연동 — 이 목록만 src/data/achievements-etc.json 더미 데이터를 쓴다.
+// 대응 Notion DB 가 없어서 실데이터로 바뀌지 않는다. Etc 페이지를 없애거나
+// Notion 에 DB 를 만들어 연결할지 결정이 필요하다 (실데이터로 착각하지 말 것).
+export const achievementsEtc = etcData as EtcItem[];
 export const researchAreas = pick(
   "research",
   notion?.researchAreas,

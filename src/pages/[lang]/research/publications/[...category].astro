@@ -1,5 +1,5 @@
 ---
-// 논문 (/[lang]/achievements/publications[/international|domestic|conference|book]).
+// 논문 (/[lang]/research/publications[/international|domestic|conference|book]).
 // 분류 필터는 JS 없이 별도 경로로 구현한다 (공유 가능·SEO·견고함).
 // 분류값은 Notion `Type` 을 그대로 쓰고 URL 만 소문자 슬러그로 바꾼다.
 import BaseLayout from "../../../../layouts/base-layout.astro";
@@ -37,20 +37,29 @@ const visible = publications.filter((p) =>
 );
 const list = type ? visible.filter((p) => p.category === type) : visible;
 const years = [...new Set(list.map((p) => p.year))].sort((a, b) => b - a);
+
+// 분류별 건수 — 필터 탭에 표시하고, 0건인 분류는 탭을 숨기는 데 쓴다.
+const counts: Record<string, number> = {};
+for (const pub of visible) counts[pub.category] = (counts[pub.category] ?? 0) + 1;
 ---
 
 <BaseLayout
   lang={lang}
-  title={t("nav.achievements.publications")}
+  title={t("nav.research.publications")}
   description={t("pub.lede")}
 >
   <PageHeader
-    title={t("nav.achievements.publications")}
+    title={t("nav.research.publications")}
     lede={t("pub.lede")}
   />
 
   <div class="mx-auto max-w-6xl px-4 pt-6">
-    <PublicationFilter lang={lang} active={type} />
+    <PublicationFilter
+      lang={lang}
+      active={type}
+      counts={counts}
+      total={visible.length}
+    />
   </div>
 
   <Section>
