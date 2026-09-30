@@ -30,7 +30,8 @@ nabl-homepage/
 │   ├── layouts/         여러 페이지가 공유하는 공통 뼈대 (base-layout: <head> 메타·SEO)
 │   ├── components/      재사용하는 화면 조각 (home/ 등 하위 폴더로 묶음)
 │   ├── config/
-│   │   └── site.ts      도메인·OG 이미지 경로 (12번 항목). 도메인 바뀌면 여기만 수정
+│   │   ├── site.ts        도메인·OG 이미지 경로 (12번 항목). 도메인 바뀌면 여기만 수정
+│   │   └── collections.ts Notion DB 9종의 화면 표시 이름·이모지 (13번 항목)
 │   ├── i18n/            다국어. ui.ts(문구 사전) + utils.ts(라우팅) + nav.ts(메뉴 구조)
 │   ├── lib/             로직 모듈
 │   │   ├── content.ts         콘텐츠 데이터를 읽는 유일한 통로 (4번 항목 참고)
@@ -176,7 +177,10 @@ nabl-homepage/
   정의합니다. 메뉴를 추가·삭제·재배치하려면 이 파일만 고칩니다.
 - 헤더 컴포넌트(`site-nav.astro` = 데스크톱, `site-nav-mobile.astro` = 모바일)는 `NAV` 를
   읽어 렌더링만 합니다. 두 컴포넌트에 메뉴 항목을 직접 쓰지 마세요.
-- 각 항목의 문구는 `nav.ts` 에 두지 않고 `en.ts`/`ko.ts` 의 키(`key`)로 참조합니다.
+- 각 항목의 문구는 `nav.ts` 에 직접 쓰지 않고 둘 중 하나로 참조합니다.
+  - `collection: "publications"` — **Notion 데이터베이스 이름**인 항목 (13번 항목 참고)
+  - `key: "nav.contact"` — 그 밖의 일반 메뉴 문구 (`en.ts`/`ko.ts` 사전)
+  - 둘 다 있으면 `collection` 이 이깁니다. 렌더링은 `navLabel()` 이 처리합니다.
 - 드롭다운은 **JS 없이** 동작합니다 (데스크톱: CSS `hover`/`focus-within`,
   모바일: 중첩 `<details>`). 이 방식을 깨지 마세요.
 
@@ -212,3 +216,51 @@ nabl-homepage/
 - `sitemap.xml` 은 `@astrojs/sitemap` 이 빌드 시 자동 생성합니다(언어 대체 링크 포함).
   `robots.txt` 는 `src/pages/robots.txt.ts` 가 생성합니다.
 - 404 페이지는 `src/pages/404.astro` (언어별이 아니라 한 파일, 두 언어 병기).
+
+---
+
+## 13. 콘텐츠 종류의 화면 이름은 한 파일에서만 바꾼다
+
+논문·특허·수상·구성원처럼 **Notion 데이터베이스에 대응하는 항목의 화면 이름**은
+`src/config/collections.ts` 한 곳에서만 관리합니다.
+
+```ts
+publications: { key: "publications", emoji: "📄", label_ko: "논문", label_en: "Publications" },
+```
+
+- 이 파일을 고치면 **헤더 메뉴, 페이지 제목(`<h1>`), 브라우저 탭 제목(`<title>`),
+  섹션 제목**이 한꺼번에 따라 바뀝니다. 페이지 파일을 찾아다닐 필요가 없습니다.
+- 이름을 바꾸고 싶으면 `label_ko` / `label_en` 만 수정하세요.
+  한국어 페이지는 `label_ko`, 영어 페이지는 `label_en` 이 나갑니다.
+- 화면에서 쓸 때는 `collectionLabel("publications", lang)` 을 호출합니다.
+  문구를 `.astro` 에 직접 쓰지 마세요.
+- **`key` 값은 바꾸지 마세요.** Notion 연동 코드가 데이터 종류를 식별하는 데 쓰는
+  내부 이름이라서, 바꾸면 빌드가 깨집니다. 화면에 나오는 값도 아닙니다.
+
+### 여기 적는 이름은 "Notion DB 이름"이 아니라 "방문자용 이름"입니다
+
+두 이름은 **일부러 다를 수 있습니다.** Notion 쪽 DB 이름은 관리자가 알아보기 쉬운 이름이고,
+사이트에 보이는 이름은 메뉴 흐름상 자연스러운 말이어야 하기 때문입니다.
+현재 다른 곳은 두 군데이고, 이유는 `collections.ts` 의 해당 항목 주석에도 적혀 있습니다.
+
+| Notion DB 이름 | 사이트에 보이는 이름 | 왜 다른가 |
+| --- | --- | --- |
+| 🧪 연구 분야 (Research) | 🧪 연구 분야 / 🧪 Research **Areas** | 영문 상위 메뉴가 이미 "Research" 라서 그대로 쓰면 메뉴에 Research 가 두 번 나옵니다 |
+| 👨‍🏫 지도교수 이력 (PI Profile) | 👨‍🏫 지도교수 / 👨‍🏫 Principal Investigator | "이력"은 그 DB가 담는 *항목*을 가리키는 말이라 메뉴 이름으로는 어색합니다 |
+
+Notion 쪽 DB **이름**을 바꿔도 코드는 영향받지 않습니다. 코드는 이름이 아니라
+`.env` 의 데이터소스 ID로 Notion을 찾습니다.
+(다만 **속성(열) 이름**을 바꾸면 `src/lib/notion/schema-*.ts` 를 함께 고쳐야 합니다.)
+
+### 이모지는 자리별로 켜고 끕니다
+
+`collections.ts` 맨 위의 두 스위치로 조절합니다.
+
+| 스위치 | 적용 범위 | 현재 값 |
+| --- | --- | --- |
+| `SHOW_EMOJI_NAV` | 헤더 메뉴 (데스크톱·모바일) | `true` |
+| `SHOW_EMOJI_HEADING` | `<title>`, 페이지 제목(`<h1>`), 섹션 제목 | `false` |
+
+메뉴에서는 이모지가 항목을 빨리 찾는 데 도움이 되지만, 브라우저 탭 제목이나 큰 제목에
+들어가면 검색 결과·공유 미리보기에서 지저분해 보이기 때문에 나눠 두었습니다.
+개별 항목의 이모지만 없애려면 그 항목의 `emoji` 를 `""` 로 두세요.

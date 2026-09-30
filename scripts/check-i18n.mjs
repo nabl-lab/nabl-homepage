@@ -11,6 +11,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 const SRC = "src";
+/** `key: "…"` 를 UI 문구 키로 인정하는 파일 (메뉴 구조 정의) */
+const NAV_FILE = /i18n[\/]nav\.ts$/;
 const DICTS = {
   en: ["src/i18n/en-common.ts", "src/i18n/en-pages.ts"],
   ko: ["src/i18n/ko-common.ts", "src/i18n/ko-pages.ts"],
@@ -26,7 +28,13 @@ function keysOf(files) {
   return map;
 }
 
-/** src 전체에서 t("키") 와 nav.ts 의 key: "키" 사용을 수집한다. */
+/**
+ * src 전체에서 t("키") 사용을 수집하고, 메뉴 구조 파일(nav.ts)에서는
+ * `key: "…"` 형태도 함께 수집한다.
+ *
+ * `key: "…"` 를 nav.ts 로만 한정하는 이유: 다른 파일(예: src/config/collections.ts)
+ * 에도 `key` 라는 필드가 있는데 그건 UI 문구 키가 아니라 콘텐츠 종류 식별자다.
+ */
 function usedKeys(dir, found = new Map()) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, entry.name);
@@ -40,6 +48,7 @@ function usedKeys(dir, found = new Map()) {
       if (!found.has(m[1])) found.set(m[1], []);
       found.get(m[1]).push(p);
     }
+    if (!NAV_FILE.test(p)) continue;
     for (const m of text.matchAll(/key:\s*"([^"]+)"/g)) {
       if (!found.has(m[1])) found.set(m[1], []);
       found.get(m[1]).push(p);
