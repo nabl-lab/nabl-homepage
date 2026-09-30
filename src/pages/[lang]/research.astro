@@ -18,6 +18,8 @@ import {
   withLocale,
   type Locale,
 } from "../../i18n/utils";
+import { collectionLabel } from "../../config/collections";
+import { groupProjects } from "../../lib/projects";
 
 export const getStaticPaths = localePaths;
 
@@ -47,14 +49,22 @@ const recentPublications = [...publications]
   .sort((a, b) => b.year - a.year)
   .slice(0, 5);
 
-const projects = researchProjects
-  .map((p) => ({
-    id: p.id,
-    title: localizedText(p, "title", lang),
-    period: p.period,
-    funder: localizedText(p, "funder", lang),
+// 과제는 먼저 "진행 중" + 시작 연도로 묶고(lib/projects.ts), 그룹 안에서 언어를 적용한다.
+// 제목이 양쪽 언어 모두 비어 항목이 전부 걸러진 그룹은 제목만 남지 않도록 함께 버린다.
+const projectGroups = groupProjects(researchProjects)
+  .map((g) => ({
+    ongoing: g.ongoing,
+    year: g.year,
+    items: g.items
+      .map((p) => ({
+        id: p.id,
+        title: localizedText(p, "title", lang),
+        period: p.period,
+        funder: localizedText(p, "funder", lang),
+      }))
+      .filter((p) => p.title),
   }))
-  .filter((p) => p.title);
+  .filter((g) => g.items.length > 0);
 ---
 
 <BaseLayout lang={lang} title={t("nav.research")} description={scope ?? undefined}>
@@ -71,7 +81,7 @@ const projects = researchProjects
     </div>
   </Section>
 
-  <Section id="themes" title={t("nav.research.themes")} muted>
+  <Section id="themes" title={collectionLabel("research", lang)} muted>
     {areas.length === 0 && <EmptyState lang={lang} />}
     <div class="grid gap-6 sm:grid-cols-2">
       {
@@ -87,35 +97,40 @@ const projects = researchProjects
     </div>
   </Section>
 
-  <Section id="projects" title={t("nav.projects")}>
-    {projects.length === 0 && <EmptyState lang={lang} />}
-    <ul
-      class:list={[
-        "flex flex-col divide-y divide-line",
-        projects.length > 0 && "border-y border-line",
-      ]}
-    >
+  <Section id="projects" title={collectionLabel("projects", lang)}>
+    {projectGroups.length === 0 && <EmptyState lang={lang} />}
+    <div class="flex flex-col gap-8">
       {
-        projects.map((p) => (
-          <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
-            <span class="font-medium text-ink">{p.title}</span>
-            <span class="shrink-0 text-sm text-ink-muted">
-              {p.funder ? `${t("research.projectFunder")}: ${p.funder} · ` : ""}
-              {p.period}
-            </span>
-          </li>
+        projectGroups.map((g) => (
+          <div>
+            {/* 섹션 제목이 h2 이므로 그룹 제목은 h3 (헤딩 순서 유지) */}
+            <h3 class="mb-2 text-sm font-semibold text-ink-muted tabular-nums">
+              {g.ongoing ? t("research.projectsOngoing") : g.year}
+            </h3>
+            <ul class="flex flex-col divide-y divide-line border-y border-line">
+              {g.items.map((p) => (
+                <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                  <span class="font-medium text-ink">{p.title}</span>
+                  <span class="shrink-0 text-sm text-ink-muted">
+                    {p.funder ? `${t("research.projectFunder")}: ${p.funder} · ` : ""}
+                    {p.period}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))
       }
-    </ul>
+    </div>
   </Section>
 
   {
     recentPublications.length > 0 && (
-      <Section id="publications" title={t("nav.research.publications")} muted>
+      <Section id="publications" title={collectionLabel("publications", lang)} muted>
         <a
           slot="cta"
           href={withLocale(lang, "/research/publications")}
-          aria-label={`${t("common.viewAll")} — ${t("nav.research.publications")}`}
+          aria-label={`${t("common.viewAll")} — ${collectionLabel("publications", lang)}`}
           class="shrink-0 text-sm font-medium text-brand hover:underline"
         >
           {t("common.viewAll")} →

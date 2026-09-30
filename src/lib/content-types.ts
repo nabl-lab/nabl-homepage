@@ -139,9 +139,15 @@ export interface ResearchProject {
   id: string;
   title: string;
   title_ko: string;
+  /** 화면에 그대로 찍는 기간 문자열 (예: "2024–2027") */
   period: string;
   funder: string;
   funder_ko: string;
+  /** Notion Status 값 그대로. "Ongoing" 이면 진행 중 그룹으로 올린다. */
+  status: string;
+  /** ISO 날짜. 연도별 그룹은 startDate 기준이다. 비어 있으면 진행 중으로 본다. */
+  startDate: string | null;
+  endDate: string | null;
 }
 
 /** 자료실 항목 (Notion Resources). File 은 내려받지 않고 externalUrl 로만 노출한다. */

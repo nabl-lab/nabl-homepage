@@ -63,7 +63,10 @@
       "title_ko": "현장형 심장 표지자 검사를 위한 압타머 바이오센서",
       "period": "2024–2027",
       "funder": "National Research Foundation of Korea",
-      "funder_ko": "한국연구재단"
+      "funder_ko": "한국연구재단",
+      "status": "Ongoing",
+      "startDate": "2024-03-01",
+      "endDate": null
     },
     {
       "id": "project-thermostable-enzymes",
@@ -71,7 +74,10 @@
       "title_ko": "친환경 화학을 위한 내열성 산화환원효소의 유도 진화",
       "period": "2023–2026",
       "funder": "Ministry of Trade, Industry and Energy",
-      "funder_ko": "산업통상자원부"
+      "funder_ko": "산업통상자원부",
+      "status": "Ongoing",
+      "startDate": "2023-06-01",
+      "endDate": null
     },
     {
       "id": "project-paper-diagnostics",
@@ -79,7 +85,10 @@
       "title_ko": "환경 모니터링을 위한 종이 기반 다중 진단",
       "period": "2023–2025",
       "funder": "Korea Environment Industry & Technology Institute",
-      "funder_ko": "한국환경산업기술원"
+      "funder_ko": "한국환경산업기술원",
+      "status": "Completed",
+      "startDate": "2023-01-01",
+      "endDate": "2025-02-28"
     }
   ]
 }

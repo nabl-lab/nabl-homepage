@@ -45,7 +45,7 @@ import {
   mapNews,
   mapResource,
 } from "./map-work";
-import { checkSlugs } from "./validate";
+import { checkProjectDates, checkSlugs } from "./validate";
 import { PI_SECTION } from "./schema-people";
 
 /** Publish 체크된 행만 남긴다. 설정이 없어 null 인 경우 빈 배열로 본다. */
@@ -127,6 +127,9 @@ export async function loadAll(): Promise<NotionContent> {
   const news = mapped(nwRows, P_NEWS.publish, mapNews);
   const resources = mapped(rsRows, P_RESOURCES.publish, mapResource);
 
+  const projects = mapped(pjRows, P_PROJECTS.publish, mapProject);
+  if (projects) checkProjectDates(projects);
+
   if (members) checkSlugs("members", members.map((m) => ({ slug: m.slug, label: m.name_ko })));
   if (news) checkSlugs("news", news.map((n) => ({ slug: n.slug, label: n.title_ko || n.title })));
   if (resources)
@@ -144,7 +147,7 @@ export async function loadAll(): Promise<NotionContent> {
   return {
     members,
     researchAreas: mapped(rRows, P_RESEARCH.publish, mapResearch),
-    researchProjects: mapped(pjRows, P_PROJECTS.publish, mapProject),
+    researchProjects: projects,
     publications: mapped(pbRows, P_PUBLICATIONS.publish, mapPublication),
     patents: mapped(ptRows, P_PATENTS.publish, mapPatent),
     awards: mapped(awRows, P_AWARDS.publish, (p) => mapAward(p, index)),

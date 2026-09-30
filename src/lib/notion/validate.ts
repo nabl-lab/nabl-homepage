@@ -64,3 +64,25 @@ export function withUniqueSlug<T extends { slug: string }>(items: T[]): T[] {
     return true;
   });
 }
+
+/**
+ * 연구 과제의 Start_date 누락을 알린다.
+ *
+ * Start_date 가 비면 연도별 그룹에 넣을 수 없어 "진행 중" 그룹으로 올라간다.
+ * 완료된 과제가 진행 중으로 보이면 안 되므로, 운영자가 Notion 에서 채울 수 있도록
+ * 건수를 빌드 로그에 남긴다. (빌드를 멈추지는 않는다)
+ */
+export function checkProjectDates(
+  projects: { startDate: string | null; title: string; title_ko: string }[],
+): void {
+  const missing = projects.filter((p) => !p.startDate);
+  if (missing.length === 0) return;
+  console.log(
+    `[notion] projects: Start_date 없는 과제 ${missing.length}건 → "진행 중" 그룹으로 표시됩니다. ` +
+      `Notion 에서 Start_date 를 채워 주세요.`,
+  );
+  for (const p of missing.slice(0, 10)) {
+    console.log(`           - ${p.title_ko || p.title}`);
+  }
+  if (missing.length > 10) console.log(`           … 외 ${missing.length - 10}건`);
+}

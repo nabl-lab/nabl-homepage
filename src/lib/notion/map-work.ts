@@ -73,16 +73,18 @@ export function mapProject(page: NotionPage): ResearchProject | null {
   const title = text(page, P_PROJECTS.title);
   const titleKo = text(page, P_PROJECTS.titleKo);
   if (!title && !titleKo) return null;
+  const startDate = date(page, P_PROJECTS.startDate);
+  const endDate = date(page, P_PROJECTS.endDate);
   return {
     id: page.id,
     title,
     title_ko: titleKo,
-    period: periodOf(
-      date(page, P_PROJECTS.startDate),
-      date(page, P_PROJECTS.endDate),
-    ),
+    period: periodOf(startDate, endDate),
     funder: text(page, P_PROJECTS.funder),
     funder_ko: text(page, P_PROJECTS.funderKo),
+    status: select(page, P_PROJECTS.status) ?? "",
+    startDate,
+    endDate,
   };
 }
 

@@ -104,7 +104,11 @@
 | --- | --- |
 | `scope` / `scope_ko` | 연구 범위 소개 문단 |
 | `areas[]` | 연구 분야. `id`, `title`/`title_ko`, `summary`/`summary_ko`, `themes[]`/`themes_ko[]` |
-| `projects[]` | 프로젝트. `id`, `title`/`title_ko`, `period`, `funder`/`funder_ko` |
+| `projects[]` | 연구 과제. `id`, `title`/`title_ko`, `period`, `funder`/`funder_ko`, `status`(`Ongoing`/`Completed`/`Planned`), `startDate`/`endDate`(`YYYY-MM-DD`, 없으면 `null`) |
+
+연구 과제 목록은 화면에서 연도별로 묶입니다. `status` 가 `Ongoing` 이거나 `endDate`·`startDate`
+가 비어 있으면 맨 위 "진행 중" 그룹으로, 나머지는 `startDate` 의 연도별로 최신 연도부터
+표시됩니다. (규칙은 `src/lib/projects.ts`)
 
 ### achievements-etc.json — 기타 성과 (초청강연·저서·언론 등)
 
