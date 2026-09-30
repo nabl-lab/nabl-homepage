@@ -5,6 +5,7 @@ import PageHeader from "../../components/page-header.astro";
 import Section from "../../components/section.astro";
 import { about, members, localizedText, PI_POSITION } from "../../lib/content";
 import { localePaths, useTranslations, withLocale, type Locale } from "../../i18n/utils";
+import { collectionLabel } from "../../config/collections";
 
 export const getStaticPaths = localePaths;
 
@@ -47,7 +48,7 @@ const piName = pi ? localizedText(pi, "name", lang) : null;
         {t("nav.research")} →
       </a>
       <a href={withLocale(lang, "/members")} class="text-brand hover:underline">
-        {t("nav.members")} →
+        {collectionLabel("members", lang)} →
       </a>
     </div>
   </Section>

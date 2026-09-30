@@ -12,17 +12,10 @@ const koCommon = {
   // 주 메뉴 (구조는 src/i18n/nav.ts, 문구는 여기)
   "nav.home": "홈",
   "nav.about": "연구실 소개",
-  "nav.members": "구성원",
   "nav.research": "연구",
   "nav.research.scope": "연구 범위",
-  "nav.research.themes": "연구 주제",
-  "nav.projects": "프로젝트",
-  "nav.research.publications": "논문",
   "nav.achievements": "연구 성과",
-  "nav.achievements.patents": "특허",
-  "nav.achievements.awards": "수상",
   "nav.achievements.etc": "기타",
-  "nav.news": "소식",
   "nav.resources": "자료실",
   "nav.contact": "연락처",
 

@@ -15,6 +15,7 @@ import {
   typeToSlug,
 } from "../../../../lib/notion/publication-types";
 import { LOCALES, useTranslations, type Locale } from "../../../../i18n/utils";
+import { collectionLabel } from "../../../../config/collections";
 
 export function getStaticPaths() {
   // undefined = 전체 목록, 나머지는 Type 별 목록
@@ -45,11 +46,11 @@ for (const pub of visible) counts[pub.category] = (counts[pub.category] ?? 0) + 
 
 <BaseLayout
   lang={lang}
-  title={t("nav.research.publications")}
+  title={collectionLabel("publications", lang)}
   description={t("pub.lede")}
 >
   <PageHeader
-    title={t("nav.research.publications")}
+    title={collectionLabel("publications", lang)}
     lede={t("pub.lede")}
   />
 

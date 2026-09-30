@@ -3,7 +3,7 @@
 // 하위 메뉴는 CSS hover / 키보드 포커스만으로 펼친다 (JS 없음).
 // 부모→자식으로 마우스가 이동할 때 닫히지 않도록, 드롭다운을 부모 바로 아래에
 // 붙이고(top-full) 위쪽 여백을 투명 padding(pt-2)으로 채워 dead space 를 없앤다.
-import { NAV, isNavActive } from "../i18n/nav";
+import { NAV, isNavActive, navLabel } from "../i18n/nav";
 import { useTranslations, withLocale, type Locale } from "../i18n/utils";
 
 interface Props {
@@ -31,7 +31,7 @@ const here = Astro.url.pathname;
                 : "border-transparent text-ink",
             ]}
           >
-            {t(item.key)}
+            {navLabel(item, lang, t)}
           </a>
 
           {item.children && (
@@ -49,7 +49,7 @@ const here = Astro.url.pathname;
                           childActive ? "font-semibold text-brand" : "text-ink",
                         ]}
                       >
-                        {t(child.key)}
+                        {navLabel(child, lang, t)}
                       </a>
                     </li>
                   );

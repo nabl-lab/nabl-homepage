@@ -7,6 +7,7 @@ import YearGroup from "../../../components/year-group.astro";
 import EmptyState from "../../../components/empty-state.astro";
 import { awards, groupByYear, localizedText } from "../../../lib/content";
 import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+import { collectionLabel } from "../../../config/collections";
 
 export const getStaticPaths = localePaths;
 
@@ -15,8 +16,8 @@ const t = useTranslations(lang);
 const groups = groupByYear(awards);
 ---
 
-<BaseLayout lang={lang} title={t("nav.achievements.awards")}>
-  <PageHeader title={t("nav.achievements.awards")} />
+<BaseLayout lang={lang} title={collectionLabel("awards", lang)}>
+  <PageHeader title={collectionLabel("awards", lang)} />
 
   <Section>
     {groups.length === 0 && <EmptyState lang={lang} />}

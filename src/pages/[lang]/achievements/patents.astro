@@ -12,6 +12,7 @@ import {
   optionLabel,
   type Locale,
 } from "../../../i18n/utils";
+import { collectionLabel } from "../../../config/collections";
 
 export const getStaticPaths = localePaths;
 
@@ -20,8 +21,8 @@ const t = useTranslations(lang);
 const groups = groupByYear(patents);
 ---
 
-<BaseLayout lang={lang} title={t("nav.achievements.patents")}>
-  <PageHeader title={t("nav.achievements.patents")} />
+<BaseLayout lang={lang} title={collectionLabel("patents", lang)}>
+  <PageHeader title={collectionLabel("patents", lang)} />
 
   <Section>
     {groups.length === 0 && <EmptyState lang={lang} />}

@@ -14,17 +14,10 @@ const enCommon = {
   // 주 메뉴 (구조는 src/i18n/nav.ts, 문구는 여기)
   "nav.home": "Home",
   "nav.about": "About",
-  "nav.members": "Members",
   "nav.research": "Research",
   "nav.research.scope": "Research Scope",
-  "nav.research.themes": "Themes",
-  "nav.projects": "Projects",
-  "nav.research.publications": "Publications",
   "nav.achievements": "Achievements",
-  "nav.achievements.patents": "Patents",
-  "nav.achievements.awards": "Awards",
   "nav.achievements.etc": "Etc.",
-  "nav.news": "News",
   "nav.resources": "Resources",
   "nav.contact": "Contact",
 

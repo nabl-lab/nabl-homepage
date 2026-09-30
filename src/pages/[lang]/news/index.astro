@@ -6,6 +6,7 @@ import Section from "../../../components/section.astro";
 import EmptyState from "../../../components/empty-state.astro";
 import { news, byDateDesc, localizedText } from "../../../lib/content";
 import { localePaths, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
+import { collectionLabel } from "../../../config/collections";
 
 export const getStaticPaths = localePaths;
 
@@ -24,8 +25,8 @@ const fmtDate = (d: string) =>
   });
 ---
 
-<BaseLayout lang={lang} title={t("nav.news")} description={t("news.lede")}>
-  <PageHeader title={t("nav.news")} lede={t("news.lede")} />
+<BaseLayout lang={lang} title={collectionLabel("news", lang)} description={t("news.lede")}>
+  <PageHeader title={collectionLabel("news", lang)} lede={t("news.lede")} />
 
   <Section>
     {items.length === 0 && <EmptyState lang={lang} />}
