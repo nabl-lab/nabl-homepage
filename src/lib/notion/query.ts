@@ -31,7 +31,6 @@ import {
 } from "./schema-work";
 import {
   mapMember,
-  isMemberPublished,
   mapPiEntry,
   isPiEntryPublished,
   piSectionOf,

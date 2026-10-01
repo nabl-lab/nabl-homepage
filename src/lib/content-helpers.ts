@@ -12,14 +12,18 @@ import { RESEARCH_CATEGORY } from "./notion/schema-work";
  * 언어 폴백 헬퍼 — 콘텐츠 텍스트는 반드시 이 함수로 가져온다.
  * `base` 는 영문 필드명, `${base}_ko` 는 한글 필드명.
  * 현재 로케일 값 우선 → 없으면 반대 언어 → 둘 다 비었으면 null (호출부에서 항목을 건너뛴다).
+ *
+ * 인자 타입이 `Record<string, unknown>` 이 아니라 제네릭인 이유: 인터페이스(Member 등)는
+ * 인덱스 시그니처가 없어서 Record 에 대입되지 않는다. object 로 받고 읽을 때만 넓힌다.
  */
-export function localizedText(
-  item: Record<string, unknown>,
+export function localizedText<T extends object>(
+  item: T,
   base: string,
   locale: Locale,
 ): string | null {
-  const en = String(item[base] ?? "").trim();
-  const ko = String(item[`${base}_ko`] ?? "").trim();
+  const fields = item as Record<string, unknown>;
+  const en = String(fields[base] ?? "").trim();
+  const ko = String(fields[`${base}_ko`] ?? "").trim();
   const [primary, secondary] = locale === "ko" ? [ko, en] : [en, ko];
   return primary || secondary || null;
 }

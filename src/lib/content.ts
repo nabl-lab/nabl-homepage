@@ -32,12 +32,12 @@ import type {
   ResearchProject,
   EtcItem,
   Resource,
-  PiEntry,
 } from "./content-types";
 
 export type {
   About,
   PiProfile,
+  PiEntry,
   Member,
   Alumnus,
   Publication,
@@ -48,7 +48,6 @@ export type {
   ResearchProject,
   EtcItem,
   Resource,
-  PiEntry,
   Locale,
 } from "./content-types";
 

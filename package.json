@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check:i18n": "node scripts/check-i18n.mjs",
+    "check:types": "astro check",
     "astro": "astro"
   },
   "dependencies": {
@@ -21,5 +22,9 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }
