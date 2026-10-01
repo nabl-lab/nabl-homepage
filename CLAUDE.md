@@ -208,8 +208,16 @@ nabl-homepage/
 ## 12. SEO · 사이트 기본 정보
 
 - **도메인·대표 이미지 경로는 `src/config/site.ts` 한 곳**에서만 관리합니다.
-  학교 도메인이 정해지면 `SITE.url` 만 바꾸면 canonical·Open Graph·sitemap·robots 가
-  모두 따라갑니다. (사이트 이름·설명은 문구이므로 `en.ts`/`ko.ts` 의 `site.*` 키)
+  (사이트 이름·설명은 문구이므로 `en.ts`/`ko.ts` 의 `site.*` 키)
+- **도메인 값은 환경변수 `SITE_URL`** 입니다. 코드에는 기본값(현재 Netlify 주소)만 두고,
+  학교 도메인이 정해지면 Netlify 환경변수만 바꿉니다 — 코드 수정 없음.
+  canonical·Open Graph·hreflang·sitemap·robots 가 모두 이 값을 따라갑니다.
+  운영자용 절차는 [docs/OPERATOR.md](docs/OPERATOR.md) 8번에 있습니다.
+- `SITE_URL` 은 **`.env` 가 아니라 `process.env` 에서만** 읽습니다. `site.ts` 는
+  astro.config.mjs(Node)와 src(Vite) **두 맥락에서 평가되는데 `.env` 는 Vite 쪽에만
+  주입**되기 때문입니다. `.env` 에 적으면 `site:` 설정과 페이지 canonical 이 서로 다른
+  주소를 쓰는 사고가 납니다. 로컬 확인은 `SITE_URL=... npm run build` 로 합니다.
+  (다른 환경변수는 src 만 읽으므로 `.env` 로 충분합니다 — 이건 이 값만의 예외입니다.)
 - `<title>` / `meta description` / Open Graph / hreflang / canonical 은 전부
   **`src/layouts/base-layout.astro` 가 자동 생성**합니다. 새 페이지는 `<BaseLayout>` 에
   `title` 과 (가능하면) `description` 만 넘기면 됩니다. description 을 안 주면

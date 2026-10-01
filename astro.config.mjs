@@ -6,11 +6,13 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 // 배포 도메인은 src/config/site.ts 한 곳에서 관리한다 (canonical·OG 태그와 동일 출처).
+// 값은 환경변수 SITE_URL 이고, 없으면 site.ts 의 기본값을 쓴다.
 import { SITE } from './src/config/site.ts';
 
 // https://astro.build/config
 export default defineConfig({
-  // 절대 URL 생성에 필요 (canonical, sitemap). 값은 src/config/site.ts 에서 가져온다.
+  // 절대 URL 생성에 필요 (canonical, sitemap). 값은 src/config/site.ts 에서 가져온다
+  // → 환경변수 SITE_URL. 페이지의 canonical 과 반드시 같은 출처를 쓴다.
   site: SITE.url,
 
   // 구 경로 → 새 경로. Publications 를 Research 하위로 옮기면서 남긴 안전망이다.
