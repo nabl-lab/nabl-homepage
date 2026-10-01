@@ -43,6 +43,10 @@ export const P_PROJECTS = {
   relPi: "Principal_investigator",
   relParticipants: "Participants",
   relResearch: "Related_research",
+  /** 내부용(과제 번호). 홈페이지에 표시하지 않는다 — 타입에만 담아 둔다. */
+  grantNumber: "Grant_number",
+  /** Publications.Funding_projects 의 역방향 relation. 표시하지 않는다. */
+  relPublications: "Publications",
   relPatents: "Patents",
   relNews: "News",
   relResources: "Resources",
@@ -54,20 +58,30 @@ export const PROJECT_STATUS = {
   completed: "Completed",
 } as const;
 
-/** publications — title 이 `이름` 이다 (Title 아님). Order 속성 없음 → Year 내림차순 정렬. */
+/**
+ * publications — title 이 `이름` 이다 (Title 아님). Order 속성 없음.
+ *
+ * 연도는 Published_date(게재일) 의 연도를 먼저 쓰고, 없으면 Year 숫자를 쓴다.
+ * 둘 다 없으면 "연도 미상" 그룹으로 간다 (src/lib/publications.ts).
+ */
 export const P_PUBLICATIONS = {
   title: "이름", // title
   titleKo: "Title_ko",
   authors: "Authors",
   journal: "Journal",
   year: "Year",
+  publishedDate: "Published_date", // date. 게재일 — 연도 결정에 우선 사용
   type: "Type", // International | Domestic | Conference | Patent | Book
   doi: "DOI",
   featured: "Featured",
   publish: "Publish",
+  /** 내부용(사사 여부). 홈페이지에 표시하지 않는다 — 타입에만 담아 둔다. */
+  personalGrant: "Personal_grant",
   relAuthors: "Authors_members",
   relNews: "News",
   relResources: "Resources",
+  /** 사사 과제 relation → Projects. 지금은 표시하지 않는다. */
+  relFundingProjects: "Funding_projects",
 } as const;
 
 /** 논문 목록에서 제외할 Type. 특허는 Patents DB 가 따로 있다. */

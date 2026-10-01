@@ -5,23 +5,31 @@
 // 0건인 분류는 탭을 숨긴다 (죽은 링크 방지). 분류가 1종류 이하면 "전체" 와 같은
 // 목록이 되므로 필터 바 자체를 렌더하지 않는다. Notion 에 다른 분류가 들어오면
 // 탭이 자동으로 나타난다.
+//
+// 분류를 바꿔도 현재 연도(activeYear)는 유지한다 (분류 + 연도 동시 필터).
 import { useTranslations, withLocale, optionLabel, type Locale } from "../i18n/utils";
-import { PUBLICATION_TYPES, typeToSlug } from "../lib/notion/publication-types";
+import {
+  publicationPath,
+  publicationTypeTabsVisible,
+  shownPublicationTypes,
+} from "../lib/publications";
 
 interface Props {
   lang: Locale;
   /** 현재 분류(Notion Type 값). null 이면 "전체" */
   active: string | null;
-  /** Type → 건수 */
+  /** Type → 건수 (연도 필터와 무관한 전체 건수) */
   counts: Record<string, number>;
   total: number;
+  /** 현재 연도. 분류를 바꿀 때 그대로 물려준다. */
+  activeYear: number | null;
 }
 
-const { lang, active, counts, total } = Astro.props;
+const { lang, active, counts, total, activeYear } = Astro.props;
 const t = useTranslations(lang);
 
-const shown = PUBLICATION_TYPES.filter((type) => (counts[type] ?? 0) > 0);
-const visible = shown.length > 1;
+const shown = shownPublicationTypes(counts);
+const visible = publicationTypeTabsVisible(counts);
 
 const tabClass = (isActive: boolean) =>
   isActive
@@ -36,7 +44,7 @@ const tabClass = (isActive: boolean) =>
       class="flex flex-wrap gap-2 border-b border-line pb-3 text-sm"
     >
       <a
-        href={withLocale(lang, "/research/publications")}
+        href={withLocale(lang, publicationPath(null, activeYear))}
         aria-current={active === null ? "page" : undefined}
         class:list={["rounded px-3 py-1.5", tabClass(active === null)]}
       >
@@ -45,7 +53,7 @@ const tabClass = (isActive: boolean) =>
       </a>
       {shown.map((type) => (
         <a
-          href={withLocale(lang, `/research/publications/${typeToSlug(type)}`)}
+          href={withLocale(lang, publicationPath(type, activeYear))}
           aria-current={type === active ? "page" : undefined}
           class:list={["rounded px-3 py-1.5", tabClass(type === active)]}
         >

@@ -13,7 +13,13 @@ const t = useTranslations(lang);
 
 const title = localizedText(publication, "title", lang);
 const venue = localizedText(publication, "venue", lang);
-const meta = [publication.authors, venue, String(publication.year)]
+// year 는 null 일 수 있다 ("연도 미상"). null 이면 메타 줄에서 빼고, 문자열 "null" 이
+// 새지 않게 한다.
+const meta = [
+  publication.authors,
+  venue,
+  publication.year === null ? "" : String(publication.year),
+]
   .filter(Boolean)
   .join(" · ");
 ---

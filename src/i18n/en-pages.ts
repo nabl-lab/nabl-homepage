@@ -84,6 +84,8 @@ const enPages = {
   // Publications
   "pub.lede": "Peer-reviewed papers and conference proceedings.",
   "pub.filterAll": "All",
+  "pub.filterAllYears": "All years",
+  "pub.yearUnknown": "Year unknown",
 
   // Patents
   "patent.lede": "Patents filed and registered by the lab.",

@@ -264,3 +264,57 @@ Notion 쪽 DB **이름**을 바꿔도 코드는 영향받지 않습니다. 코�
 메뉴에서는 이모지가 항목을 빨리 찾는 데 도움이 되지만, 브라우저 탭 제목이나 큰 제목에
 들어가면 검색 결과·공유 미리보기에서 지저분해 보이기 때문에 나눠 두었습니다.
 개별 항목의 이모지만 없애려면 그 항목의 `emoji` 를 `""` 로 두세요.
+
+---
+
+## 14. Notion 속성(열) 이름과 파생 규칙
+
+Notion 각 DB의 **속성(열) 이름**은 `src/lib/notion/schema-people.ts` (구성원·PI) 와
+`src/lib/notion/schema-work.ts` (연구·과제·논문·특허·수상·소식·자료) 에만 적혀 있습니다.
+Notion 에서 **열 이름을 바꾸면 이 두 파일을 함께 고쳐야** 합니다.
+(DB **이름**은 바꿔도 코드에 영향이 없습니다 — 13번 항목 참고)
+
+### 화면에 표시하지 않는 속성
+
+아래 속성은 타입 정의와 매퍼에 담아만 두고 **화면에는 내보내지 않습니다.**
+나중에 쓸 일이 생겼을 때 다시 Notion 을 뒤지지 않도록 미리 연결해 둔 것입니다.
+
+| DB | 속성 | 종류 | 메모 |
+| --- | --- | --- | --- |
+| 논문 | `Personal_grant` | checkbox | 내부용 |
+| 논문 | `Funding_projects` | relation → 과제 | 사사 과제 |
+| 과제 | `Grant_number` | rich_text | 내부용 |
+| 과제 | `Publications` | relation (역방향) | `Funding_projects` 의 반대쪽 |
+
+### 값을 그대로 쓰지 않고 계산하는 것들
+
+같은 규칙이 여러 화면에 나오므로, 규칙은 **각 규칙마다 파일 하나**에 모아 두었습니다.
+화면(`.astro`)에 규칙을 다시 쓰지 마세요.
+
+| 규칙 | 어디에 | 내용 |
+| --- | --- | --- |
+| 논문 연도 | `src/lib/publications.ts` | `Published_date`(게재일) 의 연도 → 없으면 `Year` 숫자 → 둘 다 없으면 **"연도 미상"**. 같은 연도 안은 게재일 최신순, 날짜 없으면 뒤로 |
+| 특허 등록/출원 | `src/lib/patents.ts` | `Registration_number` 나 `Registration_date` 가 있으면 **등록**, 없으면 **출원**. `Status` 선택지 철자에는 의존하지 않습니다 (값 하나 바뀌면 조용히 틀린 목록이 나오므로) |
+| 과제 연도 그룹 | `src/lib/projects.ts` | `Status` 가 `Ongoing` 이거나 날짜가 비면 맨 위 "진행 중", 나머지는 `Start_date` 연도 내림차순 |
+
+논문 연도 규칙은 **`src/lib/content.ts` 가 데이터를 넘겨줄 때 한 번** 적용합니다.
+Notion 매퍼 안에서 계산하면 `src/data/` 의 JSON 폴백에는 규칙이 적용되지 않아
+두 출처가 어긋나기 때문입니다.
+
+### 목록 필터는 JS 없이 정적 경로로 만듭니다
+
+정적 사이트라서 `?year=2023` 같은 **URL 쿼리는 빌드 시점에 읽을 수 없습니다**
+(읽으려면 브라우저 JS 가 필요합니다). 그래서 필터는 경로를 따로 만들고, 데이터가
+있는 조합만 생성합니다 — 죽은 링크가 생기지 않고, 경로 그대로 공유·검색이 됩니다.
+
+| 경로 | 보이는 것 |
+| --- | --- |
+| `/research/publications` | 논문 전체 · 전체 연도 |
+| `/research/publications/international` | 분류만 |
+| `/research/publications/2023` | 연도만 |
+| `/research/publications/international/2023` | 분류 + 연도 |
+| `/achievements/patents` | 특허 **등록** (기본) |
+| `/achievements/patents/filed` | 특허 **출원** |
+
+필터 바는 선택지가 하나뿐이면 스스로 숨습니다 (전체 목록과 같아지므로).
+Notion 에 새 분류나 새 연도가 들어오면 버튼이 자동으로 늘어납니다.

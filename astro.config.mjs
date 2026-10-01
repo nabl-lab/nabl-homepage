@@ -17,8 +17,8 @@ export default defineConfig({
   // 정적 빌드에서는 meta refresh 리디렉션 HTML 이 생성된다.
   // rest 파라미터는 0개 세그먼트도 매칭하므로 한 줄로 기본 경로와 분류 경로를 모두 덮는다.
   redirects: {
-    '/[lang]/achievements/publications/[...category]':
-      '/[lang]/research/publications/[...category]',
+    '/[lang]/achievements/publications/[...filters]':
+      '/[lang]/research/publications/[...filters]',
   },
 
   // 다국어 라우팅: /en/... , /ko/... 두 언어로 페이지를 생성한다.

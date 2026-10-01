@@ -56,7 +56,13 @@ export interface Publication {
   authors: string;
   venue: string;
   venue_ko: string;
-  year: number;
+  /**
+   * 화면의 연도 그룹에 쓰는 값. Published_date 의 연도 → Year 숫자 순으로 정한다.
+   * 둘 다 없으면 **null = "연도 미상"** 이다 (0 을 쓰면 실제 연도처럼 정렬돼 섞인다).
+   */
+  year: number | null;
+  /** 게재일(ISO). 같은 연도 안의 정렬 기준. 없으면 그 연도 뒤로 밀린다. */
+  publishedDate: string | null;
   /**
    * Notion `Type` 값 그대로 (International | Domestic | Conference | Book | Patent).
    * 유니온으로 좁히지 않는다 — Notion 에서 선택지가 추가돼도 빌드가 죽지 않게 하고,
@@ -65,6 +71,10 @@ export interface Publication {
   category: string;
   link: string;
   featured?: boolean; // true 인 것만 PI 페이지 "대표 논문" 에 노출
+  /** 내부용(사사 여부). **화면에 표시하지 않는다.** 나중에 쓸 수 있게 담아만 둔다. */
+  personalGrant: boolean;
+  /** 사사 과제(Projects) 의 Notion 페이지 id. **화면에 표시하지 않는다.** */
+  fundingProjectIds: string[];
 }
 
 export interface Patent {
@@ -145,6 +155,10 @@ export interface ResearchProject {
   funder_ko: string;
   /** Notion Status 값 그대로. "Ongoing" 이면 진행 중 그룹으로 올린다. */
   status: string;
+  /** 내부용(과제 번호). **화면에 표시하지 않는다.** 나중에 쓸 수 있게 담아만 둔다. */
+  grantNumber: string;
+  /** 이 과제를 사사한 논문의 Notion 페이지 id. **화면에 표시하지 않는다.** */
+  publicationIds: string[];
   /** ISO 날짜. 연도별 그룹은 startDate 기준이다. 비어 있으면 진행 중으로 본다. */
   startDate: string | null;
   endDate: string | null;

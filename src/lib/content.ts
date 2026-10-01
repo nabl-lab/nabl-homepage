@@ -58,6 +58,7 @@ export * from "./content-helpers";
 // 오류는 던져서 빌드를 실패시키고, 0건(빈 배열)은 정상으로 본다 — notion/fallback.ts 참고.
 import { notionEnabled } from "../config/notion";
 import { pick } from "./notion/fallback";
+import { withResolvedYear } from "./publications";
 import { loadAll } from "./notion/query";
 
 const notion = notionEnabled ? await loadAll() : null;
@@ -65,10 +66,9 @@ const notion = notionEnabled ? await loadAll() : null;
 export const about = aboutData as About;
 export const members = pick("members", notion?.members, membersData as Member[]);
 export const alumni = alumniData as Alumnus[]; // Notion 에 대응 DB 없음 (구성원 상태로 파생 예정)
-export const publications = pick(
-  "publications",
-  notion?.publications,
-  publicationsData as Publication[],
+// 연도 규칙(게재일 우선)은 Notion·JSON 어느 출처든 같게 적용한다 (lib/publications.ts).
+export const publications = withResolvedYear(
+  pick("publications", notion?.publications, publicationsData as Publication[]),
 );
 export const patents = pick("patents", notion?.patents, patentsData as Patent[]);
 export const awards = pick("awards", notion?.awards, awardsData as Award[]);

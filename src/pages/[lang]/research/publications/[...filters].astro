@@ -1,0 +1,120 @@
+---
+// 논문 (/[lang]/research/publications[/<분류>][/<연도>]).
+//
+// 필터는 JS 없이 **별도 정적 경로**로 구현한다 (공유 가능·SEO·견고함).
+// 정적 사이트라 `?year=2023` 같은 쿼리는 빌드 시점에 읽을 수 없어 클라이언트 JS 가
+// 필요해지는데, 이 사이트는 필터를 JS 없이 만드는 방식으로 통일돼 있다.
+// 정적 경로도 그대로 공유할 수 있으므로 같은 목적을 달성한다.
+//
+//   /research/publications                     전체 · 전체 연도
+//   /research/publications/international        분류만
+//   /research/publications/2023                 연도만
+//   /research/publications/international/2023   분류 + 연도
+//
+// 경로 해석·연도 그룹 규칙은 src/lib/publications.ts 한 곳에 모여 있다.
+import BaseLayout from "../../../../layouts/base-layout.astro";
+import PageHeader from "../../../../components/page-header.astro";
+import Section from "../../../../components/section.astro";
+import YearGroup from "../../../../components/year-group.astro";
+import PublicationItem from "../../../../components/publication-item.astro";
+import PublicationFilter from "../../../../components/publication-filter.astro";
+import PublicationYearFilter from "../../../../components/publication-year-filter.astro";
+import EmptyState from "../../../../components/empty-state.astro";
+import { publications } from "../../../../lib/content";
+import { PUBLICATION_TYPES } from "../../../../lib/notion/publication-types";
+import {
+  groupPublicationsByYear,
+  publicationFilterParam,
+  publicationTypeTabsVisible,
+  publicationYears,
+  unknownYearCount,
+} from "../../../../lib/publications";
+import { LOCALES, useTranslations, type Locale } from "../../../../i18n/utils";
+import { collectionLabel } from "../../../../config/collections";
+
+export function getStaticPaths() {
+  // 전체 목록에서도 Patent 는 제외한다 (특허는 Patents 페이지 담당).
+  const visible = publications.filter((p) =>
+    (PUBLICATION_TYPES as readonly string[]).includes(p.category),
+  );
+  const types: (string | null)[] = [null, ...PUBLICATION_TYPES];
+
+  return LOCALES.flatMap((lang) =>
+    types.flatMap((type) => {
+      const scoped = type ? visible.filter((p) => p.category === type) : visible;
+      // 데이터가 있는 연도만 경로로 만든다 → 죽은 링크·빈 페이지가 생기지 않는다.
+      const years: (number | null)[] = [null, ...publicationYears(scoped)];
+      return years.map((year) => ({
+        params: { lang, filters: publicationFilterParam(type, year) },
+        props: { type, year },
+      }));
+    }),
+  );
+}
+
+const lang = Astro.params.lang as Locale;
+const { type, year } = Astro.props as { type: string | null; year: number | null };
+const t = useTranslations(lang);
+
+const visible = publications.filter((p) =>
+  (PUBLICATION_TYPES as readonly string[]).includes(p.category),
+);
+// 분류까지만 좁힌 목록 — 연도 필터 바의 연도 목록·건수는 이걸 기준으로 만든다.
+const scoped = type ? visible.filter((p) => p.category === type) : visible;
+const list = year === null ? scoped : scoped.filter((p) => p.year === year);
+const groups = groupPublicationsByYear(list);
+
+// 분류별 건수 — 필터 탭에 표시하고, 0건인 분류는 탭을 숨기는 데 쓴다.
+const counts: Record<string, number> = {};
+for (const pub of visible) counts[pub.category] = (counts[pub.category] ?? 0) + 1;
+---
+
+<BaseLayout
+  lang={lang}
+  title={collectionLabel("publications", lang)}
+  description={t("pub.lede")}
+>
+  <PageHeader
+    title={collectionLabel("publications", lang)}
+    lede={t("pub.lede")}
+  />
+
+  <div class="mx-auto max-w-6xl px-4 pt-6">
+    <PublicationFilter
+      lang={lang}
+      active={type}
+      counts={counts}
+      total={visible.length}
+      activeYear={year}
+    />
+    <PublicationYearFilter
+      lang={lang}
+      type={type}
+      activeYear={year}
+      years={publicationYears(scoped)}
+      unknownCount={unknownYearCount(scoped)}
+      total={scoped.length}
+      standalone={!publicationTypeTabsVisible(counts)}
+    />
+  </div>
+
+  <Section>
+    {
+      groups.length === 0 ? (
+        <EmptyState lang={lang} />
+      ) : (
+        <div class="flex flex-col gap-2">
+          {groups.map((group) => (
+            <YearGroup year={group.year ?? t("pub.yearUnknown")}>
+              <div class="divide-y divide-line">
+                {group.items.map((p) => (
+                  <PublicationItem publication={p} lang={lang} />
+                ))}
+              </div>
+            </YearGroup>
+          ))}
+        </div>
+      )
+    }
+  </Section>
+</BaseLayout>

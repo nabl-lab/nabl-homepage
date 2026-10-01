@@ -45,8 +45,9 @@ const areas = themes
 const scope = scopeItems[0]?.body ?? null; // meta description 용
 
 // 연구 분야와 논문의 관계를 화면에서 잇는다 — 최근 5건만 보여주고 전체는 링크로.
+// year 는 null 일 수 있으므로("연도 미상") 0 으로 보아 맨 뒤로 보낸다.
 const recentPublications = [...publications]
-  .sort((a, b) => b.year - a.year)
+  .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
   .slice(0, 5);
 
 // 과제는 먼저 "진행 중" + 시작 연도로 묶고(lib/projects.ts), 그룹 안에서 언어를 적용한다.

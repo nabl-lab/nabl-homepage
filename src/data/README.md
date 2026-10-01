@@ -62,9 +62,15 @@
 | `title` / `title_ko` | 논문 제목 |
 | `authors` | 저자 (문자열) |
 | `venue` / `venue_ko` | 학회 / 저널 이름 |
-| `year` | 발표 연도 (숫자) |
+| `year` | 발표 연도 (숫자). 값이 없으면 `null` → "연도 미상" 그룹 |
+| `publishedDate` | 게재일 (`YYYY-MM-DD`, 없으면 `null`). **연도는 이 값이 `year` 보다 우선** |
 | `category` | `international` \| `domestic` \| `conference` |
 | `link` | 논문 링크 URL |
+| `personalGrant` | 내부용 (`true`/`false`). **화면에 표시하지 않음** |
+| `fundingProjectIds` | 사사 과제 id 배열. **화면에 표시하지 않음** |
+
+연도 그룹 규칙은 `src/lib/publications.ts` 에 있습니다. 같은 연도 안에서는
+`publishedDate` 최신순이고, 날짜가 없는 항목은 그 연도의 뒤로 밀립니다.
 
 ### patents.json — 특허
 
@@ -72,10 +78,15 @@
 | --- | --- |
 | `id` | 식별자 |
 | `title` / `title_ko` | 특허 제목 |
-| `number` | 출원/등록 번호 |
-| `date` | 날짜 (`YYYY-MM-DD`) |
-| `status` | `registered`(등록) \| `applied`(출원) |
+| `number` | 화면에 찍는 번호 (등록번호가 있으면 등록번호, 없으면 출원번호) |
+| `date` | 연도 그룹용 날짜 (`YYYY-MM-DD`) |
+| `status` | Notion `Status` 값 그대로. **표시용일 뿐 등록/출원 구분에는 쓰지 않음** |
+| `registrationNumber` | 등록번호. 없으면 `""` |
+| `registrationDate` | 등록일 (`YYYY-MM-DD`). 없으면 `null` |
 | `inventors` | 발명자 (문자열) |
+
+등록/출원 구분은 `registrationNumber` 나 `registrationDate` 가 **하나라도 있으면 등록**,
+없으면 출원입니다 (`src/lib/patents.ts`). `status` 철자에 의존하지 않습니다.
 
 ### awards.json — 수상
 
@@ -104,7 +115,7 @@
 | --- | --- |
 | `scope` / `scope_ko` | 연구 범위 소개 문단 |
 | `areas[]` | 연구 분야. `id`, `title`/`title_ko`, `summary`/`summary_ko`, `themes[]`/`themes_ko[]` |
-| `projects[]` | 연구 과제. `id`, `title`/`title_ko`, `period`, `funder`/`funder_ko`, `status`(`Ongoing`/`Completed`/`Planned`), `startDate`/`endDate`(`YYYY-MM-DD`, 없으면 `null`) |
+| `projects[]` | 연구 과제. `id`, `title`/`title_ko`, `period`, `funder`/`funder_ko`, `status`(`Ongoing`/`Completed`/`Planned`), `startDate`/`endDate`(`YYYY-MM-DD`, 없으면 `null`). `grantNumber`·`publicationIds` 는 **화면에 표시하지 않음** |
 
 연구 과제 목록은 화면에서 연도별로 묶입니다. `status` 가 `Ongoing` 이거나 `endDate`·`startDate`
 가 비어 있으면 맨 위 "진행 중" 그룹으로, 나머지는 `startDate` 의 연도별로 최신 연도부터

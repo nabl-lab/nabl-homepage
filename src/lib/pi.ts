@@ -22,10 +22,13 @@ export const piAwards: Award[] = pi
     )
   : [];
 
-/** publications.json 에서 featured 로 표시된 대표 논문만, 연도 내림차순. */
+/**
+ * featured 로 표시된 대표 논문만, 연도 내림차순.
+ * year 는 null 일 수 있으므로("연도 미상") 0 으로 보아 맨 뒤로 보낸다.
+ */
 export const featuredPublications: Publication[] = publications
   .filter((p) => p.featured === true)
-  .sort((a, b) => b.year - a.year);
+  .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
 
 /** 학력·경력·대외활동 정렬: order 우선(작을수록 위), 없으면 시작연도 내림차순. */
 export function sortEntries(entries: PiEntry[]): PiEntry[] {

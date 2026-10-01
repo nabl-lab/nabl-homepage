@@ -1,0 +1,75 @@
+---
+// 논문 연도 필터 — JS 없이 별도 경로로 이동하는 링크 바.
+// 데이터에 실제로 있는 연도만 만들므로 죽은 링크가 생기지 않는다.
+// 현재 분류(type)를 그대로 유지한 채 연도만 바꾼다 (분류 + 연도 동시 필터).
+//
+// 연도가 1종류 이하면 "전체 연도" 와 같은 목록이 되므로 바 자체를 렌더하지 않는다.
+import { useTranslations, withLocale, type Locale } from "../i18n/utils";
+import { publicationPath } from "../lib/publications";
+
+interface Props {
+  lang: Locale;
+  /** 현재 분류 (연도를 바꿔도 유지한다) */
+  type: string | null;
+  /** 현재 연도. null 이면 "전체 연도" */
+  activeYear: number | null;
+  /** 데이터에 있는 연도 (내림차순) */
+  years: number[];
+  /**
+   * 연도 미상 건수. 연도 미상은 별도 탭을 만들지 않고 "전체 연도" 목록의 맨 뒤
+   * 그룹으로만 보여 준다. 연도가 1종류뿐이어도 연도 미상이 있으면 바를 보여 주려고 받는다.
+   */
+  unknownCount: number;
+  /** 분류 안의 전체 건수 */
+  total: number;
+  /**
+   * 위에 분류 탭이 없어 이 바가 혼자 남는 경우. 분류 탭이 갖고 있던 아래쪽 구분선을
+   * 대신 가져와, 목록과의 경계가 사라지지 않게 한다.
+   */
+  standalone: boolean;
+}
+
+const { lang, type, activeYear, years, unknownCount, total, standalone } =
+  Astro.props;
+const t = useTranslations(lang);
+
+const visible = years.length > 1 || unknownCount > 0;
+
+const tabClass = (isActive: boolean) =>
+  isActive
+    ? "bg-brand-tint font-semibold text-brand"
+    : "text-ink hover:bg-surface-muted hover:text-brand";
+---
+
+{
+  visible && (
+    <nav
+      aria-label={t("a11y.filterPublicationYears")}
+      class:list={[
+        "flex flex-wrap gap-1.5 text-sm",
+        standalone ? "border-b border-line pb-3" : "pt-3",
+      ]}
+    >
+      <a
+        href={withLocale(lang, publicationPath(type, null))}
+        aria-current={activeYear === null ? "page" : undefined}
+        class:list={["rounded px-2.5 py-1", tabClass(activeYear === null)]}
+      >
+        {t("pub.filterAllYears")}
+        <span class="text-ink-muted tabular-nums"> {total}</span>
+      </a>
+      {years.map((year) => (
+        <a
+          href={withLocale(lang, publicationPath(type, year))}
+          aria-current={year === activeYear ? "page" : undefined}
+          class:list={[
+            "rounded px-2.5 py-1 tabular-nums",
+            tabClass(year === activeYear),
+          ]}
+        >
+          {year}
+        </a>
+      ))}
+    </nav>
+  )
+}

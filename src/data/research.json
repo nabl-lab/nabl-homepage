@@ -66,7 +66,9 @@
       "funder_ko": "한국연구재단",
       "status": "Ongoing",
       "startDate": "2024-03-01",
-      "endDate": null
+      "endDate": null,
+      "grantNumber": "",
+      "publicationIds": []
     },
     {
       "id": "project-thermostable-enzymes",
@@ -77,7 +79,9 @@
       "funder_ko": "산업통상자원부",
       "status": "Ongoing",
       "startDate": "2023-06-01",
-      "endDate": null
+      "endDate": null,
+      "grantNumber": "",
+      "publicationIds": []
     },
     {
       "id": "project-paper-diagnostics",
@@ -88,7 +92,9 @@
       "funder_ko": "한국환경산업기술원",
       "status": "Completed",
       "startDate": "2023-01-01",
-      "endDate": "2025-02-28"
+      "endDate": "2025-02-28",
+      "grantNumber": "",
+      "publicationIds": []
     }
   ]
 }

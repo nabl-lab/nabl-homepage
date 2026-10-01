@@ -85,6 +85,9 @@ export function mapProject(page: NotionPage): ResearchProject | null {
     status: select(page, P_PROJECTS.status) ?? "",
     startDate,
     endDate,
+    // 아래 둘은 화면에 표시하지 않는다 (내부용·역방향 relation). 타입에만 담아 둔다.
+    grantNumber: text(page, P_PROJECTS.grantNumber),
+    publicationIds: relationIds(page, P_PROJECTS.relPublications),
   };
 }
 
@@ -92,6 +95,7 @@ export function mapPublication(page: NotionPage): Publication | null {
   const title = text(page, P_PUBLICATIONS.title);
   const titleKo = text(page, P_PUBLICATIONS.titleKo);
   if (!title && !titleKo) return null;
+  const publishedDate = date(page, P_PUBLICATIONS.publishedDate);
   return {
     id: page.id,
     title,
@@ -99,9 +103,15 @@ export function mapPublication(page: NotionPage): Publication | null {
     authors: text(page, P_PUBLICATIONS.authors),
     venue: text(page, P_PUBLICATIONS.journal),
     venue_ko: "",
-    year: num(page, P_PUBLICATIONS.year) ?? 0,
+    // 연도 결정(게재일 우선)은 content.ts 가 출처와 무관하게 한 번에 적용한다.
+    // 여기서는 Notion `Year` 숫자를 그대로 담는다.
+    year: num(page, P_PUBLICATIONS.year),
+    publishedDate,
     category: select(page, P_PUBLICATIONS.type) ?? "",
     link: url(page, P_PUBLICATIONS.doi) ?? "",
+    // 아래 둘은 화면에 표시하지 않는다 (내부용·사사 과제 relation). 타입에만 담아 둔다.
+    personalGrant: bool(page, P_PUBLICATIONS.personalGrant),
+    fundingProjectIds: relationIds(page, P_PUBLICATIONS.relFundingProjects),
     featured: bool(page, P_PUBLICATIONS.featured),
   };
 }

@@ -79,6 +79,8 @@ const koPages = {
   // Publications
   "pub.lede": "동료 심사 논문과 학회 발표 논문입니다.",
   "pub.filterAll": "전체",
+  "pub.filterAllYears": "전체 연도",
+  "pub.yearUnknown": "연도 미상",
 
   // Patents
   "patent.lede": "연구실이 출원·등록한 특허입니다.",

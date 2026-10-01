@@ -28,6 +28,7 @@ const enCommon = {
   "a11y.language": "Language",
   "a11y.primaryNav": "Main navigation",
   "a11y.filterPublications": "Filter publications by type",
+  "a11y.filterPublicationYears": "Filter publications by year",
   "a11y.filterProjects": "Filter projects by status",
   "a11y.articleNav": "News article navigation",
 

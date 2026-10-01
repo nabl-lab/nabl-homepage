@@ -9,7 +9,10 @@
     "year": 2025,
     "category": "International",
     "link": "https://example.org/papers/troponin-aptamer",
-    "featured": true
+    "featured": true,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2024-thermostable-laccase",
@@ -21,7 +24,10 @@
     "year": 2024,
     "category": "International",
     "link": "https://example.org/papers/thermostable-laccase",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2024-fluorogenic-switch",
@@ -33,7 +39,10 @@
     "year": 2024,
     "category": "International",
     "link": "https://example.org/papers/fluorogenic-switch",
-    "featured": true
+    "featured": true,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2024-paper-heavy-metal",
@@ -45,7 +54,10 @@
     "year": 2024,
     "category": "Domestic",
     "link": "https://example.org/papers/paper-heavy-metal",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2023-cell-free-cascade",
@@ -57,7 +69,10 @@
     "year": 2023,
     "category": "International",
     "link": "https://example.org/papers/cell-free-cascade",
-    "featured": true
+    "featured": true,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2023-antibody-scaffold",
@@ -69,7 +84,10 @@
     "year": 2023,
     "category": "International",
     "link": "https://example.org/papers/antibody-scaffold",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2023-microfluidic-selex",
@@ -81,7 +99,10 @@
     "year": 2023,
     "category": "Conference",
     "link": "https://example.org/papers/microfluidic-selex",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2022-aunp-pathogen",
@@ -93,7 +114,10 @@
     "year": 2022,
     "category": "International",
     "link": "https://example.org/papers/aunp-pathogen",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2022-expression-optimization",
@@ -105,7 +129,10 @@
     "year": 2022,
     "category": "Domestic",
     "link": "https://example.org/papers/expression-optimization",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2022-modular-conjugate",
@@ -117,7 +144,10 @@
     "year": 2022,
     "category": "Conference",
     "link": "https://example.org/papers/modular-conjugate",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2021-solvent-tolerant-lipase",
@@ -129,7 +159,10 @@
     "year": 2021,
     "category": "International",
     "link": "https://example.org/papers/solvent-tolerant-lipase",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2021-split-aptamer",
@@ -141,7 +174,10 @@
     "year": 2021,
     "category": "International",
     "link": "https://example.org/papers/split-aptamer",
-    "featured": true
+    "featured": true,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2020-consensus-sdab",
@@ -153,7 +189,10 @@
     "year": 2020,
     "category": "International",
     "link": "https://example.org/papers/consensus-sdab",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2020-lateral-flow",
@@ -165,7 +204,10 @@
     "year": 2020,
     "category": "Domestic",
     "link": "https://example.org/papers/lateral-flow",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   },
   {
     "id": "pub-2019-immobilized-arrays",
@@ -177,6 +219,9 @@
     "year": 2019,
     "category": "Conference",
     "link": "https://example.org/papers/immobilized-arrays",
-    "featured": false
+    "featured": false,
+    "publishedDate": null,
+    "personalGrant": false,
+    "fundingProjectIds": []
   }
 ]
