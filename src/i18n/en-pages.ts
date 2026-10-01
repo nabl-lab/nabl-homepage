@@ -90,8 +90,6 @@ const enPages = {
   // Patents
   "patent.lede": "Patents filed and registered by the lab.",
   "patent.inventorsLabel": "Inventors",
-  "patent.numberLabel": "Application / Registration no.",
-  "patent.applicantLabel": "Applicant",
   "patent.countryLabel": "Jurisdiction",
   "patent.viewRegistered": "Registered",
   "patent.viewFiled": "Filed",

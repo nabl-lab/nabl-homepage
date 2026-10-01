@@ -10,12 +10,21 @@
  *
  * 주의: 여기 있는 건 **DB(콘텐츠 종류) 이름**이다. Notion 속성(열) 이름은
  * src/lib/notion/schema-*.ts 담당이고 서로 무관하다.
+ *
+ * 이모지: 각 항목의 emoji 는 Notion DB 아이콘과 맞춘 참고용이고
+ * **홈페이지에는 표시하지 않는다** (아래 스위치가 둘 다 false).
  */
 import type { Locale } from "../i18n/ui";
 import type { NotionCollection } from "./notion";
 
-/** 헤더 메뉴(데스크톱·모바일)에 이모지를 붙일지. */
-export const SHOW_EMOJI_NAV = true;
+/**
+ * 이모지 표시 스위치 — **현재 둘 다 꺼져 있다. 홈페이지에는 이모지가 나오지 않는다.**
+ *
+ * 켜고 싶으면 여기만 true 로 바꾸면 된다. 아래 emoji 필드는 그대로 남아 있다.
+ */
+
+/** 헤더 메뉴(데스크톱·모바일·드롭다운)에 이모지를 붙일지. */
+export const SHOW_EMOJI_NAV = false;
 
 /** 제목류 — 브라우저 탭 제목(`<title>`), 페이지 제목(`<h1>`), 섹션 제목 — 에 이모지를 붙일지. */
 export const SHOW_EMOJI_HEADING = false;
@@ -25,6 +34,11 @@ export type LabelPlace = "nav" | "heading";
 
 export interface CollectionLabel {
   key: NotionCollection;
+  /**
+   * Notion DB 아이콘과 맞춘 **참고용** 값. 홈페이지에는 표시하지 않는다.
+   * (위의 SHOW_EMOJI_NAV / SHOW_EMOJI_HEADING 가 둘 다 false 이기 때문)
+   * Notion 쪽 DB 를 찾을 때 눈으로 대조하는 데 쓰고, 지우지 않고 남겨 둔다.
+   */
   emoji: string;
   label_ko: string;
   label_en: string;
@@ -86,6 +100,7 @@ export const COLLECTIONS: Record<NotionCollection, CollectionLabel> = {
  *
  * @param place "nav" = 헤더 메뉴, "heading" = 제목류(기본값).
  *              이모지 표시는 위의 SHOW_EMOJI_NAV / SHOW_EMOJI_HEADING 가 결정한다.
+ *              지금은 둘 다 false 라서 어느 쪽이든 이름만 돌려준다.
  */
 export function collectionLabel(
   key: NotionCollection,
