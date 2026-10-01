@@ -27,6 +27,7 @@ const koCommon = {
   "a11y.primaryNav": "주 메뉴",
   "a11y.filterPublications": "논문 분류 필터",
   "a11y.filterPublicationYears": "논문 연도 필터",
+  "a11y.filterPatents": "특허 등록·출원 필터",
   "a11y.filterProjects": "프로젝트 상태 필터",
   "a11y.articleNav": "글 이동",
 

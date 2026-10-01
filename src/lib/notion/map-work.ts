@@ -120,18 +120,18 @@ export function mapPatent(page: NotionPage): Patent | null {
   const title = text(page, P_PATENTS.title);
   const titleKo = text(page, P_PATENTS.titleKo);
   if (!title && !titleKo) return null;
-  const registration = text(page, P_PATENTS.registrationNumber);
+  const registrationNumber = text(page, P_PATENTS.registrationNumber);
+  const registrationDate = date(page, P_PATENTS.registrationDate);
   return {
     id: page.id,
     title,
     title_ko: titleKo,
-    number: registration || text(page, P_PATENTS.applicationNumber),
+    number: registrationNumber || text(page, P_PATENTS.applicationNumber),
     // 연도 그룹에 쓰므로 등록일이 있으면 그걸, 없으면 출원일을 쓴다.
-    date:
-      date(page, P_PATENTS.registrationDate) ??
-      date(page, P_PATENTS.filingDate) ??
-      "",
+    date: registrationDate ?? date(page, P_PATENTS.filingDate) ?? "",
     status: select(page, P_PATENTS.status) ?? "",
+    registrationNumber,
+    registrationDate,
     inventors: text(page, P_PATENTS.inventors),
   };
 }

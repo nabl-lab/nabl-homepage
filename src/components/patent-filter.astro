@@ -1,0 +1,49 @@
+---
+// 특허 등록/출원 필터 — JS 없이 별도 경로로 이동하는 링크 바.
+// 구분 근거는 Status 철자가 아니라 등록번호·등록일 유무다 (src/lib/patents.ts).
+// 한쪽이 0건이면 그 버튼을 숨기고, 둘 다 있을 때만 바를 보여 준다.
+import { useTranslations, withLocale, type Locale } from "../i18n/utils";
+import { PATENT_VIEWS, patentPath, type PatentView } from "../lib/patents";
+
+interface Props {
+  lang: Locale;
+  active: PatentView;
+  /** 구분 → 건수 */
+  counts: Record<PatentView, number>;
+}
+
+const { lang, active, counts } = Astro.props;
+const t = useTranslations(lang);
+
+const label: Record<PatentView, string> = {
+  registered: t("patent.viewRegistered"),
+  filed: t("patent.viewFiled"),
+};
+
+const shown = PATENT_VIEWS.filter((view) => counts[view] > 0);
+---
+
+{
+  shown.length > 1 && (
+    <nav
+      aria-label={t("a11y.filterPatents")}
+      class="flex flex-wrap gap-2 border-b border-line pb-3 text-sm"
+    >
+      {shown.map((view) => (
+        <a
+          href={withLocale(lang, patentPath(view))}
+          aria-current={view === active ? "page" : undefined}
+          class:list={[
+            "rounded px-3 py-1.5",
+            view === active
+              ? "bg-brand-tint font-semibold text-brand"
+              : "text-ink hover:bg-surface-muted hover:text-brand",
+          ]}
+        >
+          {label[view]}
+          <span class="text-ink-muted tabular-nums"> {counts[view]}</span>
+        </a>
+      ))}
+    </nav>
+  )
+}

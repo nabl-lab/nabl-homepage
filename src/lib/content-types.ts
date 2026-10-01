@@ -81,13 +81,23 @@ export interface Patent {
   id: string;
   title: string;
   title_ko: string;
+  /** 화면에 찍는 번호. 등록번호가 있으면 등록번호, 없으면 출원번호. */
   number: string;
+  /** 연도 그룹용 날짜. 등록일이 있으면 등록일, 없으면 출원일. */
   date: string;
   /**
    * Notion `Status` 값 그대로 (Filed | Published | Registered | Transferred | Expired).
    * 라벨은 optionLabel("patentStatus", …). 모르는 값은 원문을 그대로 보여준다.
+   *
+   * 주의: 등록/출원 구분에는 **쓰지 않는다.** 선택지 철자에 의존하면 Notion 에서
+   * 값이 하나 바뀌는 순간 조용히 틀린 목록이 나오기 때문이다.
+   * 구분은 registrationNumber / registrationDate 유무로 판단한다 (src/lib/patents.ts).
    */
   status: string;
+  /** 등록번호. 등록/출원 구분의 근거 중 하나. */
+  registrationNumber: string;
+  /** 등록일(ISO). 등록/출원 구분의 근거 중 하나. */
+  registrationDate: string | null;
   inventors: string;
 }
 

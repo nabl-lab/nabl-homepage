@@ -92,6 +92,8 @@ const enPages = {
   "patent.inventorsLabel": "Inventors",
   "patent.numberLabel": "Application / Registration no.",
   "patent.applicantLabel": "Applicant",
+  "patent.viewRegistered": "Registered",
+  "patent.viewFiled": "Filed",
 
   // Awards
   "award.lede": "Awards received by lab members.",
