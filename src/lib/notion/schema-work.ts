@@ -105,6 +105,18 @@ export const P_PATENTS = {
   relProject: "Related_project",
 } as const;
 
+/**
+ * patents `Status` 선택지 값. 화면 라벨은 optionLabel("patentStatus", …) 담당이고,
+ * 여기 상수는 **로직에서 값을 비교해야 할 때만** 쓴다 (지금은 expired 하나).
+ */
+export const PATENT_STATUS = {
+  filed: "Filed",
+  published: "Published",
+  registered: "Registered",
+  transferred: "Transferred",
+  expired: "Expired",
+} as const;
+
 /** awards — `Year` 는 formula(number). Date 가 비면 null 이므로 null 안전 처리 필요. */
 export const P_AWARDS = {
   title: "Title",

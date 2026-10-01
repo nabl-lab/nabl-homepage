@@ -93,6 +93,8 @@ export interface Patent {
   registrationNumber: string;
   /** 등록일(ISO). 등록/출원 구분의 근거 중 하나. */
   registrationDate: string | null;
+  /** Notion `Country` 값 그대로 (KR | US | EP | PCT | …). 목록의 국가 배지에 쓴다. */
+  country: string;
   inventors: string;
 }
 

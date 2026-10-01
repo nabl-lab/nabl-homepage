@@ -83,10 +83,16 @@
 | `status` | Notion `Status` 값 그대로. **표시용일 뿐 등록/출원 구분에는 쓰지 않음** |
 | `registrationNumber` | 등록번호. 없으면 `""` |
 | `registrationDate` | 등록일 (`YYYY-MM-DD`). 없으면 `null` |
+| `country` | 출원 국가 (`KR` / `US` / `EP` / `PCT` …). 목록의 국가 배지에 쓰임 |
 | `inventors` | 발명자 (문자열) |
 
-등록/출원 구분은 `registrationNumber` 나 `registrationDate` 가 **하나라도 있으면 등록**,
-없으면 출원입니다 (`src/lib/patents.ts`). `status` 철자에 의존하지 않습니다.
+분류 규칙 (`src/lib/patents.ts`)
+
+1. `status` 가 `Expired` → **홈페이지에 표시하지 않음** (공개 설정과 무관)
+2. `registrationNumber` 나 `registrationDate` 가 하나라도 있으면 → **등록**
+3. 그 외 → **출원**
+
+2·3번은 `status` 철자에 의존하지 않습니다. 1번만 예외적으로 `status` 값을 봅니다.
 
 ### awards.json — 수상
 

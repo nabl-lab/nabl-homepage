@@ -87,6 +87,7 @@ const koPages = {
   "patent.inventorsLabel": "발명자",
   "patent.numberLabel": "출원·등록번호",
   "patent.applicantLabel": "출원인",
+  "patent.countryLabel": "출원 국가",
   "patent.viewRegistered": "등록",
   "patent.viewFiled": "출원",
 

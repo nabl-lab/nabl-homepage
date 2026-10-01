@@ -62,12 +62,21 @@ const groups = groupByYear(split[view]);
             <ul class="divide-y divide-line">
               {group.items.map((p) => {
                 const title = localizedText(p, "title", lang);
-                // Notion Status 값 그대로 라벨링. 모르는 값이면 원문을 표시한다.
+                // Notion 선택지 값 그대로 라벨링. 모르는 값이면 원문을 표시한다.
                 const statusLabel = optionLabel("patentStatus", p.status, lang);
+                const countryLabel = optionLabel("patentCountry", p.country, lang);
                 return (
                   title && (
                     <li class="py-3">
                       <div class="flex flex-wrap items-baseline gap-2">
+                        {countryLabel && (
+                          <span
+                            class="shrink-0 rounded border border-line px-1.5 py-0.5 text-xs font-semibold text-ink-muted"
+                            aria-label={`${t("patent.countryLabel")}: ${countryLabel}`}
+                          >
+                            {countryLabel}
+                          </span>
+                        )}
                         <span class="font-medium text-ink">{title}</span>
                         {statusLabel && (
                           <span class="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-ink-muted">

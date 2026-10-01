@@ -104,6 +104,7 @@ export function mapPatent(page: NotionPage): Patent | null {
     status: select(page, P_PATENTS.status) ?? "",
     registrationNumber,
     registrationDate,
+    country: select(page, P_PATENTS.country) ?? "",
     inventors: text(page, P_PATENTS.inventors),
   };
 }

@@ -69,9 +69,12 @@ const SETS = {
       Expired: "만료",
     },
   },
-  /** patents `Country` */
+  /**
+   * patents `Country` — 특허 목록의 국가 배지에 쓴다.
+   * 배지라서 짧아야 한다. 영어는 원문(KR·US·EP·PCT)이 그대로 나간다.
+   */
   patentCountry: {
-    ko: { KR: "한국", US: "미국", PCT: "PCT", Other: "기타" },
+    ko: { KR: "한국", US: "미국", EP: "유럽", PCT: "PCT", Other: "기타" },
   },
   /** awards `Category` */
   awardCategory: {

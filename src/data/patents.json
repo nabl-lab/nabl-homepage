@@ -8,7 +8,8 @@
     "status": "Registered",
     "inventors": "Gildong Hong, Younghee Lee",
     "registrationNumber": "KR 10-2456789",
-    "registrationDate": "2023-04-12"
+    "registrationDate": "2023-04-12",
+    "country": "KR"
   },
   {
     "id": "patent-thermostable-laccase",
@@ -19,7 +20,8 @@
     "status": "Registered",
     "inventors": "Gildong Hong, Youngsu Park",
     "registrationNumber": "KR 10-2398765",
-    "registrationDate": "2022-11-03"
+    "registrationDate": "2022-11-03",
+    "country": "KR"
   },
   {
     "id": "patent-paper-heavy-metal",
@@ -30,7 +32,8 @@
     "status": "Filed",
     "inventors": "Gildong Hong, Seoyeon Yoon",
     "registrationNumber": "",
-    "registrationDate": null
+    "registrationDate": null,
+    "country": "PCT"
   },
   {
     "id": "patent-cell-free-platform",
@@ -41,6 +44,7 @@
     "status": "Filed",
     "inventors": "Gildong Hong, Dohyun Kang",
     "registrationNumber": "",
-    "registrationDate": null
+    "registrationDate": null,
+    "country": "US"
   }
 ]
