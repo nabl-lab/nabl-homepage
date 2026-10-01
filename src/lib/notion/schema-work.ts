@@ -1,6 +1,6 @@
 /**
  * Notion 속성명 매핑 — 연구·성과·콘텐츠 DB
- * (research, projects, publications, patents, awards, news, resources).
+ * (research, projects, publications, patents, awards).
  * 실측 스키마(2026-09-10 조회) 기준. 진입점은 `schema.ts` 다.
  */
 
@@ -116,40 +116,4 @@ export const P_AWARDS = {
   category: "Category",
   publish: "Publish",
   relRecipient: "Recipient",
-} as const;
-
-export const P_NEWS = {
-  title: "Title",
-  titleKo: "Title_ko",
-  summary: "Summary",
-  summaryKo: "Summary_ko",
-  body: "Body",
-  bodyKo: "Body_ko",
-  category: "Category",
-  date: "Date",
-  cover: "Cover",
-  slug: "Slug",
-  featured: "Featured",
-  publish: "Publish",
-  relMembers: "Related_members",
-  relProject: "Related_project",
-  relPublication: "Related_publication",
-} as const;
-
-export const P_RESOURCES = {
-  title: "Title",
-  titleKo: "Title_ko",
-  description: "Description",
-  descriptionKo: "Description_ko",
-  type: "Type",
-  date: "Date",
-  order: "Order",
-  slug: "Slug",
-  /** 대용량일 수 있어 내려받지 않는다. External_url 로 대체한다. */
-  file: "File",
-  thumbnail: "Thumbnail",
-  externalUrl: "External_url",
-  publish: "Publish",
-  relProject: "Related_project",
-  relPublication: "Related_publication",
 } as const;

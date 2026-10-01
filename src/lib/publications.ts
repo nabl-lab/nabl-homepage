@@ -11,11 +11,8 @@
  * Notion 매퍼에 두면 src/data 의 JSON 폴백에는 규칙이 적용되지 않아 두 출처가 어긋난다.
  *
  * 필터는 JS 없이 **정적 경로**로 구현한다 (이 사이트의 기존 방식).
- * 경로 한 칸은 분류 슬러그, 4자리 숫자는 연도로 읽는다.
- *   /research/publications                        → 전체 · 전체 연도
- *   /research/publications/international          → 분류만
- *   /research/publications/2023                   → 연도만
- *   /research/publications/international/2023     → 분류 + 연도
+ * 경로 한 칸은 분류 슬러그, 4자리 숫자는 연도로 읽는다. 둘 다 생략하면 전체 목록이다.
+ *   /research/publications/international/2023  → 분류 + 연도
  */
 import type { Publication } from "./content-types";
 import {

@@ -19,23 +19,14 @@ import type {
 import { queryAllRows, type NotionPage } from "./client";
 import { emptyIndex, type RelationIndex, type TitleRef } from "./types";
 import { text, bool } from "./parsers";
-import { P_MEMBERS } from "./schema-people";
-import {
-  P_RESEARCH,
-  P_PROJECTS,
-  P_PUBLICATIONS,
-  P_PATENTS,
-  P_AWARDS,
-  P_NEWS,
-  P_RESOURCES,
-} from "./schema-work";
+// 속성명은 배럴 schema.ts 하나로 가져온다 (schema-people / -work / -news).
+import { P_MEMBERS, PI_SECTION, P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS, P_NEWS, P_RESOURCES } from "./schema";
+// 매퍼는 배럴 map.ts 하나로 가져온다 (실제 파일은 map-people / map-work / map-news).
 import {
   mapMember,
   mapPiEntry,
   isPiEntryPublished,
   piSectionOf,
-} from "./map";
-import {
   mapResearch,
   mapProject,
   mapPublication,
@@ -43,9 +34,8 @@ import {
   mapAward,
   mapNews,
   mapResource,
-} from "./map-work";
+} from "./map";
 import { checkProjectDates, checkSlugs } from "./validate";
-import { PI_SECTION } from "./schema-people";
 
 /** Publish 체크된 행만 남긴다. 설정이 없어 null 인 경우 빈 배열로 본다. */
 const published = (rows: NotionPage[] | null, prop: string): NotionPage[] =>

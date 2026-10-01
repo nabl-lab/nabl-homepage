@@ -1,46 +1,18 @@
 /**
- * Notion 행 → 사이트 모델 변환 (연구·성과·콘텐츠 DB).
- * 사람 관련(members, PI Profile)은 `map.ts`.
+ * Notion 행 → 사이트 모델 변환 — **연구·성과** (research, projects, publications,
+ * patents, awards). 속성명은 schema-work.ts 에서만 가져온다.
  *
- * 공통 규칙: **title 이 비어 있는 행은 null 을 돌려 조용히 건너뛴다.**
+ * 공통 규칙: **title 이 비어 있는 행은 null 을 돌려 조용히 건너뛴다** (오류 아님).
  * relation 은 RelationIndex 로 해석하며, 인덱스에 없는 대상(비공개)은 자동으로 빠진다.
+ * 같은 축의 다른 파일: map-people.ts(사람), map-news.ts(소식·자료).
+ * 호출부는 배럴 `map.ts` 에서 가져온다.
  */
 import type { NotionPage } from "./client";
-import type {
-  ResearchArea,
-  ResearchProject,
-  Publication,
-  Patent,
-  Award,
-  NewsItem,
-  Resource,
-} from "../content-types";
-import type { RelationIndex } from "./types";
-import { resolveRefs } from "./types";
-import {
-  P_RESEARCH,
-  P_PROJECTS,
-  P_PUBLICATIONS,
-  P_PATENTS,
-  P_AWARDS,
-  P_NEWS,
-  P_RESOURCES,
-} from "./schema-work";
-import {
-  text,
-  num,
-  bool,
-  select,
-  date,
-  url,
-  formula,
-  relationIds,
-} from "./parsers";
+import type { ResearchArea, ResearchProject, Publication, Patent, Award } from "../content-types";
+import { type RelationIndex, resolveRefs } from "./types";
+import { P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS } from "./schema-work";
+import { text, num, bool, select, date, url, formula, relationIds } from "./parsers";
 import { assetPath } from "./assets";
-
-/** 모든 DB 공통: Publish 체크 여부 */
-export const isPublished = (page: NotionPage, prop: string): boolean =>
-  bool(page, prop);
 
 /** 기간 문자열. 시작만 있으면 "2024–", 둘 다 없으면 빈 문자열. */
 function periodOf(start: string | null, end: string | null): string {
@@ -166,41 +138,5 @@ export function mapAward(page: NotionPage, index: RelationIndex): Award | null {
     organization_ko: text(page, P_AWARDS.organizationKo),
     date: when,
     year,
-  };
-}
-
-export function mapNews(page: NotionPage): NewsItem | null {
-  const title = text(page, P_NEWS.title);
-  const titleKo = text(page, P_NEWS.titleKo);
-  if (!title && !titleKo) return null;
-  return {
-    id: page.id,
-    slug: text(page, P_NEWS.slug),
-    date: date(page, P_NEWS.date) ?? "",
-    title,
-    title_ko: titleKo,
-    body: text(page, P_NEWS.body),
-    body_ko: text(page, P_NEWS.bodyKo),
-  };
-}
-
-export function mapResource(page: NotionPage): Resource | null {
-  const title = text(page, P_RESOURCES.title);
-  const titleKo = text(page, P_RESOURCES.titleKo);
-  if (!title && !titleKo) return null;
-  return {
-    id: page.id,
-    slug: text(page, P_RESOURCES.slug),
-    title,
-    title_ko: titleKo,
-    description: text(page, P_RESOURCES.description),
-    description_ko: text(page, P_RESOURCES.descriptionKo),
-    type: select(page, P_RESOURCES.type) ?? "",
-    date: date(page, P_RESOURCES.date),
-    order: num(page, P_RESOURCES.order) ?? undefined,
-    // File 은 대용량일 수 있어 내려받지 않는다 → 외부 링크만 노출한다.
-    externalUrl: url(page, P_RESOURCES.externalUrl),
-    // 빌드 시 내려받은 로컬 경로. 없으면 undefined → 이미지 영역을 비운다.
-    thumbnail: assetPath(page.id),
   };
 }

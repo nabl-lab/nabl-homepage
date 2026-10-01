@@ -7,7 +7,9 @@
  *
  * 줄 수 상한 때문에 역할별로 나눠 두고 여기서 한데 모아 내보낸다:
  *  - schema-people.ts : members, PI Profile
- *  - schema-work.ts   : research, projects, publications, patents, awards, news, resources
+ *  - schema-work.ts   : research, projects, publications, patents, awards
+ *  - schema-news.ts   : news, resources
  */
 export * from "./schema-people";
 export * from "./schema-work";
+export * from "./schema-news";
