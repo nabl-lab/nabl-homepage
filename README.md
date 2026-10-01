@@ -1,6 +1,15 @@
 # NABL 연구실 홈페이지
 
 Astro + Tailwind CSS 로 만든 정적 사이트. Netlify 로 배포합니다.
+콘텐츠(구성원·논문·특허·소식 등)는 Notion 에서 가져옵니다.
+
+## 어느 문서를 봐야 하나요
+
+| 당신이 | 읽을 문서 |
+| --- | --- |
+| **홈페이지 내용을 고치고 사이트에 올리려는 관리자** (코드 안 다룸) | **[docs/OPERATOR.md](docs/OPERATOR.md)** |
+| 코드를 고치려는 사람 | [CLAUDE.md](CLAUDE.md) — 개발 규칙서 |
+| 더미 데이터 형식을 보려는 사람 | [src/data/README.md](src/data/README.md) |
 
 ## 로컬에서 실행하기
 
