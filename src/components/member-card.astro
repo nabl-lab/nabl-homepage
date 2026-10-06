@@ -14,6 +14,10 @@ const t = useTranslations(lang);
 
 const name = localizedText(member, "name", lang) ?? member.id;
 const topic = localizedText(member, "researchTopic", lang);
+// 연구 설명(2~3문장). 카드에서는 길이가 들쭉날쭉하면 격자가 어긋나므로 3줄에서 자른다.
+// 전체 문장은 상세 페이지에서 본다.
+// 글자 크기는 연구 주제와 같게 두고(text-sm) **색만** 연하게 해서 위계를 준다.
+const description = localizedText(member, "researchDescription", lang);
 ---
 
 <article class="flex flex-col">
@@ -33,6 +37,13 @@ const topic = localizedText(member, "researchTopic", lang);
     }
   </h3>
   {topic && <p class="mt-1 text-sm text-ink-muted">{topic}</p>}
+  {
+    description && (
+      <p class="mt-1 line-clamp-3 text-sm leading-relaxed text-ink-subtle">
+        {description}
+      </p>
+    )
+  }
   {
     member.email && (
       <a

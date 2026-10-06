@@ -11,7 +11,9 @@
     "researchTopic_ko": "압타머 기반 분자 센싱 및 단백질 공학",
     "slug": "hong-gildong",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": "표적 분자에 선택적으로 결합하는 압타머를 선별하고, 결합 시 구조가 바뀌는 성질을 신호로 바꿉니다. 현장에서 쓸 수 있는 소형 진단 장치에 적용하는 것을 목표로 하며, 단백질 공학 기법으로 감도와 안정성을 함께 끌어올리는 연구를 하고 있습니다. 최근에는 혈액 시료에서의 비특이 결합을 줄이는 표면 처리 조건을 탐색하고 있습니다."
   },
   {
     "id": "kim-cheolsu",
@@ -24,7 +26,9 @@
     "researchTopic_ko": "생촉매를 위한 무세포 다효소 시스템",
     "slug": "kim-cheolsu",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": "세포를 쓰지 않고 효소만으로 다단계 반응을 잇는 무세포 시스템을 설계합니다. 보조인자 재생 경로를 함께 넣어 반응이 오래 유지되도록 만듭니다."
   },
   {
     "id": "lee-younghee",
@@ -38,7 +42,9 @@
     "researchTopic_ko": "",
     "slug": "lee-younghee",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": "Engineering thermostable oxidoreductases by directed evolution for use in green chemistry."
   },
   {
     "id": "park-youngsu",
@@ -52,7 +58,9 @@
     "researchTopic_ko": "형광 압타머 스위치 설계",
     "slug": "park-youngsu",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "choi-minjun",
@@ -66,7 +74,9 @@
     "researchTopic_ko": "신호 증폭을 위한 압타머-효소 접합체",
     "slug": "choi-minjun",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "jeong-sujin",
@@ -79,7 +89,9 @@
     "researchTopic_ko": "항체 배향 고정을 위한 단백질 스캐폴드",
     "slug": "jeong-sujin",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "kang-dohyun",
@@ -92,7 +104,9 @@
     "researchTopic_ko": "",
     "slug": "kang-dohyun",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "yoon-seoyeon",
@@ -105,7 +119,9 @@
     "researchTopic_ko": "종이 기반 현장 진단 디바이스",
     "slug": "yoon-seoyeon",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "lim-jaehyun",
@@ -118,7 +134,9 @@
     "researchTopic_ko": "병원균 검출용 압타머 기능화 나노입자",
     "slug": "lim-jaehyun",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "han-jimin",
@@ -131,7 +149,9 @@
     "researchTopic_ko": "재조합 바이오센서의 발현 최적화",
     "slug": "han-jimin",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "oh-sehun",
@@ -144,7 +164,9 @@
     "researchTopic_ko": "대장균 발현 최적화 실험 보조",
     "slug": "oh-sehun",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   },
   {
     "id": "shin-yuna",
@@ -157,6 +179,8 @@
     "researchTopic_ko": "SELEX 실험 보조",
     "slug": "shin-yuna",
     "status": "재직·재학",
-    "leftDate": ""
+    "leftDate": "",
+    "researchDescription": "",
+    "researchDescription_ko": ""
   }
 ]

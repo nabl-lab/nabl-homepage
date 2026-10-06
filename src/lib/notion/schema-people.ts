@@ -19,6 +19,8 @@ export const P_MEMBERS = {
   email: "e-mail",
   slug: "Slug",
   topicKo: "연구 주제",
+  /** 2~3문장 연구 소개. rich_text 지만 서식·링크는 버리고 평문만 쓴다. */
+  researchDescriptionKo: "연구 설명",
   photo: "프로필 사진",
   relAwards: "Awards",
   relPublications: "Publications",

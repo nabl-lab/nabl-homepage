@@ -31,10 +31,22 @@ const t = useTranslations(lang);
 
 const name = localizedText(member, "name", lang) ?? member.name_ko;
 const topic = localizedText(member, "researchTopic", lang);
+// 연구 설명은 상세 페이지에서 잘라내지 않고 전체를 보여 준다.
+const description = localizedText(member, "researchDescription", lang);
+
+// <meta description>: 한국어 페이지에서만 연구 설명을 우선 쓴다.
+// 연구 설명에는 Notion 영문 칸이 없어 /en 에서도 한국어 원문이 폴백으로 오는데,
+// 영문 페이지의 메타 설명까지 한국어로 채우면 검색 결과·공유 미리보기가 어색해진다.
+// 영문 표시 방식이 정해지면 이 분기를 지운다 (CLAUDE.md 14번).
+const metaDescription = (lang === "ko" ? description : null) ?? topic ?? undefined;
 const positionLabel = optionLabel("memberPosition", member.position, lang);
 ---
 
-<BaseLayout lang={lang} title={name} description={topic ?? undefined}>
+<BaseLayout
+  lang={lang}
+  title={name}
+  description={metaDescription}
+>
   <PageHeader title={name} lede={positionLabel} />
 
   <Section>
@@ -45,10 +57,22 @@ const positionLabel = optionLabel("memberPosition", member.position, lang);
 
       <dl class="flex flex-1 flex-col gap-3 text-sm">
         {
-          topic && (
+          /*
+            연구 주제와 연구 설명은 같은 <dt> 아래 묶는다 (설명이 주제를 풀어 쓴 글이라
+            별도 항목으로 세우면 위계가 흐려진다. <dl> 은 dt 하나에 dd 여러 개가 유효하다).
+            둘 중 하나만 있어도 블록이 나오고, 둘 다 비면 블록 자체를 렌더하지 않는다.
+          */
+          (topic || description) && (
             <div>
               <dt class="font-semibold text-ink">{t("member.topicLabel")}</dt>
-              <dd class="mt-0.5 leading-relaxed text-ink-muted">{topic}</dd>
+              {topic && (
+                <dd class="mt-0.5 leading-relaxed text-ink-muted">{topic}</dd>
+              )}
+              {description && (
+                <dd class="mt-1 text-sm leading-relaxed text-ink-subtle">
+                  {description}
+                </dd>
+              )}
             </div>
           )
         }

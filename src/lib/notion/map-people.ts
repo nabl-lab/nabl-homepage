@@ -22,7 +22,8 @@ export function isMemberPublished(page: NotionPage): boolean {
  *
  * - 이름(title, 한국어)이 비면 null → 호출부에서 건너뛴다.
  * - `영문명`이 비어 있으면 name 이 빈 문자열이 되고, localizedText 가 name_ko 로 폴백한다.
- * - `연구 주제`는 Notion 에 영문 속성이 없어 researchTopic 은 항상 빈 문자열이다(ko 로 폴백).
+ * - `연구 주제`·`연구 설명`은 Notion 에 영문 속성이 없어 영문 필드는 항상 빈 문자열이다
+ *   (localizedText 가 ko 로 폴백한다).
  * - 사진: Notion 서명 URL 은 약 1시간 뒤 만료되므로 여기서 넣지 않는다.
  *   자산 다운로드 단계에서 로컬 경로를 채운다. 그전까지는 플레이스홀더가 나온다.
  */
@@ -43,6 +44,10 @@ export function mapMember(page: NotionPage): Member | null {
     email: email(page, P_MEMBERS.email) ?? "",
     researchTopic: "",
     researchTopic_ko: text(page, P_MEMBERS.topicKo),
+    // `연구 설명`도 영문 속성이 없어 ko 만 채운다. 속성이 없거나 비면 빈 문자열.
+    // text() 가 rich_text 조각의 plain_text 만 이어 붙이므로 굵게·링크 서식은 버려진다.
+    researchDescription: "",
+    researchDescription_ko: text(page, P_MEMBERS.researchDescriptionKo),
     // 빌드 시 내려받은 로컬 경로. 없으면 undefined → 플레이스홀더.
     photo: assetPath(page.id),
   };

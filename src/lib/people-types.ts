@@ -25,6 +25,15 @@ export interface Member {
   email: string;
   researchTopic: string;
   researchTopic_ko: string;
+  /**
+   * 2~3문장 연구 소개 (Notion `연구 설명`). 연구 주제보다 자세한 설명이다.
+   *
+   * 연구 주제와 마찬가지로 Notion 에 영문 속성이 없어 researchDescription 은 항상
+   * 빈 문자열이고, localizedText 가 _ko 로 폴백한다 — /en 에서도 한국어 원문이 나온다.
+   * 비어 있을 수 있다. 비면 화면에서 그 영역을 아예 렌더하지 않는다.
+   */
+  researchDescription: string;
+  researchDescription_ko: string;
   /** 빌드 시 public/ 으로 내려받은 로컬 경로. 없으면 플레이스홀더. */
   photo?: string;
 }
