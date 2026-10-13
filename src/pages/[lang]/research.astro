@@ -19,7 +19,12 @@ import {
   type Locale,
 } from "../../i18n/utils";
 import { collectionLabel } from "../../config/collections";
-import { groupProjects } from "../../lib/projects";
+import {
+  formatPeriod,
+  isOngoing,
+  seoulBuildDate,
+  sortProjects,
+} from "../../lib/projects";
 
 export const getStaticPaths = localePaths;
 
@@ -50,22 +55,26 @@ const recentPublications = [...publications]
   .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
   .slice(0, 5);
 
-// 과제는 먼저 "진행 중" + 시작 연도로 묶고(lib/projects.ts), 그룹 안에서 언어를 적용한다.
-// 제목이 양쪽 언어 모두 비어 항목이 전부 걸러진 그룹은 제목만 남지 않도록 함께 버린다.
-const projectGroups = groupProjects(researchProjects)
-  .map((g) => ({
-    ongoing: g.ongoing,
-    year: g.year,
-    items: g.items
-      .map((p) => ({
-        id: p.id,
-        title: localizedText(p, "title", lang),
-        period: p.period,
-        funder: localizedText(p, "funder", lang),
-      }))
-      .filter((p) => p.title),
+// 연구 과제 — 진행 중이 위, 그다음 시작일 내림차순 (규칙은 lib/projects.ts).
+// 진행 중 판정은 "마지막 빌드 시점" 기준이다. 과제가 끝나면 Notion 을 고치고
+// 재배포해야 목록이 따라온다 (README 에도 적어 두었다).
+const buildDate = seoulBuildDate();
+const projectRows = sortProjects(researchProjects, buildDate, lang)
+  .map((p) => ({
+    id: p.id,
+    title: localizedText(p, "title", lang),
+    // localizedText 가 양방향 폴백을 해 준다 — 영문 기관명이 비면 국문이 나온다.
+    funder: localizedText(p, "funder", lang),
+    description: localizedText(p, "description", lang),
+    ongoing: isOngoing(p, buildDate),
+    period: formatPeriod(
+      p.startDate,
+      p.endDate,
+      isOngoing(p, buildDate),
+      t("research.projectPresent"),
+    ),
   }))
-  .filter((g) => g.items.length > 0);
+  .filter((p) => p.title);
 ---
 
 <BaseLayout lang={lang} title={t("nav.research")} description={scope ?? undefined}>
@@ -99,30 +108,44 @@ const projectGroups = groupProjects(researchProjects)
   </Section>
 
   <Section id="projects" title={collectionLabel("projects", lang)}>
-    {projectGroups.length === 0 && <EmptyState lang={lang} />}
-    <div class="flex flex-col gap-8">
+    {projectRows.length === 0 && <EmptyState lang={lang} />}
+    <ul
+      class:list={[
+        "flex flex-col divide-y divide-line",
+        projectRows.length > 0 && "border-y border-line",
+      ]}
+    >
       {
-        projectGroups.map((g) => (
-          <div>
-            {/* 섹션 제목이 h2 이므로 그룹 제목은 h3 (헤딩 순서 유지) */}
-            <h3 class="mb-2 text-sm font-semibold text-ink-muted tabular-nums">
-              {g.ongoing ? t("research.projectsOngoing") : g.year}
-            </h3>
-            <ul class="flex flex-col divide-y divide-line border-y border-line">
-              {g.items.map((p) => (
-                <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
-                  <span class="font-medium text-ink">{p.title}</span>
-                  <span class="shrink-0 text-sm text-ink-muted">
-                    {p.funder ? `${t("research.projectFunder")}: ${p.funder} · ` : ""}
-                    {p.period}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        projectRows.map((p) => (
+          <li class="py-4">
+            <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              {p.ongoing && (
+                <span class="shrink-0 rounded-full bg-brand-tint px-2 py-0.5 text-xs font-semibold text-brand">
+                  {t("research.projectsOngoing")}
+                </span>
+              )}
+              <span class="font-medium text-ink">{p.title}</span>
+            </div>
+            {/* 기관·기간은 둘 다 없을 수 있다. 빈 줄이 남지 않게 한쪽이라도 있을 때만 그린다. */}
+            {(p.funder || p.period) && (
+              <p class="mt-1 text-sm text-ink-muted">
+                {[
+                  p.funder && `${t("research.projectFunder")}: ${p.funder}`,
+                  p.period,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+            )}
+            {p.description && (
+              <p class="mt-1 max-w-prose text-sm leading-relaxed text-ink-subtle">
+                {p.description}
+              </p>
+            )}
+          </li>
         ))
       }
-    </div>
+    </ul>
   </Section>
 
   {

@@ -126,11 +126,25 @@
 | --- | --- |
 | `scope` / `scope_ko` | 연구 범위 소개 문단 |
 | `areas[]` | 연구 분야. `id`, `title`/`title_ko`, `summary`/`summary_ko`, `themes[]`/`themes_ko[]` |
-| `projects[]` | 연구 과제. `id`, `title`/`title_ko`, `period`, `funder`/`funder_ko`, `status`(`Ongoing`/`Completed`/`Planned`), `startDate`/`endDate`(`YYYY-MM-DD`, 없으면 `null`). `grantNumber`·`publicationIds` 는 **화면에 표시하지 않음** |
+| `projects[]` | 연구 과제 (아래 표 참고) |
 
-연구 과제 목록은 화면에서 연도별로 묶입니다. `status` 가 `Ongoing` 이거나 `endDate`·`startDate`
-가 비어 있으면 맨 위 "진행 중" 그룹으로, 나머지는 `startDate` 의 연도별로 최신 연도부터
-표시됩니다. (규칙은 `src/lib/projects.ts`)
+#### projects[] 의 필드
+
+| 필드 | 설명 |
+| --- | --- |
+| `id` | 식별자 |
+| `title` / `title_ko` | 과제명. `title_ko` 가 비면 한글 페이지에서도 `title` 을 씁니다 |
+| `startDate` / `endDate` | `YYYY-MM-DD`. 없으면 `null`. **`period` 문자열은 쓰지 않습니다** — 기간은 화면에서 만듭니다 |
+| `status` | `Ongoing` \| `Completed` \| `Planned` |
+| `funder` / `funder_ko` | 지원 기관. 한쪽이 비면 다른 쪽을 씁니다 |
+| `description` / `description_ko` | 과제 설명. 비면 설명 영역을 렌더하지 않습니다 |
+| `slug` | 비어 있을 수 있습니다. 코드가 임의로 만들지 않습니다 |
+| `featured` | 대표 과제 표시. 지금은 쓰는 화면이 없습니다 |
+| `grantNumber` · `publicationIds` | **화면에 표시하지 않음** |
+
+목록은 연도로 묶지 않고 한 줄로 이어집니다. 진행 중인 과제가 맨 위에 오고 배지가
+붙으며, 그 안에서는 시작일 내림차순입니다. 정렬·기간 표시 규칙은
+`src/lib/projects.ts` 에 있고 `npm test` 가 지킵니다.
 
 ### achievements-etc.json — 기타 성과 (초청강연·저서·언론 등)
 

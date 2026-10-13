@@ -29,19 +29,26 @@ export interface ResearchProject {
   id: string;
   title: string;
   title_ko: string;
-  /** 화면에 그대로 찍는 기간 문자열 (예: "2024–2027") */
-  period: string;
+  /**
+   * 기간은 **미리 문자열로 만들지 않는다.** "진행 중"/"Present" 처럼 언어에 따라
+   * 달라지는 표현이 들어가므로 화면에서 formatPeriod(lib/projects.ts) 로 만든다.
+   */
+  startDate: string | null;
+  endDate: string | null;
+  /** Notion `Status` 값 그대로 (Planned | Ongoing | Completed). 진행 중 판정에 쓴다. */
+  status: string;
   funder: string;
   funder_ko: string;
-  /** Notion Status 값 그대로. "Ongoing" 이면 진행 중 그룹으로 올린다. */
-  status: string;
+  description: string;
+  description_ko: string;
+  /** 비어 있을 수 있다. 있을 때만 상세 페이지를 만든다 (코드가 임의로 만들지 않는다). */
+  slug: string;
+  /** 대표 과제 표시. 지금은 쓰는 화면이 없고 값만 담아 둔다. */
+  featured: boolean;
   /** 내부용(과제 번호). **화면에 표시하지 않는다.** 나중에 쓸 수 있게 담아만 둔다. */
   grantNumber: string;
   /** 이 과제를 사사한 논문의 Notion 페이지 id. **화면에 표시하지 않는다.** */
   publicationIds: string[];
-  /** ISO 날짜. 연도별 그룹은 startDate 기준이다. 비어 있으면 진행 중으로 본다. */
-  startDate: string | null;
-  endDate: string | null;
 }
 
 export interface Publication {

@@ -5,6 +5,9 @@ Astro + Tailwind CSS 로 만든 정적 사이트. Netlify 로 배포합니다.
 
 ## 어느 문서를 봐야 하나요
 
+> **연구 과제의 "진행 중" 판정은 마지막 빌드 시점 기준입니다.** 과제가 종료되면
+> Notion 을 수정한 뒤 재배포(또는 정기 빌드)해야 목록에 반영됩니다.
+
 | 당신이 | 읽을 문서 |
 | --- | --- |
 | **홈페이지 내용을 고치고 사이트에 올리려는 관리자** (코드 안 다룸) | **[docs/OPERATOR.md](docs/OPERATOR.md)** |
@@ -16,6 +19,14 @@ Astro + Tailwind CSS 로 만든 정적 사이트. Netlify 로 배포합니다.
 ```sh
 npm install     # 처음 한 번 (의존성 설치)
 npm run dev     # 개발 서버 실행
+```
+
+검사 명령
+
+```sh
+npm test            # 단위 테스트 (Node 내장 러너, 새 의존성 없음)
+npm run check:types # 타입 검사 (astro check)
+npm run check:i18n  # 다국어 문구 키 누락 검사 (빌드 전에도 자동 실행)
 ```
 
 브라우저에서 `http://localhost:4321` 을 엽니다.

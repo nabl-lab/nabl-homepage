@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check:i18n": "node scripts/check-i18n.mjs",
     "check:types": "astro check",
+    "test": "node --test tests/projects.test.ts",
     "astro": "astro"
   },
   "dependencies": {

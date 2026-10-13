@@ -14,14 +14,6 @@ import { P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS } from "./s
 import { text, num, bool, select, date, url, formula, relationIds } from "./parsers";
 import { assetPath } from "./assets";
 
-/** 기간 문자열. 시작만 있으면 "2024–", 둘 다 없으면 빈 문자열. */
-function periodOf(start: string | null, end: string | null): string {
-  const s = start?.slice(0, 4) ?? "";
-  const e = end?.slice(0, 4) ?? "";
-  if (!s && !e) return "";
-  return e && e !== s ? `${s}–${e}` : s || e;
-}
-
 export function mapResearch(page: NotionPage): ResearchArea | null {
   const title = text(page, P_RESEARCH.title);
   const titleKo = text(page, P_RESEARCH.titleKo);
@@ -51,12 +43,15 @@ export function mapProject(page: NotionPage): ResearchProject | null {
     id: page.id,
     title,
     title_ko: titleKo,
-    period: periodOf(startDate, endDate),
-    funder: text(page, P_PROJECTS.funder),
-    funder_ko: text(page, P_PROJECTS.funderKo),
-    status: select(page, P_PROJECTS.status) ?? "",
     startDate,
     endDate,
+    status: select(page, P_PROJECTS.status) ?? "",
+    funder: text(page, P_PROJECTS.funder),
+    funder_ko: text(page, P_PROJECTS.funderKo),
+    description: text(page, P_PROJECTS.description),
+    description_ko: text(page, P_PROJECTS.descriptionKo),
+    slug: text(page, P_PROJECTS.slug),
+    featured: bool(page, P_PROJECTS.featured),
     // 아래 둘은 화면에 표시하지 않는다 (내부용·역방향 relation). 타입에만 담아 둔다.
     grantNumber: text(page, P_PROJECTS.grantNumber),
     publicationIds: relationIds(page, P_PROJECTS.relPublications),
