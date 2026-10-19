@@ -124,4 +124,4 @@ export const piProfile: PiProfile = {
 };
 
 // 연구 범위 소개문은 더 이상 별도 필드가 아니다.
-// Notion Research DB 의 Category=Scope 행이 담당하며, splitResearch() 로 갈라 쓴다.
+// Notion Research DB 의 Category=Scope 행이 담당하며, lib/research.ts 가 갈라 쓴다.

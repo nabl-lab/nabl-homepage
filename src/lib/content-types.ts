@@ -6,7 +6,8 @@
  *
  * 줄 수 상한 때문에 notion/schema-*.ts 와 같은 축으로 나눠 두고 여기서 모아 내보낸다:
  *  - people-types.ts : 구성원, 졸업생
- *  - work-types.ts   : 논문, 특허, 수상, 기타 성과, 연구 분야, 연구 과제
+ *  - work-types.ts     : 논문, 특허, 수상, 기타 성과, 연구 과제
+ *  - research-types.ts : 연구 분야
  *  - news-types.ts   : 소식, 공개 자료
  *  - pi-types.ts     : 지도교수 프로필
  *
@@ -26,6 +27,10 @@ export interface About {
 export type { Member, MemberResearchArea, Alumnus } from "./people-types";
 export type {
   ResearchArea,
+  ResearchMemberRef,
+  ResearchProjectRef,
+} from "./research-types";
+export type {
   ResearchProject,
   Publication,
   Patent,

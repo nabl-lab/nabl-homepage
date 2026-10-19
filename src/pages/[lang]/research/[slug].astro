@@ -1,0 +1,111 @@
+---
+// 연구 분야 상세 (/[lang]/research/<slug>).
+//
+// **공개(Publish)되고 Category=Theme 인 행만** 페이지를 만든다.
+// Scope 행은 /research 목록 상단의 소개 문구로만 쓰이고 상세 페이지가 없다.
+// 미공개 행도 페이지를 만들지 않는다 — 구성원 페이지에서는 이름만 보이고
+// 링크가 걸리지 않으므로 404 가 나가지 않는다 (lib/content 의 researchAreas 참고).
+//
+// Research 전 행이 미공개인 동안에는 이 라우트가 **0개 페이지**를 만든다. 정상이다.
+import BaseLayout from "../../../layouts/base-layout.astro";
+import PageHeader from "../../../components/page-header.astro";
+import Section from "../../../components/section.astro";
+import { researchAreas, localizedText, type ResearchArea } from "../../../lib/content";
+import { themeDetailPages } from "../../../lib/research";
+import { LOCALES, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) =>
+    themeDetailPages(researchAreas).map((area) => ({
+      params: { lang, slug: area.slug },
+      props: { area },
+    })),
+  );
+}
+
+const lang = Astro.params.lang as Locale;
+const { area } = Astro.props as { area: ResearchArea };
+const t = useTranslations(lang);
+
+const title = localizedText(area, "title", lang) ?? area.slug;
+const body = localizedText(area, "summary", lang);
+
+// 소속 연구원 — 인덱스에 공개된 사람만 들어 있다. Slug 가 있는 사람만 링크한다.
+const members = area.members
+  .map((m) => ({
+    label: localizedText(m, "name", lang) ?? m.name_ko,
+    href: m.slug ? withLocale(lang, `/members/${m.slug}`) : null,
+  }))
+  .filter((m) => m.label);
+
+// 관련 과제 — 과제 상세 라우트가 아직 없으므로 링크를 걸지 않고 이름만 보여 준다.
+const projects = area.projects
+  .map((p) => localizedText(p, "title", lang))
+  .filter((p): p is string => Boolean(p));
+---
+
+<BaseLayout lang={lang} title={title} description={body ?? undefined}>
+  <PageHeader title={title} lede={area.code || undefined} />
+
+  <Section>
+    {body && <p class="max-w-prose leading-relaxed text-ink">{body}</p>}
+
+    {
+      area.keywords.length > 0 && (
+        <ul class="mt-6 flex flex-wrap gap-1.5">
+          {area.keywords.map((k) => (
+            <li class="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs text-ink-muted">
+              {k}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </Section>
+
+  {
+    members.length > 0 && (
+      <Section title={t("research.areaMembers")} muted>
+        <ul class="flex flex-wrap gap-2">
+          {members.map((m) => (
+            <li>
+              {m.href ? (
+                <a
+                  href={m.href}
+                  class="inline-block rounded border border-line px-3 py-1.5 text-sm text-brand hover:bg-brand-tint"
+                >
+                  {m.label}
+                </a>
+              ) : (
+                <span class="inline-block rounded border border-line px-3 py-1.5 text-sm text-ink-muted">
+                  {m.label}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  {
+    projects.length > 0 && (
+      <Section title={t("research.areaProjects")}>
+        <ul class="flex flex-col divide-y divide-line border-y border-line">
+          {projects.map((p) => (
+            <li class="py-3 text-sm text-ink">{p}</li>
+          ))}
+        </ul>
+      </Section>
+    )
+  }
+
+  <Section muted>
+    <a
+      href={withLocale(lang, "/research")}
+      class="text-sm font-medium text-brand hover:underline"
+    >
+      ← {t("research.backToAreas")}
+    </a>
+  </Section>
+</BaseLayout>

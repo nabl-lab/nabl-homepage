@@ -68,6 +68,9 @@ const koPages = {
   "research.lede": "연구 범위, 주제, 진행 중인 프로젝트입니다.",
   "research.projectFunder": "지원 기관",
   "research.projectsOngoing": "진행 중",
+  "research.areaMembers": "소속 연구원",
+  "research.areaProjects": "관련 연구 과제",
+  "research.backToAreas": "연구 분야 전체",
   "research.projectPresent": "진행 중",
 
   // Projects

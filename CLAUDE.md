@@ -335,6 +335,42 @@ Notion 에서 **열 이름을 바꾸면 이 두 파일을 함께 고쳐야** 합
 영문 페이지의 메타 설명까지 한국어로 채우면 검색 결과·공유 미리보기가 어색해지기
 때문입니다. 위 "영문 표시 방식" 이 정해지면 이 분기를 지웁니다.
 
+### 연구 분야 (Research DB) — 목록·상세 규칙
+
+Notion Research DB 한 곳에 `Scope`(연구 범위)와 `Theme`(세부 주제)이 같이 들어 있고,
+화면에서 쓰는 방식이 다릅니다. 가르는 규칙은 `src/lib/research.ts` 한 곳에 있고
+`tests/research.test.ts` 가 지킵니다.
+
+| Category | 목록(`/research`) | 상세 페이지 |
+| --- | --- | --- |
+| `Scope` | 상단 **소개 문구** | 만들지 않음 |
+| `Theme` | **카드** (Code 배지 + 설명 + Keywords) | **공개 + Slug 있음** 일 때만 |
+
+둘 다 `Order` 오름차순이고 값이 없으면 맨 뒤입니다.
+
+**상세 페이지는 `공개(Publish) + Category=Theme + Slug 있음` 세 조건을 모두 만족할 때만**
+만듭니다 (`themeDetailPages`). Slug 가 겹치면 먼저 온 행만 만듭니다 — 같은 경로를 두 번
+만들면 빌드가 죽기 때문입니다(15번 항목).
+
+**미공개 행도 목록 카드와 구성원 페이지에는 이름이 나옵니다.** 공개 전에 그 영역이
+비어 보이지 않게 하려는 것이고, 링크만 걸지 않습니다. 링크 여부는 목록·구성원 페이지
+양쪽이 같은 함수(`hasDetailPage`)로 판단하므로 한쪽만 어긋나는 일이 없습니다.
+
+상세 페이지 구성: 제목(+Code) → 본문(`Description`) → `Keywords` 태그 →
+소속 연구원(`Members` relation, 공개된 사람만·Slug 있는 사람만 링크) →
+관련 과제(`Projects` relation). 과제는 상세 라우트가 없어 이름만 보여 줍니다.
+
+`Topics` 관계는 아직 쓰지 않습니다.
+
+**빌드 경고** (`notion/validate-rows.ts` 의 `checkResearchAreas`, 전부 경고)
+
+| 경고 | 조치 |
+| --- | --- |
+| 공개인데 Slug 없음 | Slug 를 채움 (없으면 상세 페이지가 안 생김) |
+| 공개인데 Description 양쪽 다 빔 | 본문이 비므로 한쪽이라도 채움 |
+| Slug 중복 | 하나만 상세 페이지가 생김 |
+| Slug 가 `publications` | `/research/publications` 와 겹치므로 다른 값으로 |
+
 ### 구성원의 연구 분야는 relation 으로 읽는다
 
 구성원 DB 의 **`연구 분야 (Research)`** (relation → Research DB) 를 씁니다.
@@ -359,9 +395,9 @@ id→행 맵(`RelationIndex.research`)을 만들고 조인합니다. 구성원 �
 **링크를 걸지 말지는 화면이 판단**합니다 — 공개됐고 Slug 가 있을 때만
 `/[lang]/research/<slug>` 로 링크합니다.
 
-> **주의: `/[lang]/research/<slug>` 라우트는 아직 없습니다.** 현재 Research 전 행이
-> 미공개라 링크가 하나도 생기지 않아 문제가 없습니다. **Research 행을 공개하기 전에
-> 그 상세 라우트를 먼저 만들어야** 합니다. 그러지 않으면 깨진 링크가 나갑니다.
+상세 라우트는 `src/pages/[lang]/research/[slug].astro` 입니다. 링크 조건이 상세 페이지
+생성 조건과 같은 함수(`hasDetailPage` / `themeDetailPages`)를 쓰므로, 공개했는데 404 가
+나가는 일이 없습니다.
 
 **빌드 경고 3종** (`notion/validate.ts` 의 `checkMemberResearchAreas`, 전부 경고이고
 빌드를 멈추지 않습니다. `tests/member-research-areas.test.ts` 가 지킵니다)

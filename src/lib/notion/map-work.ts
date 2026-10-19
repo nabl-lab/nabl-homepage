@@ -1,37 +1,19 @@
 /**
- * Notion 행 → 사이트 모델 변환 — **연구·성과** (research, projects, publications,
- * patents, awards). 속성명은 schema-work.ts 에서만 가져온다.
+ * Notion 행 → 사이트 모델 변환 — **과제·성과** (projects, publications, patents, awards).
+ * 연구 분야는 relation 조인이 붙어 map-research.ts 로 따로 뺐다.
+ * 속성명은 schema-work.ts 에서만 가져온다.
  *
  * 공통 규칙: **title 이 비어 있는 행은 null 을 돌려 조용히 건너뛴다** (오류 아님).
  * relation 은 RelationIndex 로 해석하며, 인덱스에 없는 대상(비공개)은 자동으로 빠진다.
- * 같은 축의 다른 파일: map-people.ts(사람), map-news.ts(소식·자료).
+ * 같은 축의 다른 파일: map-people.ts(사람), map-research.ts(연구 분야), map-news.ts(소식·자료).
  * 호출부는 배럴 `map.ts` 에서 가져온다.
  */
 import type { NotionPage } from "./client";
-import type { ResearchArea, ResearchProject, Publication, Patent, Award } from "../content-types";
+import type { ResearchProject, Publication, Patent, Award } from "../content-types";
 import { type RelationIndex, resolveRefs } from "./types";
-import { P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS } from "./schema-work";
+import { P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS } from "./schema-work";
 import { text, num, bool, select, date, url, formula, relationIds } from "./parsers";
-import { assetPath } from "./assets";
 
-export function mapResearch(page: NotionPage): ResearchArea | null {
-  const title = text(page, P_RESEARCH.title);
-  const titleKo = text(page, P_RESEARCH.titleKo);
-  if (!title && !titleKo) return null;
-  return {
-    id: page.id,
-    slug: text(page, P_RESEARCH.slug),
-    title,
-    title_ko: titleKo,
-    summary: text(page, P_RESEARCH.description),
-    summary_ko: text(page, P_RESEARCH.descriptionKo),
-    // Scope(연구 범위) / Theme(세부 주제) 구분
-    category: select(page, P_RESEARCH.category) ?? "",
-    order: num(page, P_RESEARCH.order) ?? undefined,
-    featured: bool(page, P_RESEARCH.featured),
-    image: assetPath(page.id),
-  };
-}
 
 export function mapProject(page: NotionPage): ResearchProject | null {
   const title = text(page, P_PROJECTS.title);

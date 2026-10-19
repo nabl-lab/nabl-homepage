@@ -6,9 +6,11 @@
  *
  * 줄 수 상한 때문에 schema-*.ts 와 같은 축으로 나눠 두고 여기서 한데 모아 내보낸다:
  *  - map-people.ts : members, PI Profile
- *  - map-work.ts   : research, projects, publications, patents, awards
+ *  - map-work.ts     : projects, publications, patents, awards
+ *  - map-research.ts : research (relation 조인이 붙어 따로 둔다)
  *  - map-news.ts   : news, resources
  */
 export * from "./map-people";
 export * from "./map-work";
+export * from "./map-research";
 export * from "./map-news";

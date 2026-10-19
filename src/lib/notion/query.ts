@@ -33,7 +33,12 @@ import {
   mapNews,
   mapResource,
 } from "./map";
-import { checkMemberResearchAreas, checkProjectDates, checkSlugs } from "./validate";
+import { checkSlugs } from "./validate";
+import {
+  checkMemberResearchAreas,
+  checkProjectDates,
+  checkResearchAreas,
+} from "./validate-rows";
 import { buildRelationIndex, published } from "./relation-index";
 
 export interface NotionContent {
@@ -86,6 +91,12 @@ export async function loadAll(): Promise<NotionContent> {
 
   const members = mapped(mRows, P_MEMBERS.publish, (p) => mapMember(p, index));
   if (members) checkMemberResearchAreas(members);
+
+  // 연구 분야 점검은 **공개 여부와 무관하게 전 행**을 본다 (publish 는 함수가 판단).
+  const allResearch = (rRows ?? [])
+    .map((p) => mapResearch(p, index))
+    .filter((v): v is NonNullable<typeof v> => v !== null);
+  checkResearchAreas(allResearch);
   const news = mapped(nwRows, P_NEWS.publish, mapNews);
   const resources = mapped(rsRows, P_RESOURCES.publish, mapResource);
 
@@ -108,7 +119,7 @@ export async function loadAll(): Promise<NotionContent> {
 
   return {
     members,
-    researchAreas: mapped(rRows, P_RESEARCH.publish, mapResearch),
+    researchAreas: mapped(rRows, P_RESEARCH.publish, (p) => mapResearch(p, index)),
     researchProjects: projects,
     publications: mapped(pbRows, P_PUBLICATIONS.publish, mapPublication),
     patents: mapped(ptRows, P_PATENTS.publish, mapPatent),

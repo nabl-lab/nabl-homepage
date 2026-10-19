@@ -6,7 +6,6 @@
  * `src/lib/content.ts` 에서만 가져오면 된다.
  */
 import type { Member, Locale } from "./content-types";
-import { RESEARCH_CATEGORY } from "./notion/schema-work";
 
 /**
  * 언어 폴백 헬퍼 — 콘텐츠 텍스트는 반드시 이 함수로 가져온다.
@@ -106,24 +105,6 @@ export function groupByPosition<T extends { position: string }>(
   return groups;
 }
 
-/** Order 오름차순 정렬. 값이 없으면 맨 뒤. */
-export function byOrder<T extends { order?: number }>(list: T[]): T[] {
-  const far = Number.MAX_SAFE_INTEGER;
-  return [...list].sort((a, b) => (a.order ?? far) - (b.order ?? far));
-}
-
-/**
- * 연구 항목을 Category 로 나눈다 (Notion Research DB 는 한 DB 에 둘을 같이 담는다).
- * 한쪽이 0건이어도 빈 배열을 돌려주므로 호출부에서 레이아웃이 깨지지 않는다.
- */
-export function splitResearch<T extends { category: string; order?: number }>(
-  list: T[],
-): { scopes: T[]; themes: T[] } {
-  return {
-    scopes: byOrder(list.filter((r) => r.category === RESEARCH_CATEGORY.scope)),
-    themes: byOrder(list.filter((r) => r.category === RESEARCH_CATEGORY.theme)),
-  };
-}
 
 /** 날짜 문자열(ISO) 내림차순 정렬. 뉴스·수상 목록에 쓴다. */
 export function byDateDesc<T extends { date: string }>(list: T[]): T[] {

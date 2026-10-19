@@ -8,7 +8,7 @@
  */
 import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { checkMemberResearchAreas } from "../src/lib/notion/validate.ts";
+import { checkMemberResearchAreas } from "../src/lib/notion/validate-rows.ts";
 
 let warnings: string[] = [];
 const realWarn = console.warn;

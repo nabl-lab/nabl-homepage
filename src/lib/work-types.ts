@@ -1,7 +1,9 @@
 /**
- * 콘텐츠 데이터 형식 — **연구·성과** (논문, 특허, 수상, 기타 성과, 연구 분야, 연구 과제).
+ * 콘텐츠 데이터 형식 — **과제·성과** (논문, 특허, 수상, 기타 성과, 연구 과제).
+ * 연구 분야는 relation 이 붙어 research-types.ts 로 따로 뺐다.
  *
- * 같은 축의 다른 파일: people-types.ts(사람), news-types.ts(소식·자료).
+ * 같은 축의 다른 파일: people-types.ts(사람), research-types.ts(연구 분야),
+ * news-types.ts(소식·자료).
  * 페이지·컴포넌트는 이 파일을 직접 import 하지 않고 content.ts 에서 타입을 가져온다.
  */
 
@@ -10,21 +12,6 @@
  *  - Scope : 연구 범위 소개문 (여러 건이면 Order 순으로 모두 표시)
  *  - Theme : 세부 연구주제 카드
  */
-export interface ResearchArea {
-  id: string;
-  slug: string;
-  title: string;
-  title_ko: string;
-  summary: string;
-  summary_ko: string;
-  /** "Scope" | "Theme" (Notion 값 그대로) */
-  category: string;
-  order?: number;
-  featured: boolean;
-  /** 빌드 시 내려받은 로컬 경로 */
-  image?: string;
-}
-
 export interface ResearchProject {
   id: string;
   title: string;

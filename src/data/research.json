@@ -9,7 +9,12 @@
       "summary_ko": "NABL은 핵산 압타머와 공학적으로 설계된 단백질을 어떻게 설계·진화·조립하여 분자 인식을 위한 실용적인 도구로 만들 수 있는지를 연구합니다. 시험관 내 선별과 유도 진화부터, 이렇게 얻은 결합체를 현장형 바이오센싱 디바이스에 통합하는 단계까지를 아우릅니다.",
       "category": "Scope",
       "order": 1,
-      "featured": false
+      "featured": false,
+      "code": "",
+      "keywords": [],
+      "publish": true,
+      "members": [],
+      "projects": []
     },
     {
       "id": "aptamer-sensing",
@@ -20,7 +25,12 @@
       "summary_ko": "단백질 바이오마커, 저분자, 병원균을 높은 친화도와 특이성으로 인식하는 압타머의 선별과 공학적 개량.",
       "category": "Theme",
       "order": 1,
-      "featured": false
+      "featured": false,
+      "code": "N",
+      "keywords": [],
+      "publish": true,
+      "members": [],
+      "projects": []
     },
     {
       "id": "protein-engineering",
@@ -31,7 +41,12 @@
       "summary_ko": "컨센서스 설계와 실험실 진화를 통해 산업용 효소와 결합 스캐폴드의 안정성, 활성, 용매 내성을 개선.",
       "category": "Theme",
       "order": 2,
-      "featured": false
+      "featured": false,
+      "code": "N",
+      "keywords": [],
+      "publish": true,
+      "members": [],
+      "projects": []
     },
     {
       "id": "biosensor-devices",
@@ -42,7 +57,12 @@
       "summary_ko": "분자 인식 요소를 종이 기반·나노입자 기반 신호로 옮겨 신속한 현장 진단을 구현.",
       "category": "Theme",
       "order": 3,
-      "featured": false
+      "featured": false,
+      "code": "N",
+      "keywords": [],
+      "publish": true,
+      "members": [],
+      "projects": []
     },
     {
       "id": "cell-free-systems",
@@ -53,7 +73,12 @@
       "summary_ko": "세포 밖에서 다효소 반응 시스템을 구축하여 원-팟 생촉매와 바이오센서 부품 생산에 활용.",
       "category": "Theme",
       "order": 4,
-      "featured": false
+      "featured": false,
+      "code": "N",
+      "keywords": [],
+      "publish": true,
+      "members": [],
+      "projects": []
     }
   ],
   "projects": [

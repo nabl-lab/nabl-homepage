@@ -141,7 +141,11 @@
 | 필드 | 설명 |
 | --- | --- |
 | `scope` / `scope_ko` | 연구 범위 소개 문단 |
-| `areas[]` | 연구 분야. `id`, `title`/`title_ko`, `summary`/`summary_ko`, `themes[]`/`themes_ko[]` |
+| `areas[]` | 연구 분야. `id`, `title`/`title_ko`, `summary`/`summary_ko`(= Notion `Description`), `slug`, `category`(`Scope`\|`Theme`), `code`, `keywords[]`, `order`, `featured`, `publish`, `members[]`, `projects[]` |
+
+연구 분야는 `category` 로 쓰임이 갈립니다 — `Scope` 는 `/research` 상단 소개 문구,
+`Theme` 는 카드. 상세 페이지는 **`publish` 가 true 이고 `Theme` 이고 `slug` 가 있을 때만**
+생깁니다 (규칙은 `src/lib/research.ts`).
 | `projects[]` | 연구 과제 (아래 표 참고) |
 
 #### projects[] 의 필드

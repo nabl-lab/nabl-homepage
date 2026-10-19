@@ -73,6 +73,9 @@ const enPages = {
   "research.lede": "Our research scope, themes, and current projects.",
   "research.projectFunder": "Funded by",
   "research.projectsOngoing": "Ongoing",
+  "research.areaMembers": "Members",
+  "research.areaProjects": "Related projects",
+  "research.backToAreas": "All research areas",
   "research.projectPresent": "Present",
 
   // Projects
