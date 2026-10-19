@@ -59,34 +59,53 @@ export * from "./content-helpers";
 import { notionEnabled } from "../config/notion";
 import { pick } from "./notion/fallback";
 import { withResolvedYear } from "./publications";
+// 필수 필드가 빈 항목은 여기서 걸러 낸다. 항목 하나 때문에 빌드 전체가 죽지 않게
+// 하는 유일한 지점이다 (CLAUDE.md 15번, lib/required-fields.ts).
+import {
+  completeAwards,
+  completeEtc,
+  completeMembers,
+  completeNews,
+  completePatents,
+  completeProjects,
+  completePublications,
+  completeResearch,
+  completeResources,
+} from "./required-fields";
 import { loadAll } from "./notion/query";
 
 const notion = notionEnabled ? await loadAll() : null;
 
 export const about = aboutData as About;
-export const members = pick("members", notion?.members, membersData as Member[]);
+export const members = completeMembers(
+  pick("members", notion?.members, membersData as Member[]),
+);
 export const alumni = alumniData as Alumnus[]; // Notion 에 대응 DB 없음 (구성원 상태로 파생 예정)
 // 연도 규칙(게재일 우선)은 Notion·JSON 어느 출처든 같게 적용한다 (lib/publications.ts).
-export const publications = withResolvedYear(
-  pick("publications", notion?.publications, publicationsData as Publication[]),
+export const publications = completePublications(
+  withResolvedYear(
+    pick("publications", notion?.publications, publicationsData as Publication[]),
+  ),
 );
-export const patents = pick("patents", notion?.patents, patentsData as Patent[]);
-export const awards = pick("awards", notion?.awards, awardsData as Award[]);
-export const news = pick("news", notion?.news, newsData as NewsItem[]);
-export const resources = pick("resources", notion?.resources, [] as Resource[]);
+export const patents = completePatents(
+  pick("patents", notion?.patents, patentsData as Patent[]),
+);
+export const awards = completeAwards(
+  pick("awards", notion?.awards, awardsData as Award[]),
+);
+export const news = completeNews(pick("news", notion?.news, newsData as NewsItem[]));
+export const resources = completeResources(
+  pick("resources", notion?.resources, [] as Resource[]),
+);
 // TODO: Notion 미연동 — 이 목록만 src/data/achievements-etc.json 더미 데이터를 쓴다.
 // 대응 Notion DB 가 없어서 실데이터로 바뀌지 않는다. Etc 페이지를 없애거나
 // Notion 에 DB 를 만들어 연결할지 결정이 필요하다 (실데이터로 착각하지 말 것).
-export const achievementsEtc = etcData as EtcItem[];
-export const researchAreas = pick(
-  "research",
-  notion?.researchAreas,
-  researchData.areas as ResearchArea[],
+export const achievementsEtc = completeEtc(etcData as EtcItem[]);
+export const researchAreas = completeResearch(
+  pick("research", notion?.researchAreas, researchData.areas as ResearchArea[]),
 );
-export const researchProjects = pick(
-  "projects",
-  notion?.researchProjects,
-  researchData.projects as ResearchProject[],
+export const researchProjects = completeProjects(
+  pick("projects", notion?.researchProjects, researchData.projects as ResearchProject[]),
 );
 
 /**

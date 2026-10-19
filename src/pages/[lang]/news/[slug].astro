@@ -6,9 +6,13 @@ import Section from "../../../components/section.astro";
 import { news, byDateDesc, localizedText } from "../../../lib/content";
 import { LOCALES, useTranslations, withLocale, type Locale } from "../../../i18n/utils";
 import type { NewsItem } from "../../../lib/content";
+import { withUniqueSlug } from "../../../lib/notion/validate";
 
 export function getStaticPaths() {
-  const sorted = byDateDesc(news); // 최신 → 과거
+  // Slug 가 비거나 겹친 항목은 제외한다 (members/[slug].astro 와 같은 가드).
+  // content.ts 가 이미 걸러 주지만, 빈 slug 는 경로가 `/en/news/` 로 접혀 목록
+  // 페이지와 충돌해 **빌드 전체를 죽인다.** 라우트에서도 한 번 더 막는다.
+  const sorted = withUniqueSlug(byDateDesc(news)); // 최신 → 과거
   return LOCALES.flatMap((lang) =>
     sorted.map((item, i) => ({
       params: { lang, slug: item.slug },

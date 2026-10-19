@@ -2,6 +2,21 @@
 
 이 폴더의 JSON 파일들은 **임시 더미 데이터**입니다. 실존 인물·논문·소식이 아닙니다.
 
+## 필수 필드 — 비면 그 항목이 빠집니다
+
+필수 필드가 빈 항목은 `src/lib/required-fields.ts` 가 걸러 내고 빌드 로그에
+`[skip] …` 경고를 남깁니다. **항목 하나가 비어도 빌드 전체는 성공합니다**
+(규칙과 이유는 `CLAUDE.md` 15번).
+
+| 타입 | 필수 필드 |
+| --- | --- |
+| `news.json` | `slug`, `date` |
+| `resources` | `title`, `slug` |
+| `patents.json` · `awards.json` · `achievements-etc.json` | `title`, `date` |
+| `members.json` | `name` 또는 `name_ko` (`position`·`slug` 는 비어도 됨) |
+| `publications.json` · `research.json` 의 `areas`/`projects` | `title` |
+
+
 ## 더미 데이터 작성 규칙: 실존 정보 금지 (중요)
 
 - **실존 인물의 이름이나 연락처를 넣지 않습니다.** 구성원·졸업생·수상자·저자·발명자
