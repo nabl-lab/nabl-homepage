@@ -6,6 +6,30 @@
  * 페이지·컴포넌트는 이 파일을 직접 import 하지 않고 content.ts 에서 타입을 가져온다.
  */
 
+/**
+ * 구성원에게 연결된 연구 분야 한 건 (Notion Research DB 의 Theme 행).
+ *
+ * 필드명이 `title_ko` 인 이유: 콘텐츠 텍스트는 전부 `localizedText(item, "title", lang)`
+ * 로 꺼내는 규칙이고(CLAUDE.md 11번), 그 헬퍼가 `title` / `title_ko` 짝을 찾는다.
+ * `titleKo` 로 두면 이 객체만 폴백 규칙 밖으로 빠져 호출부에서 직접 분기해야 한다.
+ */
+export interface MemberResearchArea {
+  title: string;
+  title_ko: string;
+  /** 상세 URL 조각. 비어 있을 수 있다 (그때는 링크를 걸지 않는다). */
+  slug: string;
+  /** Theme 분류 기호 (N | A | B | L). 지금은 화면에 쓰지 않고 담아만 둔다. */
+  code: string;
+  /**
+   * Notion `Category` 값 그대로 (Theme | Scope). 구성원에게는 Theme 만 붙어야 하고,
+   * Scope 가 붙어 있으면 빌드 로그에 경고가 난다 (notion/validate.ts).
+   * Patent.status 처럼 Notion 값을 그대로 담는 기존 방식과 같다.
+   */
+  category: string;
+  /** Research 행이 공개됐는지. **false 면 이름만 보여 주고 링크를 걸지 않는다.** */
+  publish: boolean;
+}
+
 export interface Member {
   id: string;
   /** 비어 있을 수 있다. 있을 때만 /members/[slug] 상세 페이지를 만든다. */
@@ -34,6 +58,11 @@ export interface Member {
    */
   researchDescription: string;
   researchDescription_ko: string;
+  /**
+   * 연구 분야 — Notion 관계 속성 `연구 분야 (Research)` 를 Research DB 와 조인한 결과.
+   * 0개일 수 있다 (그때는 화면에서 그 영역을 렌더하지 않고 빌드 로그에 경고가 난다).
+   */
+  researchAreas: MemberResearchArea[];
   /** 빌드 시 public/ 으로 내려받은 로컬 경로. 없으면 플레이스홀더. */
   photo?: string;
 }

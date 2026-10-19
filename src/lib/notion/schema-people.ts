@@ -22,6 +22,14 @@ export const P_MEMBERS = {
   /** 2~3문장 연구 소개. rich_text 지만 서식·링크는 버리고 평문만 쓴다. */
   researchDescriptionKo: "연구 설명",
   photo: "프로필 사진",
+  /**
+   * 연구 분야 relation → Research DB (dual, 역방향은 Research 의 `Members`).
+   * 같은 DB 에 다중선택 `연구 분야` 도 아직 남아 있다 — 이름이 비슷하니 주의.
+   * 다중선택은 관계가 비었을 때만 임시 폴백으로 읽는다 (map-people.ts).
+   */
+  relResearchAreas: "연구 분야 (Research)",
+  /** 전환기 임시 폴백용 다중선택. Notion 에서 삭제되면 이 줄과 폴백 코드를 함께 지운다. */
+  researchAreasLegacy: "연구 분야",
   relAwards: "Awards",
   relPublications: "Publications",
   relProjectsPi: "Projects_PI",

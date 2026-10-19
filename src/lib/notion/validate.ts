@@ -86,3 +86,65 @@ export function checkProjectDates(
   }
   if (missing.length > 10) console.log(`           … 외 ${missing.length - 10}건`);
 }
+
+/** 구성원에게 붙어야 하는 Research 분류. 다른 값(Scope)이면 경고한다. */
+const THEME_CATEGORY = "Theme";
+/**
+ * 구성원의 연구 분야 관계를 점검한다. **전부 경고이고 빌드를 멈추지 않는다.**
+ *
+ *  - 공개 구성원인데 관계가 비어 있음 → 운영자가 Notion 에서 연결해야 한다
+ *  - 관계가 `Category=Scope` 행을 가리킴 → 구성원에게는 Theme 행만 붙여야 한다
+ *  - 관계 대상 행에 Slug 가 없음 → 상세 링크를 만들 수 없다 (이름만 표시된다)
+ *
+ * 미공개(`Publish` 미체크) 행이 붙어 있는 것은 **정상**이라 경고하지 않는다
+ * (공개 전에도 이름은 보여 주고 링크만 걸지 않는다).
+ */
+export function checkMemberResearchAreas(
+  members: {
+    name: string;
+    name_ko: string;
+    researchAreas: {
+      title: string;
+      title_ko: string;
+      slug: string;
+      category: string;
+    }[];
+  }[],
+): void {
+  const empty: string[] = [];
+  const noSlug: string[] = [];
+  const scope: string[] = [];
+
+  for (const m of members) {
+    const who = m.name_ko || m.name || "(이름 없음)";
+    if (m.researchAreas.length === 0) {
+      empty.push(who);
+      continue;
+    }
+    for (const a of m.researchAreas) {
+      const label = a.title_ko || a.title || "(제목 없음)";
+      if (!a.slug.trim()) noSlug.push(`${who} → ${label}`);
+      // category 가 빈 값인 경우(전환기 다중선택 폴백)는 판단하지 않는다.
+      if (a.category && a.category !== THEME_CATEGORY) scope.push(`${who} → ${label}`);
+    }
+  }
+
+  if (empty.length > 0) {
+    console.warn(
+      `[warn] members: 연구 분야가 연결되지 않은 공개 구성원 ${empty.length}명 ` +
+        `→ ${empty.join(", ")}. Notion 의 \`연구 분야 (Research)\` 에 연결해 주세요.`,
+    );
+  }
+  for (const s of scope) {
+    console.warn(
+      `[warn] members: ${s} — Category 가 ${THEME_CATEGORY} 가 아닌 행(Scope)이 연결됐습니다. ` +
+        `구성원에게는 Theme 행만 연결해 주세요.`,
+    );
+  }
+  for (const s of noSlug) {
+    console.warn(
+      `[warn] members: ${s} — 연결된 연구 분야에 Slug 가 없어 상세 링크를 만들 수 없습니다 ` +
+        `(이름만 표시됩니다).`,
+    );
+  }
+}

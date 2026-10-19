@@ -10,12 +10,17 @@ export const P_RESEARCH = {
   description: "Description",
   descriptionKo: "Description_ko",
   category: "Category", // Scope | Theme
+  /** Theme 전용 분류 기호 (N | A | B | L). Scope 행은 비어 있다. */
+  code: "Code",
+  keywords: "Keywords",
   featured: "Featured",
   publish: "Publish",
   order: "Order",
   slug: "Slug",
   image: "Image",
   relProjects: "Projects",
+  /** 구성원 relation 의 역방향. 구성원 쪽에서 조인하므로 여기서는 읽지 않는다. */
+  relMembers: "Members",
 } as const;
 
 /** research `Category` — Scope(연구 범위)와 Theme(연구 주제)를 한 DB 에서 구분한다. */

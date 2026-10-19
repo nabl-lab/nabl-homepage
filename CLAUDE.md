@@ -335,6 +335,43 @@ Notion 에서 **열 이름을 바꾸면 이 두 파일을 함께 고쳐야** 합
 영문 페이지의 메타 설명까지 한국어로 채우면 검색 결과·공유 미리보기가 어색해지기
 때문입니다. 위 "영문 표시 방식" 이 정해지면 이 분기를 지웁니다.
 
+### 구성원의 연구 분야는 relation 으로 읽는다
+
+구성원 DB 의 **`연구 분야 (Research)`** (relation → Research DB) 를 씁니다.
+이름이 거의 같은 다중선택 **`연구 분야`** 가 아직 남아 있으니 혼동하지 마세요.
+
+| 속성 | 타입 | 지금 쓰는가 |
+| --- | --- | --- |
+| `연구 분야 (Research)` | relation (dual, 역방향은 Research 의 `Members`) | **예 — 이쪽이 정식** |
+| `연구 분야` | multi_select | 관계가 비었을 때만 **임시** 폴백. Notion 에서 삭제 예정 |
+
+폴백은 이름만 살리고 slug·code 를 비워 둡니다(= 링크 없음). Notion 에서 다중선택을
+삭제하면 `map-people.ts` 의 폴백과 `schema-people.ts` 의 `researchAreasLegacy` 를
+함께 지우세요.
+
+**조인 방식** — relation 은 page id 만 줍니다. Research DB 를 **한 번** 읽어
+id→행 맵(`RelationIndex.research`)을 만들고 조인합니다. 구성원 수만큼 재조회하지
+마세요 (`notion/query.ts`).
+
+**`research` 맵만 미공개 행까지 담습니다.** 다른 relation 맵은 공개 항목만 담는데,
+연구 분야는 공개 전에도 구성원 페이지에 이름을 보여 줘야 해서입니다. 그래야 분야를
+공개하기 전에도 그 영역이 비어 보이지 않습니다. 대신 `publish` 를 같이 담아,
+**링크를 걸지 말지는 화면이 판단**합니다 — 공개됐고 Slug 가 있을 때만
+`/[lang]/research/<slug>` 로 링크합니다.
+
+> **주의: `/[lang]/research/<slug>` 라우트는 아직 없습니다.** 현재 Research 전 행이
+> 미공개라 링크가 하나도 생기지 않아 문제가 없습니다. **Research 행을 공개하기 전에
+> 그 상세 라우트를 먼저 만들어야** 합니다. 그러지 않으면 깨진 링크가 나갑니다.
+
+**빌드 경고 3종** (`notion/validate.ts` 의 `checkMemberResearchAreas`, 전부 경고이고
+빌드를 멈추지 않습니다. `tests/member-research-areas.test.ts` 가 지킵니다)
+
+| 경고 | 조치 |
+| --- | --- |
+| 공개 구성원인데 관계가 비어 있음 | Notion 에서 `연구 분야 (Research)` 를 연결 |
+| 관계가 `Category=Scope` 행을 가리킴 | 구성원에게는 `Theme` 행만 연결 |
+| 관계 대상 행에 Slug 없음 | Research 행의 `Slug` 를 채움 (없으면 이름만 표시) |
+
 ### 값을 그대로 쓰지 않고 계산하는 것들
 
 같은 규칙이 여러 화면에 나오므로, 규칙은 **각 규칙마다 파일 하나**에 모아 두었습니다.

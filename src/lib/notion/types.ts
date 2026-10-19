@@ -4,6 +4,10 @@
  * relation 속성은 page id 배열만 주므로, DB 별로 **한 번만** 조회해 만든
  * id→객체 맵(RelationIndex)을 매퍼에 넘겨 재사용한다. 행마다 개별 조회하지 않는다.
  * 맵에는 **공개(Publish) 된 항목만** 넣는다 → 비공개 대상은 자동으로 빠진다.
+ *
+ * **예외: `research` 맵만 미공개 행까지 담는다.** 연구 분야는 공개 전에도 구성원
+ * 페이지에 이름을 보여 줘야 해서다(그래야 멤버 페이지가 비어 보이지 않는다).
+ * 대신 `publish` 를 같이 담아, 링크를 걸지 말지는 화면이 판단한다.
  */
 
 /** relation 으로 연결된 구성원 요약 */
@@ -25,14 +29,34 @@ export interface TitleRef {
 }
 
 /**
- * relation 해석용 인덱스. 공개된 항목만 담는다.
- * 키는 Notion page id.
+ * relation 으로 연결된 연구 분야 요약.
+ *
+ * TitleRef 와 달리 `publish` 와 `category`·`code` 를 함께 담는다.
+ *  - `publish`: 상세 링크를 걸지 말지 화면이 판단한다 (미공개면 이름만 표시)
+ *  - `category`: 구성원에게 붙는 건 `Theme` 행만이어야 한다. `Scope` 가 붙어 있으면
+ *                빌드 로그에 경고가 난다 (notion/validate.ts)
+ *  - `code`: Theme 전용 분류 기호(N | A | B | L). 지금은 담아만 둔다
+ */
+export interface ResearchAreaRef {
+  id: string;
+  slug: string;
+  title: string;
+  title_ko: string;
+  category: string;
+  code: string;
+  publish: boolean;
+}
+
+/**
+ * relation 해석용 인덱스. 키는 Notion page id.
+ * `research` 를 뺀 나머지는 공개된 항목만 담는다 (위 머리말의 예외 설명 참고).
  */
 export interface RelationIndex {
   members: Map<string, PersonRef>;
   projects: Map<string, TitleRef>;
   publications: Map<string, TitleRef>;
-  research: Map<string, TitleRef>;
+  /** 미공개 행까지 전부 담는다. 공개 여부는 각 항목의 `publish` 로 판단한다. */
+  research: Map<string, ResearchAreaRef>;
 }
 
 /** 빈 인덱스 (폴백·테스트용) */

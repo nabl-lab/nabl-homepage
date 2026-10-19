@@ -7,9 +7,10 @@
  * 호출부는 배럴 `map.ts` 에서 가져온다.
  */
 import type { NotionPage } from "./client";
-import type { Member, PiEntry } from "../content-types";
+import type { Member, MemberResearchArea, PiEntry } from "../content-types";
+import { type RelationIndex, resolveRefs } from "./types";
 import { P_MEMBERS, P_PI_PROFILE } from "./schema";
-import { text, num, bool, select, date, email } from "./parsers";
+import { text, num, bool, select, date, email, multiSelect, relationIds } from "./parsers";
 import { assetPath } from "./assets";
 
 /** members: `홈페이지 공개` 체크된 행만 사이트에 노출한다. */
@@ -24,10 +25,46 @@ export function isMemberPublished(page: NotionPage): boolean {
  * - `영문명`이 비어 있으면 name 이 빈 문자열이 되고, localizedText 가 name_ko 로 폴백한다.
  * - `연구 주제`·`연구 설명`은 Notion 에 영문 속성이 없어 영문 필드는 항상 빈 문자열이다
  *   (localizedText 가 ko 로 폴백한다).
+ * - `연구 분야`는 relation 이다. Research DB 를 한 번 읽어 만든 인덱스와 조인하며,
+ *   구성원 수만큼 재조회하지 않는다.
  * - 사진: Notion 서명 URL 은 약 1시간 뒤 만료되므로 여기서 넣지 않는다.
  *   자산 다운로드 단계에서 로컬 경로를 채운다. 그전까지는 플레이스홀더가 나온다.
  */
-export function mapMember(page: NotionPage): Member | null {
+/**
+ * 구성원의 연구 분야 — relation 을 Research 인덱스와 조인한다.
+ *
+ * 인덱스에는 미공개 행도 들어 있다. 공개 전에도 이름은 보여 줘야 하기 때문이다
+ * (링크를 걸지 말지는 `publish` 로 화면이 판단한다).
+ *
+ * 관계가 비어 있으면 **임시로** 다중선택 `연구 분야` 를 읽는다. 전환기 폴백이라
+ * 이름만 살리고 slug·code 는 비운다(= 링크 없음). Notion 에서 다중선택을 삭제하면
+ * 이 폴백과 schema-people.ts 의 researchAreasLegacy 를 함께 지운다.
+ */
+function researchAreasOf(page: NotionPage, index: RelationIndex): MemberResearchArea[] {
+  const joined = resolveRefs(
+    relationIds(page, P_MEMBERS.relResearchAreas),
+    index.research,
+  ).map((r) => ({
+    title: r.title,
+    title_ko: r.title_ko,
+    slug: r.slug,
+    code: r.code,
+    category: r.category,
+    publish: r.publish,
+  }));
+  if (joined.length > 0) return joined;
+
+  return multiSelect(page, P_MEMBERS.researchAreasLegacy).map((name) => ({
+    title: name,
+    title_ko: "",
+    slug: "",
+    code: "",
+    category: "",
+    publish: false,
+  }));
+}
+
+export function mapMember(page: NotionPage, index: RelationIndex): Member | null {
   const nameKo = text(page, P_MEMBERS.nameKo);
   if (!nameKo) return null;
 
@@ -48,6 +85,7 @@ export function mapMember(page: NotionPage): Member | null {
     // text() 가 rich_text 조각의 plain_text 만 이어 붙이므로 굵게·링크 서식은 버려진다.
     researchDescription: "",
     researchDescription_ko: text(page, P_MEMBERS.researchDescriptionKo),
+    researchAreas: researchAreasOf(page, index),
     // 빌드 시 내려받은 로컬 경로. 없으면 undefined → 플레이스홀더.
     photo: assetPath(page.id),
   };

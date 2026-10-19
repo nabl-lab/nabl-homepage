@@ -32,6 +32,7 @@ const enPages = {
   "members.lede": "Current members of NABL, grouped by role.",
   "members.noPhoto": "No photo",
   "member.topicLabel": "Research topic",
+  "member.areasLabel": "Research areas",
   "member.joinedLabel": "Joined",
 
   // Alumni

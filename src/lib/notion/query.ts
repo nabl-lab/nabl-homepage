@@ -17,8 +17,6 @@ import type {
   PiEntry,
 } from "../content-types";
 import { queryAllRows, type NotionPage } from "./client";
-import { emptyIndex, type RelationIndex, type TitleRef } from "./types";
-import { text, bool } from "./parsers";
 // 속성명은 배럴 schema.ts 하나로 가져온다 (schema-people / -work / -news).
 import { P_MEMBERS, PI_SECTION, P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS, P_NEWS, P_RESOURCES } from "./schema";
 // 매퍼는 배럴 map.ts 하나로 가져온다 (실제 파일은 map-people / map-work / map-news).
@@ -35,23 +33,8 @@ import {
   mapNews,
   mapResource,
 } from "./map";
-import { checkProjectDates, checkSlugs } from "./validate";
-
-/** Publish 체크된 행만 남긴다. 설정이 없어 null 인 경우 빈 배열로 본다. */
-const published = (rows: NotionPage[] | null, prop: string): NotionPage[] =>
-  (rows ?? []).filter((r) => bool(r, prop));
-
-const titleRef = (
-  r: NotionPage,
-  titleProp: string,
-  titleKoProp: string,
-  slugProp: string,
-): TitleRef => ({
-  id: r.id,
-  slug: slugProp ? text(r, slugProp) : "",
-  title: text(r, titleProp),
-  title_ko: text(r, titleKoProp),
-});
+import { checkMemberResearchAreas, checkProjectDates, checkSlugs } from "./validate";
+import { buildRelationIndex, published } from "./relation-index";
 
 export interface NotionContent {
   members: Member[] | null;
@@ -93,26 +76,16 @@ export async function loadAll(): Promise<NotionContent> {
       queryAllRows("piProfile"),
     ]);
 
-  // relation 인덱스 — 공개된 항목만 담으므로 비공개 대상은 자동으로 빠진다.
-  const index: RelationIndex = emptyIndex();
-  for (const r of published(mRows, P_MEMBERS.publish)) {
-    const nameKo = text(r, P_MEMBERS.nameKo);
-    if (!nameKo) continue;
-    index.members.set(r.id, {
-      id: r.id,
-      slug: text(r, P_MEMBERS.slug),
-      name: text(r, P_MEMBERS.nameEn),
-      name_ko: nameKo,
-    });
-  }
-  for (const r of published(pjRows, P_PROJECTS.publish))
-    index.projects.set(r.id, titleRef(r, P_PROJECTS.title, P_PROJECTS.titleKo, P_PROJECTS.slug));
-  for (const r of published(pbRows, P_PUBLICATIONS.publish))
-    index.publications.set(r.id, titleRef(r, P_PUBLICATIONS.title, P_PUBLICATIONS.titleKo, ""));
-  for (const r of published(rRows, P_RESEARCH.publish))
-    index.research.set(r.id, titleRef(r, P_RESEARCH.title, P_RESEARCH.titleKo, P_RESEARCH.slug));
+  // relation 인덱스 (담는 범위는 notion/types.ts 주석 참고)
+  const index = buildRelationIndex({
+    members: mRows,
+    projects: pjRows,
+    publications: pbRows,
+    research: rRows,
+  });
 
-  const members = mapped(mRows, P_MEMBERS.publish, mapMember);
+  const members = mapped(mRows, P_MEMBERS.publish, (p) => mapMember(p, index));
+  if (members) checkMemberResearchAreas(members);
   const news = mapped(nwRows, P_NEWS.publish, mapNews);
   const resources = mapped(rsRows, P_RESOURCES.publish, mapResource);
 

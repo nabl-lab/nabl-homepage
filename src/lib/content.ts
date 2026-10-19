@@ -39,6 +39,7 @@ export type {
   PiProfile,
   PiEntry,
   Member,
+  MemberResearchArea,
   Alumnus,
   Publication,
   Patent,

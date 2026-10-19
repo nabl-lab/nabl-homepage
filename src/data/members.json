@@ -13,7 +13,25 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": "표적 분자에 선택적으로 결합하는 압타머를 선별하고, 결합 시 구조가 바뀌는 성질을 신호로 바꿉니다. 현장에서 쓸 수 있는 소형 진단 장치에 적용하는 것을 목표로 하며, 단백질 공학 기법으로 감도와 안정성을 함께 끌어올리는 연구를 하고 있습니다. 최근에는 혈액 시료에서의 비특이 결합을 줄이는 표면 처리 조건을 탐색하고 있습니다."
+    "researchDescription_ko": "표적 분자에 선택적으로 결합하는 압타머를 선별하고, 결합 시 구조가 바뀌는 성질을 신호로 바꿉니다. 현장에서 쓸 수 있는 소형 진단 장치에 적용하는 것을 목표로 하며, 단백질 공학 기법으로 감도와 안정성을 함께 끌어올리는 연구를 하고 있습니다. 최근에는 혈액 시료에서의 비특이 결합을 줄이는 표면 처리 조건을 탐색하고 있습니다.",
+    "researchAreas": [
+      {
+        "title": "New Biomedicine & Bio Nano-Cluster Design",
+        "title_ko": "신규 바이오의약과 나노바이오 집합체 설계",
+        "slug": "biomedicine-nano-cluster",
+        "code": "N",
+        "category": "Theme",
+        "publish": true
+      },
+      {
+        "title": "Aging Tech & Chronobiology",
+        "title_ko": "노화제어 연구와 시간생물학",
+        "slug": "aging-chronobiology",
+        "code": "A",
+        "category": "Theme",
+        "publish": false
+      }
+    ]
   },
   {
     "id": "kim-cheolsu",
@@ -28,7 +46,17 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": "세포를 쓰지 않고 효소만으로 다단계 반응을 잇는 무세포 시스템을 설계합니다. 보조인자 재생 경로를 함께 넣어 반응이 오래 유지되도록 만듭니다."
+    "researchDescription_ko": "세포를 쓰지 않고 효소만으로 다단계 반응을 잇는 무세포 시스템을 설계합니다. 보조인자 재생 경로를 함께 넣어 반응이 오래 유지되도록 만듭니다.",
+    "researchAreas": [
+      {
+        "title": "Synthetic Biology",
+        "title_ko": "합성생물학",
+        "slug": "synthetic-biology",
+        "code": "",
+        "category": "Scope",
+        "publish": true
+      }
+    ]
   },
   {
     "id": "lee-younghee",
@@ -44,7 +72,17 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": "Engineering thermostable oxidoreductases by directed evolution for use in green chemistry."
+    "researchDescription_ko": "Engineering thermostable oxidoreductases by directed evolution for use in green chemistry.",
+    "researchAreas": [
+      {
+        "title": "Liquid Phase Control",
+        "title_ko": "액체 상 제어",
+        "slug": "",
+        "code": "L",
+        "category": "Theme",
+        "publish": true
+      }
+    ]
   },
   {
     "id": "park-youngsu",
@@ -60,7 +98,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "choi-minjun",
@@ -76,7 +115,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "jeong-sujin",
@@ -91,7 +131,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "kang-dohyun",
@@ -106,7 +147,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "yoon-seoyeon",
@@ -121,7 +163,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "lim-jaehyun",
@@ -136,7 +179,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "han-jimin",
@@ -151,7 +195,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "oh-sehun",
@@ -166,7 +211,8 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   },
   {
     "id": "shin-yuna",
@@ -181,6 +227,7 @@
     "status": "재직·재학",
     "leftDate": "",
     "researchDescription": "",
-    "researchDescription_ko": ""
+    "researchDescription_ko": "",
+    "researchAreas": []
   }
 ]

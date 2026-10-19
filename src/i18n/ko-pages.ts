@@ -29,6 +29,7 @@ const koPages = {
   "members.lede": "직책별로 정리한 NABL 현재 구성원입니다.",
   "members.noPhoto": "사진 없음",
   "member.topicLabel": "연구 주제",
+  "member.areasLabel": "연구 분야",
   "member.joinedLabel": "입실일",
 
   // Alumni

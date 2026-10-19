@@ -59,6 +59,7 @@
 | `email` | 이메일 |
 | `researchTopic` / `researchTopic_ko` | 연구 주제 (영문 / 국문) |
 | `researchDescription` / `researchDescription_ko` | 2~3문장 연구 소개. 비면 `""` → 화면에 그 영역을 렌더하지 않음 |
+| `researchAreas[]` | 연구 분야. `title`/`title_ko`, `slug`, `code`(N\|A\|B\|L), `category`(`Theme`\|`Scope`), `publish`. **`publish` 가 false 면 이름만 보여 주고 링크를 걸지 않음** |
 
 구성원의 `researchTopic` · `researchDescription` 은 Notion 에 영문 속성이 없어
 실제 운영에서는 `_ko` 쪽만 채워집니다 (`/en` 에서도 한국어 원문이 나옵니다).

@@ -39,6 +39,16 @@ const description = localizedText(member, "researchDescription", lang);
 // 영문 페이지의 메타 설명까지 한국어로 채우면 검색 결과·공유 미리보기가 어색해진다.
 // 영문 표시 방식이 정해지면 이 분기를 지운다 (CLAUDE.md 14번).
 const metaDescription = (lang === "ko" ? description : null) ?? topic ?? undefined;
+
+// 연구 분야 — 이름은 항상, 링크는 공개된 행에만.
+// (상세 라우트 /[lang]/research/[slug] 는 아직 없다. 전 행이 미공개라 지금은 링크가
+//  하나도 생기지 않는다. Research 행을 공개하기 전에 그 라우트를 먼저 만들어야 한다.)
+const researchAreas = member.researchAreas
+  .map((a) => ({
+    label: localizedText(a, "title", lang),
+    href: a.publish && a.slug ? withLocale(lang, `/research/${a.slug}`) : null,
+  }))
+  .filter((a) => a.label);
 const positionLabel = optionLabel("memberPosition", member.position, lang);
 ---
 
@@ -56,6 +66,35 @@ const positionLabel = optionLabel("memberPosition", member.position, lang);
       </div>
 
       <dl class="flex flex-1 flex-col gap-3 text-sm">
+        {
+          /*
+            연구 분야 — Notion 관계에서 온다. 분야 행이 아직 공개(Publish)되지 않았어도
+            **이름은 보여 준다** (공개 전에 이 영역이 비어 보이지 않게). 상세 링크는
+            공개되고 Slug 가 있는 행에만 건다.
+            0개면 블록 자체를 렌더하지 않는다 (빈 줄이 남지 않게).
+          */
+          researchAreas.length > 0 && (
+            <div>
+              <dt class="font-semibold text-ink">{t("member.areasLabel")}</dt>
+              <dd class="mt-1 flex flex-wrap gap-1.5">
+                {researchAreas.map((a) =>
+                  a.href ? (
+                    <a
+                      href={a.href}
+                      class="rounded-full border border-line px-2.5 py-0.5 text-xs text-brand hover:bg-brand-tint"
+                    >
+                      {a.label}
+                    </a>
+                  ) : (
+                    <span class="rounded-full border border-line px-2.5 py-0.5 text-xs text-ink-muted">
+                      {a.label}
+                    </span>
+                  ),
+                )}
+              </dd>
+            </div>
+          )
+        }
         {
           /*
             연구 주제와 연구 설명은 같은 <dt> 아래 묶는다 (설명이 주제를 풀어 쓴 글이라

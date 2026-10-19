@@ -23,7 +23,7 @@ export interface About {
   mission_ko: string;
 }
 
-export type { Member, Alumnus } from "./people-types";
+export type { Member, MemberResearchArea, Alumnus } from "./people-types";
 export type {
   ResearchArea,
   ResearchProject,
