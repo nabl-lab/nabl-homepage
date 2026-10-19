@@ -48,6 +48,21 @@ const projects = area.projects
   <PageHeader title={title} lede={area.code || undefined} />
 
   <Section>
+    {
+      /*
+        대표 이미지 — Notion `Image` 는 서명 URL 이 1시간 뒤 만료되므로 빌드 때
+        내려받은 로컬 경로를 쓴다 (scripts/fetch-notion-assets.mjs → assetPath).
+        없으면 영역 자체를 렌더하지 않는다. 장식용이라 alt 는 제목을 쓴다.
+      */
+      area.image && (
+        <img
+          src={area.image}
+          alt={title}
+          loading="lazy"
+          class="mb-6 aspect-[3/1] w-full rounded-lg border border-line object-cover"
+        />
+      )
+    }
     {body && <p class="max-w-prose leading-relaxed text-ink">{body}</p>}
 
     {
