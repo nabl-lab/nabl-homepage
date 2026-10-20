@@ -5,7 +5,7 @@
  * `src/lib/content.ts` 에서만 가져온다 (CLAUDE.md 4번 항목).
  *
  * 줄 수 상한 때문에 notion/schema-*.ts 와 같은 축으로 나눠 두고 여기서 모아 내보낸다:
- *  - people-types.ts : 구성원, 졸업생
+ *  - people-types.ts : 구성원 (졸업생은 구성원에서 파생 — lib/members.ts)
  *  - work-types.ts     : 논문, 특허, 수상, 기타 성과, 연구 과제
  *  - research-types.ts : 연구 분야
  *  - news-types.ts   : 소식, 공개 자료
@@ -24,7 +24,7 @@ export interface About {
   mission_ko: string;
 }
 
-export type { Member, MemberResearchArea, Alumnus } from "./people-types";
+export type { Member, MemberResearchArea } from "./people-types";
 export type {
   ResearchArea,
   ResearchMemberRef,

@@ -60,20 +60,15 @@
 | `researchTopic` / `researchTopic_ko` | 연구 주제 (영문 / 국문) |
 | `researchDescription` / `researchDescription_ko` | 2~3문장 연구 소개. 비면 `""` → 화면에 그 영역을 렌더하지 않음 |
 | `researchAreas[]` | 연구 분야. `title`/`title_ko`, `slug`, `code`(N\|A\|B\|L), `category`(`Theme`\|`Scope`), `publish`. **`publish` 가 false 면 이름만 보여 주고 링크를 걸지 않음** |
+| `status` | `재직·재학`\|`휴학`\|`수료` → 현재 구성원 / `졸업`\|`퇴직·퇴실` → Alumni |
+| `degrees[]` | `Ph.D.` / `M.S.`. Alumni 그룹을 가름 |
+| `degreeHistory[]` | 학위 이력 (한 학위당 한 줄). 0개일 수 있음 |
+| `graduatedYear` | 졸업 연도. 없으면 `null` → Alumni 정렬 맨 뒤 |
 
 구성원의 `researchTopic` · `researchDescription` 은 Notion 에 영문 속성이 없어
 실제 운영에서는 `_ko` 쪽만 채워집니다 (`/en` 에서도 한국어 원문이 나옵니다).
 목록 카드에서는 연구 소개가 3줄에서 말줄임되고, 상세 페이지에서는 전체가 나옵니다.
 
-### alumni.json — 졸업생
-
-| 필드 | 설명 |
-| --- | --- |
-| `id` | 식별자 |
-| `name` / `name_ko` | 이름 |
-| `degree` | 학위 (`Ph.D.`, `M.S.` 등) |
-| `graduatedYear` | 졸업 연도 (숫자) |
-| `afterAffiliation` / `afterAffiliation_ko` | 졸업 후 소속 |
 
 ### publications.json — 논문
 

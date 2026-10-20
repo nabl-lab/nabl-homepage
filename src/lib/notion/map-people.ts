@@ -10,6 +10,7 @@ import type { NotionPage } from "./client";
 import type { Member, MemberResearchArea, PiEntry } from "../content-types";
 import { type RelationIndex, resolveRefs } from "./types";
 import { P_MEMBERS, P_PI_PROFILE } from "./schema";
+import { RESEARCH_CATEGORY } from "./schema-work";
 import { text, num, bool, select, date, email, multiSelect, relationIds } from "./parsers";
 import { assetPath } from "./assets";
 
@@ -33,35 +34,36 @@ export function isMemberPublished(page: NotionPage): boolean {
 /**
  * 구성원의 연구 분야 — relation 을 Research 인덱스와 조인한다.
  *
+ * **Category=Theme 행만** 쓴다. 인덱스에 없는 id(삭제된 행)나 Theme 아닌 행은
+ * 조용히 건너뛴다 — 데이터 한 칸 때문에 빌드가 깨지지 않게 한다(CLAUDE.md 15번).
+ * Scope 행이 연결돼 있으면 화면에서는 빠지지만 빌드 로그에 경고가 남는다
+ * (notion/validate-rows.ts 의 checkMemberResearchAreas).
+ *
  * 인덱스에는 미공개 행도 들어 있다. 공개 전에도 이름은 보여 줘야 하기 때문이다
  * (링크를 걸지 말지는 `publish` 로 화면이 판단한다).
- *
- * 관계가 비어 있으면 **임시로** 다중선택 `연구 분야` 를 읽는다. 전환기 폴백이라
- * 이름만 살리고 slug·code 는 비운다(= 링크 없음). Notion 에서 다중선택을 삭제하면
- * 이 폴백과 schema-people.ts 의 researchAreasLegacy 를 함께 지운다.
  */
 function researchAreasOf(page: NotionPage, index: RelationIndex): MemberResearchArea[] {
-  const joined = resolveRefs(
-    relationIds(page, P_MEMBERS.relResearchAreas),
-    index.research,
-  ).map((r) => ({
-    title: r.title,
-    title_ko: r.title_ko,
-    slug: r.slug,
-    code: r.code,
-    category: r.category,
-    publish: r.publish,
-  }));
-  if (joined.length > 0) return joined;
+  return resolveRefs(relationIds(page, P_MEMBERS.relResearchAreas), index.research)
+    .filter((r) => r.category === RESEARCH_CATEGORY.theme)
+    .map((r) => ({
+      title: r.title,
+      title_ko: r.title_ko,
+      slug: r.slug,
+      code: r.code,
+      category: r.category,
+      publish: r.publish,
+    }));
+}
 
-  return multiSelect(page, P_MEMBERS.researchAreasLegacy).map((name) => ({
-    title: name,
-    title_ko: "",
-    slug: "",
-    code: "",
-    category: "",
-    publish: false,
-  }));
+/**
+ * `학위 이력` — rich_text 조각의 plain_text 를 이어 붙인 뒤 줄바꿈으로 끊는다.
+ * 빈 줄은 버린다. 서식·링크는 평문으로 떨어진다 (text() 가 plain_text 만 본다).
+ */
+function degreeHistoryOf(page: NotionPage): string[] {
+  return text(page, P_MEMBERS.degreeHistory)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 export function mapMember(page: NotionPage, index: RelationIndex): Member | null {
@@ -86,6 +88,9 @@ export function mapMember(page: NotionPage, index: RelationIndex): Member | null
     researchDescription: "",
     researchDescription_ko: text(page, P_MEMBERS.researchDescriptionKo),
     researchAreas: researchAreasOf(page, index),
+    degrees: multiSelect(page, P_MEMBERS.degrees),
+    degreeHistory: degreeHistoryOf(page),
+    graduatedYear: num(page, P_MEMBERS.graduatedYear),
     // 빌드 시 내려받은 로컬 경로. 없으면 undefined → 플레이스홀더.
     photo: assetPath(page.id),
   };

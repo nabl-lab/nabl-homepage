@@ -1,7 +1,13 @@
 ---
 // 홈 - 숫자 요약. 값은 하드코딩하지 않고 데이터 개수로 계산한다.
 import Section from "../section.astro";
-import { publications, patents, members, awards } from "../../lib/content";
+// "연구원" 은 **현재 구성원**만 센다. members 는 졸업생까지 포함하므로 쓰지 않는다.
+import {
+  publications,
+  patents,
+  currentMemberList,
+  awards,
+} from "../../lib/content";
 import { useTranslations, type Locale } from "../../i18n/utils";
 
 interface Props {
@@ -14,7 +20,7 @@ const t = useTranslations(lang);
 const stats = [
   { label: t("home.stats.publications"), value: publications.length },
   { label: t("home.stats.patents"), value: patents.length },
-  { label: t("home.stats.researchers"), value: members.length },
+  { label: t("home.stats.researchers"), value: currentMemberList.length },
   { label: t("home.stats.awards"), value: awards.length },
 ];
 ---

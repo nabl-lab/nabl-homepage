@@ -33,12 +33,14 @@ const enPages = {
   "members.noPhoto": "No photo",
   "member.topicLabel": "Research topic",
   "member.areasLabel": "Research areas",
+  "member.degreeLabel": "Degrees",
   "member.joinedLabel": "Joined",
 
   // Alumni
   "alumni.title": "Alumni",
+  "alumni.phdGroup": "Ph.D. Alumni",
+  "alumni.msGroup": "M.S. Alumni",
   "alumni.lede": "Former members of NABL, by degree program.",
-  "alumni.afterLabel": "Now",
   "alumni.backToMembers": "← Current members",
 
   // PI (책임교수) 페이지

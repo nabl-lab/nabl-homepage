@@ -12,7 +12,6 @@
 import aboutData from "../data/about.json";
 import piProfileData from "../data/pi-profile.json";
 import membersData from "../data/members.json";
-import alumniData from "../data/alumni.json";
 import publicationsData from "../data/publications.json";
 import patentsData from "../data/patents.json";
 import awardsData from "../data/awards.json";
@@ -23,7 +22,6 @@ import type {
   About,
   PiProfile,
   Member,
-  Alumnus,
   Publication,
   Patent,
   Award,
@@ -40,7 +38,6 @@ export type {
   PiEntry,
   Member,
   MemberResearchArea,
-  Alumnus,
   Publication,
   Patent,
   Award,
@@ -60,6 +57,8 @@ export * from "./content-helpers";
 import { notionEnabled } from "../config/notion";
 import { pick } from "./notion/fallback";
 import { withResolvedYear } from "./publications";
+import { alumniGroups, currentMembers, unknownStatuses } from "./members";
+import { withUniqueSlug } from "./notion/validate";
 // 필수 필드가 빈 항목은 여기서 걸러 낸다. 항목 하나 때문에 빌드 전체가 죽지 않게
 // 하는 유일한 지점이다 (CLAUDE.md 15번, lib/required-fields.ts).
 import {
@@ -81,7 +80,31 @@ export const about = aboutData as About;
 export const members = completeMembers(
   pick("members", notion?.members, membersData as Member[]),
 );
-export const alumni = alumniData as Alumnus[]; // Notion 에 대응 DB 없음 (구성원 상태로 파생 예정)
+/**
+ * 현재 구성원 / Alumni — **구성원 DB 하나에서 `구성원 상태` 로 갈라낸다.**
+ * (예전에는 alumni.json 더미를 썼다. 이제 Notion 이 유일한 출처다.)
+ * 상태가 어느 쪽에도 안 맞으면 양쪽에서 빠지고 빌드 로그에 경고가 난다.
+ */
+for (const u of unknownStatuses(members)) {
+  console.warn(
+    `[warn] members '${u.who}': 구성원 상태 "${u.status}" 는 현재 구성원도 Alumni 도 ` +
+      `아니라서 양쪽 목록에서 빠집니다. schema-people.ts 의 MEMBER_STATUS 를 확인하세요.`,
+  );
+}
+
+export const currentMemberList = currentMembers(members);
+export const alumni = alumniGroups(members);
+
+/**
+ * 상세 페이지가 **실제로 생성된** 구성원의 id 집합. 카드는 여기 있을 때만 링크한다.
+ *
+ * slug 가 아니라 **id** 인 이유: slug 가 겹치면 두 번째 사람은 상세 페이지가 없는데
+ * slug 값 자체는 (첫 번째 사람의) 유효한 경로다. slug 로 판단하면 그 카드가 남의
+ * 페이지로 링크된다. 경로 생성과 같은 withUniqueSlug 를 써서 둘이 어긋나지 않는다.
+ */
+export const memberDetailIds = new Set(
+  withUniqueSlug(currentMemberList).map((m) => m.id),
+);
 // 연도 규칙(게재일 우선)은 Notion·JSON 어느 출처든 같게 적용한다 (lib/publications.ts).
 export const publications = completePublications(
   withResolvedYear(

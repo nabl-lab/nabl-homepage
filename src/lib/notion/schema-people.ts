@@ -19,17 +19,22 @@ export const P_MEMBERS = {
   email: "e-mail",
   slug: "Slug",
   topicKo: "연구 주제",
+  /** multi_select. 옵션은 "Ph.D." / "M.S.". Alumni 를 두 그룹으로 가르는 데 쓴다. */
+  degrees: "학위",
+  /** rich_text. 학위 하나당 한 줄(\n 구분). 빈 줄은 버린다. */
+  degreeHistory: "학위 이력",
+  /** number. 없으면 null → Alumni 정렬에서 맨 뒤. */
+  graduatedYear: "졸업 연도",
   /** 2~3문장 연구 소개. rich_text 지만 서식·링크는 버리고 평문만 쓴다. */
   researchDescriptionKo: "연구 설명",
   photo: "프로필 사진",
   /**
    * 연구 분야 relation → Research DB (dual, 역방향은 Research 의 `Members`).
-   * 같은 DB 에 다중선택 `연구 분야` 도 아직 남아 있다 — 이름이 비슷하니 주의.
-   * 다중선택은 관계가 비었을 때만 임시 폴백으로 읽는다 (map-people.ts).
+   * **Category=Theme 행만** 화면에 쓴다 (map-people.ts).
+   * 같은 DB 에 이름이 비슷한 다중선택 `연구 분야` 가 남아 있지만 **읽지 않는다**
+   * (곧 Notion 에서 삭제될 속성이다).
    */
   relResearchAreas: "연구 분야 (Research)",
-  /** 전환기 임시 폴백용 다중선택. Notion 에서 삭제되면 이 줄과 폴백 코드를 함께 지운다. */
-  researchAreasLegacy: "연구 분야",
   relAwards: "Awards",
   relPublications: "Publications",
   relProjectsPi: "Projects_PI",

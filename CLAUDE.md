@@ -371,6 +371,34 @@ Notion Research DB 한 곳에 `Scope`(연구 범위)와 `Theme`(세부 주제)�
 | Slug 중복 | 하나만 상세 페이지가 생김 |
 | Slug 가 `publications` | `/research/publications` 와 겹치므로 다른 값으로 |
 
+### 현재 구성원 / Alumni 는 `구성원 상태` 로 갈린다
+
+구성원 DB 하나에서 둘 다 나옵니다. 가르는 규칙은 `src/lib/members.ts` 한 곳이고
+`tests/members.test.ts` 가 지킵니다.
+
+| `구성원 상태` | 어디에 |
+| --- | --- |
+| `재직·재학` · `휴학` · `수료` | **현재 구성원** — `/members` 직책별 카드, 상세 페이지 생성 |
+| `졸업` · `퇴직·퇴실` | **Alumni** — `/members` 아래 섹션 + `/members/alumni`. 상세 페이지 없음 |
+| 그 밖의 값 | **양쪽 모두에서 빠지고** 빌드 로그에 경고. 조용히 현재 구성원으로 섞이는 쪽이 더 위험하기 때문입니다 |
+
+**`members` 를 화면에 직접 쓰지 마세요.** 졸업생까지 들어 있습니다. 현재 구성원은
+`currentMemberList`, 졸업생은 `alumni` 를 씁니다 (둘 다 `content.ts` 가 파생).
+홈 "연구원" 카운터도 `currentMemberList` 를 셉니다.
+
+Alumni 그룹은 `학위`(multi_select)로 가릅니다 — `Ph.D.` 가 있으면 **Ph.D. Alumni**,
+없으면 **M.S. Alumni**. 둘 다 가진 사람은 Ph.D. 쪽에만 한 번 나옵니다.
+각 그룹은 `졸업 연도` 내림차순(없는 사람은 맨 뒤), 같으면 `영문명` 오름차순입니다.
+졸업생은 사진·연구 소개가 없어 이름과 `학위 이력`만 목록으로 보여 줍니다.
+
+### 상세 페이지 링크는 "그 페이지가 실제로 있는지" 로 가른다
+
+구성원 카드는 `content.ts` 의 **`memberDetailIds`** 에 있을 때만 링크합니다.
+slug 가 아니라 **id** 로 담는 이유: slug 가 겹치면 두 번째 사람은 상세 페이지가 없는데
+slug 값 자체는 (첫 번째 사람의) 유효한 경로여서, slug 로 판단하면 그 사람 카드가
+**남의 페이지로** 링크됩니다. 경로 생성과 같은 `withUniqueSlug` 를 써서 둘이 어긋나지
+않습니다. 연구 분야 링크를 `publish` 로 가르는 것과 같은 방식입니다.
+
 ### 구성원의 연구 분야는 relation 으로 읽는다
 
 구성원 DB 의 **`연구 분야 (Research)`** (relation → Research DB) 를 씁니다.
@@ -378,12 +406,12 @@ Notion Research DB 한 곳에 `Scope`(연구 범위)와 `Theme`(세부 주제)�
 
 | 속성 | 타입 | 지금 쓰는가 |
 | --- | --- | --- |
-| `연구 분야 (Research)` | relation (dual, 역방향은 Research 의 `Members`) | **예 — 이쪽이 정식** |
-| `연구 분야` | multi_select | 관계가 비었을 때만 **임시** 폴백. Notion 에서 삭제 예정 |
+| `연구 분야 (Research)` | relation (dual, 역방향은 Research 의 `Members`) | **예 — 이것만 읽습니다** |
+| `연구 분야` | multi_select | **읽지 않습니다.** Notion 에서 삭제 예정인 옛 속성 |
 
-폴백은 이름만 살리고 slug·code 를 비워 둡니다(= 링크 없음). Notion 에서 다중선택을
-삭제하면 `map-people.ts` 의 폴백과 `schema-people.ts` 의 `researchAreasLegacy` 를
-함께 지우세요.
+**`Category=Theme` 행만** 화면에 씁니다. 인덱스에 없는 id(삭제된 행)나 Scope 행은
+조용히 건너뜁니다 — 데이터 한 칸 때문에 빌드가 깨지지 않게 합니다(15번 항목).
+Scope 가 연결돼 있으면 화면에서는 빠지지만 빌드 로그에 경고가 남습니다.
 
 **조인 방식** — relation 은 page id 만 줍니다. Research DB 를 **한 번** 읽어
 id→행 맵(`RelationIndex.research`)을 만들고 조인합니다. 구성원 수만큼 재조회하지

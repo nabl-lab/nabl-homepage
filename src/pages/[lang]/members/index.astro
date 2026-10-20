@@ -1,12 +1,18 @@
 ---
-// 현재 구성원 (/[lang]/members). PI 를 제외한 5개 직책을 섹션으로 나눠 보여준다.
-// (PI 는 /[lang]/members/pi 전용 페이지)
+// 구성원 (/[lang]/members). 현재 구성원을 직책별 섹션으로 보여주고, 그 아래 Alumni 를 붙인다.
+// (PI 는 /[lang]/members/pi 전용 페이지라 직책 섹션에서 제외한다)
+//
+// 현재 구성원 / Alumni 는 Notion `구성원 상태` 로 갈린다 (lib/members.ts).
+// 졸업생이 현재 구성원 목록에 섞이지 않게 반드시 currentMemberList 를 쓴다.
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
 import MemberCard from "../../../components/member-card.astro";
+import AlumniList from "../../../components/alumni-list.astro";
+import EmptyState from "../../../components/empty-state.astro";
 import {
-  members,
+  currentMemberList,
+  alumni,
   sortMembers,
   groupByPosition,
   PI_POSITION,
@@ -22,7 +28,7 @@ export const getStaticPaths = localePaths;
 
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
-const groups = groupByPosition(sortMembers(members)).filter(
+const groups = groupByPosition(sortMembers(currentMemberList)).filter(
   (g) => g.position !== PI_POSITION,
 );
 
@@ -38,6 +44,11 @@ const positionLabel = (position: string): string =>
 >
   <PageHeader title={t("members.currentTitle")} lede={t("members.lede")} />
 
+  {groups.length === 0 && (
+    <Section>
+      <EmptyState lang={lang} />
+    </Section>
+  )}
   {
     groups.map((g) => (
       <Section title={positionLabel(g.position)}>
@@ -48,5 +59,14 @@ const positionLabel = (position: string): string =>
         </div>
       </Section>
     ))
+  }
+
+  {
+    /* Alumni — 0명이면 섹션 자체를 렌더하지 않는다 (빈 제목이 남지 않게). */
+    alumni.length > 0 && (
+      <Section id="alumni" title={t("alumni.title")} muted>
+        <AlumniList groups={alumni} lang={lang} />
+      </Section>
+    )
   }
 </BaseLayout>

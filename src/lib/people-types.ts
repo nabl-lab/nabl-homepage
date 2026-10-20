@@ -1,5 +1,6 @@
 /**
- * 콘텐츠 데이터 형식 — **사람** (구성원, 졸업생).
+ * 콘텐츠 데이터 형식 — **사람** (구성원).
+ * 졸업생은 별도 타입이 없다 — 구성원 DB 의 `구성원 상태` 로 갈라낸다 (lib/members.ts).
  * PI(지도교수) 프로필은 pi-types.ts 가 따로 담당한다.
  *
  * 같은 축의 다른 파일: work-types.ts(연구·성과), news-types.ts(소식·자료).
@@ -39,8 +40,17 @@ export interface Member {
   name_ko: string;
   /** Notion `직책·과정` 의 한국어 값. 비어 있을 수 있다(정렬 맨 뒤). */
   position: string;
-  /** Notion `구성원 상태` (재직·재학 / 휴학 / 수료 / 졸업 / 퇴직·퇴실) */
+  /**
+   * Notion `구성원 상태` (재직·재학 / 휴학 / 수료 / 졸업 / 퇴직·퇴실).
+   * 현재 구성원과 Alumni 를 가르는 기준이다 (src/lib/members.ts).
+   */
   status: string;
+  /** Notion `학위` (multi_select). "Ph.D." 가 있으면 Ph.D. Alumni 그룹으로 간다. */
+  degrees: string[];
+  /** Notion `학위 이력` 을 줄 단위로 끊은 것. 빈 줄은 없다. 0개일 수 있다. */
+  degreeHistory: string[];
+  /** Notion `졸업 연도`. 없으면 null → Alumni 정렬에서 맨 뒤. */
+  graduatedYear: number | null;
   /** 같은 직책 안에서 이 값이 있으면 우선해 정렬한다. */
   order?: number;
   joinedDate: string;
@@ -65,18 +75,4 @@ export interface Member {
   researchAreas: MemberResearchArea[];
   /** 빌드 시 public/ 으로 내려받은 로컬 경로. 없으면 플레이스홀더. */
   photo?: string;
-}
-
-export interface Alumnus {
-  id: string;
-  name: string;
-  name_ko: string;
-  /** 수료한 학위 과정. members.json 의 position 과 같은 어휘 (예: "Ph.D. Course"). */
-  position: string;
-  graduatedYear: number;
-  thesis_title: string;
-  thesis_title_ko: string;
-  /** 데이터는 유지하되 현재 화면에는 표시하지 않음 (alumni.astro 주석 참고). */
-  afterAffiliation: string;
-  afterAffiliation_ko: string;
 }

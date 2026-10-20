@@ -1,0 +1,55 @@
+---
+// Alumni 목록 — Ph.D. / M.S. 그룹별로 이름 + 학위 이력을 한 줄씩 보여준다.
+//
+// 졸업생은 사진·연구 소개가 없어 상세 페이지를 만들지 않는다. 그래서 카드가 아니라
+// 가벼운 목록으로 쓴다 (현재 구성원 카드와 구분되게).
+// 이름은 영문명 우선이고 한국어 화면에서 영문명이 비면 `이름` 으로 폴백한다
+// — localizedText 가 그 규칙을 처리한다.
+import { localizedText, type Member } from "../lib/content";
+import type { AlumniGroup } from "../lib/members";
+import { useTranslations, type Locale } from "../i18n/utils";
+
+interface Props {
+  groups: AlumniGroup[];
+  lang: Locale;
+}
+
+const { groups, lang } = Astro.props;
+const t = useTranslations(lang);
+
+const groupTitle = (key: AlumniGroup["key"]): string =>
+  key === "phd" ? t("alumni.phdGroup") : t("alumni.msGroup");
+
+/** 이름이 양쪽 언어 모두 비면 목록에서 건너뛴다. */
+const nameOf = (m: Member): string | null => localizedText(m, "name", lang);
+---
+
+<div class="flex flex-col gap-8">
+  {
+    groups.map((g) => (
+      <div>
+        {/* 섹션 제목이 h2 이므로 그룹 제목은 h3 (헤딩 순서 유지) */}
+        <h3 class="mb-2 text-sm font-semibold text-ink-muted">{groupTitle(g.key)}</h3>
+        <ul class="flex flex-col divide-y divide-line border-y border-line">
+          {g.items.map((m) => {
+            const name = nameOf(m);
+            return (
+              name && (
+                <li class="flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:gap-4">
+                  <span class="shrink-0 font-medium text-ink sm:w-48">{name}</span>
+                  {m.degreeHistory.length > 0 && (
+                    <ul class="min-w-0 flex-1 text-sm leading-relaxed text-ink-muted">
+                      {m.degreeHistory.map((line) => (
+                        <li>{line}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              )
+            );
+          })}
+        </ul>
+      </div>
+    ))
+  }
+</div>

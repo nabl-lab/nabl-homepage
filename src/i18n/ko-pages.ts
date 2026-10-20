@@ -30,12 +30,14 @@ const koPages = {
   "members.noPhoto": "사진 없음",
   "member.topicLabel": "연구 주제",
   "member.areasLabel": "연구 분야",
+  "member.degreeLabel": "학위",
   "member.joinedLabel": "입실일",
 
   // Alumni
   "alumni.title": "졸업생",
+  "alumni.phdGroup": "Ph.D. Alumni",
+  "alumni.msGroup": "M.S. Alumni",
   "alumni.lede": "학위 과정별로 정리한 NABL 졸업생입니다.",
-  "alumni.afterLabel": "졸업 후",
   "alumni.backToMembers": "← 현재 구성원",
 
   // PI (책임교수) 페이지

@@ -34,6 +34,7 @@ import {
   mapResource,
 } from "./map";
 import { checkSlugs } from "./validate";
+import { isCurrent } from "../members";
 import {
   checkMemberResearchAreas,
   checkProjectDates,
@@ -90,7 +91,9 @@ export async function loadAll(): Promise<NotionContent> {
   });
 
   const members = mapped(mRows, P_MEMBERS.publish, (p) => mapMember(p, index));
-  if (members) checkMemberResearchAreas(members);
+  // 연구 분야 경고는 **현재 구성원만** 본다. 졸업생은 분야를 연결하지 않는 게 정상이라
+  // 전원을 대상으로 하면 경고가 수십 줄 쏟아져 쓸모가 없어진다.
+  if (members) checkMemberResearchAreas(members.filter(isCurrent));
 
   // 연구 분야 점검은 **공개 여부와 무관하게 전 행**을 본다 (publish 는 함수가 판단).
   const allResearch = (rRows ?? [])
@@ -103,7 +106,13 @@ export async function loadAll(): Promise<NotionContent> {
   const projects = mapped(pjRows, P_PROJECTS.publish, mapProject);
   if (projects) checkProjectDates(projects);
 
-  if (members) checkSlugs("members", members.map((m) => ({ slug: m.slug, label: m.name_ko })));
+  // Slug 경고도 현재 구성원만 본다 — 졸업생은 상세 페이지를 만들지 않으므로
+  // Slug 가 없는 게 정상이다.
+  if (members)
+    checkSlugs(
+      "members",
+      members.filter(isCurrent).map((m) => ({ slug: m.slug, label: m.name_ko })),
+    );
   if (news) checkSlugs("news", news.map((n) => ({ slug: n.slug, label: n.title_ko || n.title })));
   if (resources)
     checkSlugs("resources", resources.map((r) => ({ slug: r.slug, label: r.title_ko || r.title })));

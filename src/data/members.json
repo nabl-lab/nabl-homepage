@@ -31,7 +31,10 @@
         "category": "Theme",
         "publish": false
       }
-    ]
+    ],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   },
   {
     "id": "kim-cheolsu",
@@ -56,7 +59,10 @@
         "category": "Scope",
         "publish": true
       }
-    ]
+    ],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   },
   {
     "id": "lee-younghee",
@@ -82,7 +88,10 @@
         "category": "Theme",
         "publish": true
       }
-    ]
+    ],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   },
   {
     "id": "park-youngsu",
@@ -99,7 +108,10 @@
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   },
   {
     "id": "choi-minjun",
@@ -112,11 +124,20 @@
     "researchTopic": "Aptamer-enzyme conjugates for signal amplification",
     "researchTopic_ko": "신호 증폭을 위한 압타머-효소 접합체",
     "slug": "choi-minjun",
-    "status": "재직·재학",
+    "status": "졸업",
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [
+      "Ph.D.",
+      "M.S."
+    ],
+    "graduatedYear": 2021,
+    "degreeHistory": [
+      "Ph.D. 2021 — 압타머 기반 분자 센싱",
+      "M.S. 2016 — 바이오센서 소재"
+    ]
   },
   {
     "id": "jeong-sujin",
@@ -128,11 +149,18 @@
     "researchTopic": "Protein scaffolds for oriented antibody immobilization",
     "researchTopic_ko": "항체 배향 고정을 위한 단백질 스캐폴드",
     "slug": "jeong-sujin",
-    "status": "재직·재학",
+    "status": "졸업",
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [
+      "Ph.D."
+    ],
+    "graduatedYear": 2023,
+    "degreeHistory": [
+      "Ph.D. 2023 — 무세포 효소 캐스케이드"
+    ]
   },
   {
     "id": "kang-dohyun",
@@ -144,11 +172,18 @@
     "researchTopic": "Cell-free protein synthesis platforms",
     "researchTopic_ko": "",
     "slug": "kang-dohyun",
-    "status": "재직·재학",
+    "status": "졸업",
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [
+      "M.S."
+    ],
+    "graduatedYear": 2024,
+    "degreeHistory": [
+      "M.S. 2024 — 종이 기반 진단"
+    ]
   },
   {
     "id": "yoon-seoyeon",
@@ -160,11 +195,18 @@
     "researchTopic": "",
     "researchTopic_ko": "종이 기반 현장 진단 디바이스",
     "slug": "yoon-seoyeon",
-    "status": "재직·재학",
+    "status": "졸업",
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [
+      "M.S."
+    ],
+    "graduatedYear": 2024,
+    "degreeHistory": [
+      "M.S. 2024 — 형광 압타머 스위치"
+    ]
   },
   {
     "id": "lim-jaehyun",
@@ -176,11 +218,18 @@
     "researchTopic": "Aptamer-functionalized nanoparticles for pathogen detection",
     "researchTopic_ko": "병원균 검출용 압타머 기능화 나노입자",
     "slug": "lim-jaehyun",
-    "status": "재직·재학",
+    "status": "퇴직·퇴실",
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [
+      "M.S."
+    ],
+    "graduatedYear": null,
+    "degreeHistory": [
+      "M.S. — 단백질 공학"
+    ]
   },
   {
     "id": "han-jimin",
@@ -196,7 +245,10 @@
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   },
   {
     "id": "oh-sehun",
@@ -212,7 +264,10 @@
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   },
   {
     "id": "shin-yuna",
@@ -228,6 +283,9 @@
     "leftDate": "",
     "researchDescription": "",
     "researchDescription_ko": "",
-    "researchAreas": []
+    "researchAreas": [],
+    "degrees": [],
+    "graduatedYear": null,
+    "degreeHistory": []
   }
 ]
