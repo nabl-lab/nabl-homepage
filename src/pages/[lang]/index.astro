@@ -1,11 +1,14 @@
 ---
 // 홈페이지 (/en/, /ko/). 섹션은 각각 컴포넌트로 분리돼 있고 여기서 순서대로 조합만 한다.
+// 순서를 바꾸려면 아래 배치만 고친다 (import 순서도 같이 맞춰 두면 읽기 쉽다).
+// 연구 분야·최신 소식·최근 수상은 **0건이면 스스로 아무것도 렌더하지 않는다** —
+// 빈 제목만 남는 칸이 생기지 않으므로 순서를 바꿔도 레이아웃이 비지 않는다.
 import BaseLayout from "../../layouts/base-layout.astro";
 import Hero from "../../components/home/hero.astro";
 import AboutSummary from "../../components/home/about-summary.astro";
 import ResearchAreas from "../../components/home/research-areas.astro";
-import StatCounters from "../../components/home/stat-counters.astro";
 import LatestNews from "../../components/home/latest-news.astro";
+import StatCounters from "../../components/home/stat-counters.astro";
 import RecentAwards from "../../components/home/recent-awards.astro";
 import ContactSummary from "../../components/home/contact-summary.astro";
 import { localePaths, useTranslations, type Locale } from "../../i18n/utils";
@@ -20,8 +23,8 @@ const t = useTranslations(lang);
   <Hero lang={lang} />
   <AboutSummary lang={lang} />
   <ResearchAreas lang={lang} />
-  <StatCounters lang={lang} />
   <LatestNews lang={lang} />
+  <StatCounters lang={lang} />
   <RecentAwards lang={lang} />
   <ContactSummary lang={lang} />
 </BaseLayout>
