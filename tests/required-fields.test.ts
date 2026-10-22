@@ -193,13 +193,18 @@ test("소식은 제목이 양쪽 다 비면 빠진다 (JSON 폴백 경로)", () 
 });
 
 test("checkTitlelessRows 는 단서를 모아 한 줄로 경고한다", () => {
-  checkTitlelessRows("News", ['Slug="a" Date=2026-01-02', "page id=abc"]);
+  checkTitlelessRows("News", ['Slug="a" Date=2026-01-02', "page id=abc"], "Title / Title_ko");
   assert.equal(warnings.length, 1);
-  assert.match(warnings[0], /제목\(Title \/ Title_ko\)이 비어 제외된 항목 2건/);
+  assert.match(warnings[0], /Title \/ Title_ko 이\(가\) 비어 제외된 항목 2건/);
   assert.match(warnings[0], /Slug="a" Date=2026-01-02, page id=abc/);
 });
 
+test("빠진 속성 이름은 컬렉션마다 다르게 찍힌다", () => {
+  checkTitlelessRows("Members", ["page id=abc"], "이름");
+  assert.match(warnings[0], /Members: 이름 이\(가\) 비어/);
+});
+
 test("제목 없는 행이 없으면 경고하지 않는다", () => {
-  checkTitlelessRows("News", []);
+  checkTitlelessRows("News", [], "Title / Title_ko");
   assert.deepEqual(warnings, []);
 });

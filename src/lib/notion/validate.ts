@@ -72,12 +72,17 @@ export function withUniqueSlug<T extends { slug: string }>(items: T[]): T[] {
  * 않게 하려는 규칙이지만, 그동안 **로그가 전혀 남지 않아** 운영자는 왜 항목이 안 보이는지
  * 알 수 없었다. 그래서 건너뛴 사실을 여기서 남긴다.
  *
- * @param hints 사람이 어느 행인지 알아볼 단서 (Slug·날짜 등). 제목이 없으니 이름을 쓸 수 없다.
+ * @param hints      어느 행인지 알아볼 단서 (Slug·날짜·page id). 제목이 없으니 이름을 쓸 수 없다.
+ * @param fieldLabel 빠진 속성 이름. 컬렉션마다 다르다 (Members 는 `이름`, PI Profile 은 Content…).
  */
-export function checkTitlelessRows(label: string, hints: string[]): void {
+export function checkTitlelessRows(
+  label: string,
+  hints: string[],
+  fieldLabel: string,
+): void {
   if (hints.length === 0) return;
   console.warn(
-    `[skip] ${label}: 제목(Title / Title_ko)이 비어 제외된 항목 ${hints.length}건 ` +
-      `→ ${hints.join(", ")}. Notion 에서 제목을 채워 주세요.`,
+    `[skip] ${label}: ${fieldLabel} 이(가) 비어 제외된 항목 ${hints.length}건 ` +
+      `→ ${hints.join(", ")}. Notion 에서 채워 주세요.`,
   );
 }

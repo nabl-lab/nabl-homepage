@@ -31,10 +31,10 @@ import {
   mapPatent,
   mapAward,
   mapNews,
-  titlelessNewsHints,
   mapResource,
 } from "./map";
-import { checkSlugs, checkTitlelessRows } from "./validate";
+import { checkSlugs } from "./validate";
+import { checkAllTitleless } from "./titleless";
 import { isCurrent } from "../members";
 import {
   checkMemberResearchAreas,
@@ -91,6 +91,12 @@ export async function loadAll(): Promise<NotionContent> {
     research: rRows,
   });
 
+  // 제목이 비어 매퍼가 버릴 행을 **모든 컬렉션에서** 한 번에 알린다 (notion/titleless.ts).
+  // 새 DB 를 붙이면 그 파일의 SPECS 와 아래 한 줄에만 키를 더하면 된다.
+  // prettier-ignore
+  checkAllTitleless({ members: mRows, piProfile: piRows, research: rRows, projects: pjRows,
+    publications: pbRows, patents: ptRows, awards: awRows, news: nwRows, resources: rsRows });
+
   const members = mapped(mRows, P_MEMBERS.publish, (p) => mapMember(p, index));
   // 연구 분야 경고는 **현재 구성원만** 본다. 졸업생은 분야를 연결하지 않는 게 정상이라
   // 전원을 대상으로 하면 경고가 수십 줄 쏟아져 쓸모가 없어진다.
@@ -102,8 +108,6 @@ export async function loadAll(): Promise<NotionContent> {
     .filter((v): v is NonNullable<typeof v> => v !== null);
   checkResearchAreas(allResearch);
   const news = mapped(nwRows, P_NEWS.publish, mapNews);
-  // 제목이 비어 매퍼가 버린 행을 알린다 (그동안 로그가 없어 원인을 알 수 없었다).
-  checkTitlelessRows("News", titlelessNewsHints(published(nwRows, P_NEWS.publish)));
   const resources = mapped(rsRows, P_RESOURCES.publish, mapResource);
 
   const projects = mapped(pjRows, P_PROJECTS.publish, mapProject);

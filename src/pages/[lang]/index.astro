@@ -6,8 +6,8 @@
 import BaseLayout from "../../layouts/base-layout.astro";
 import Hero from "../../components/home/hero.astro";
 import AboutSummary from "../../components/home/about-summary.astro";
-import ResearchAreas from "../../components/home/research-areas.astro";
 import LatestNews from "../../components/home/latest-news.astro";
+import ResearchAreas from "../../components/home/research-areas.astro";
 import StatCounters from "../../components/home/stat-counters.astro";
 import RecentAwards from "../../components/home/recent-awards.astro";
 import ContactSummary from "../../components/home/contact-summary.astro";
@@ -22,8 +22,8 @@ const t = useTranslations(lang);
 <BaseLayout lang={lang} title="" description={t("home.hero.tagline")}>
   <Hero lang={lang} />
   <AboutSummary lang={lang} />
-  <ResearchAreas lang={lang} />
   <LatestNews lang={lang} />
+  <ResearchAreas lang={lang} />
   <StatCounters lang={lang} />
   <RecentAwards lang={lang} />
   <ContactSummary lang={lang} />
