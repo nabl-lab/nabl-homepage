@@ -31,9 +31,10 @@ import {
   mapPatent,
   mapAward,
   mapNews,
+  titlelessNewsHints,
   mapResource,
 } from "./map";
-import { checkSlugs } from "./validate";
+import { checkSlugs, checkTitlelessRows } from "./validate";
 import { isCurrent } from "../members";
 import {
   checkMemberResearchAreas,
@@ -101,6 +102,8 @@ export async function loadAll(): Promise<NotionContent> {
     .filter((v): v is NonNullable<typeof v> => v !== null);
   checkResearchAreas(allResearch);
   const news = mapped(nwRows, P_NEWS.publish, mapNews);
+  // 제목이 비어 매퍼가 버린 행을 알린다 (그동안 로그가 없어 원인을 알 수 없었다).
+  checkTitlelessRows("News", titlelessNewsHints(published(nwRows, P_NEWS.publish)));
   const resources = mapped(rsRows, P_RESOURCES.publish, mapResource);
 
   const projects = mapped(pjRows, P_PROJECTS.publish, mapProject);

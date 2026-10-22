@@ -64,3 +64,20 @@ export function withUniqueSlug<T extends { slug: string }>(items: T[]): T[] {
     return true;
   });
 }
+
+/**
+ * 제목이 비어 **매퍼가 버린** 행을 알린다. 경고이고 빌드를 멈추지 않는다.
+ *
+ * 매퍼는 title 이 양쪽 언어 모두 비면 null 을 돌려 그 행을 건너뛴다. 사이트가 깨지지
+ * 않게 하려는 규칙이지만, 그동안 **로그가 전혀 남지 않아** 운영자는 왜 항목이 안 보이는지
+ * 알 수 없었다. 그래서 건너뛴 사실을 여기서 남긴다.
+ *
+ * @param hints 사람이 어느 행인지 알아볼 단서 (Slug·날짜 등). 제목이 없으니 이름을 쓸 수 없다.
+ */
+export function checkTitlelessRows(label: string, hints: string[]): void {
+  if (hints.length === 0) return;
+  console.warn(
+    `[skip] ${label}: 제목(Title / Title_ko)이 비어 제외된 항목 ${hints.length}건 ` +
+      `→ ${hints.join(", ")}. Notion 에서 제목을 채워 주세요.`,
+  );
+}

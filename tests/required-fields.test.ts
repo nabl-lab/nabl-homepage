@@ -13,6 +13,7 @@ import {
   completePatents,
   completeResources,
 } from "../src/lib/required-fields.ts";
+import { checkTitlelessRows } from "../src/lib/notion/validate.ts";
 import type { Member, NewsItem } from "../src/lib/content-types.ts";
 
 /** console.warn 을 가로채 로그 문구까지 확인한다. */
@@ -181,4 +182,24 @@ test("공개 자료는 slug 가 비면 빠진다 (상세 경로가 slug 로 만�
   assert.equal(completeResources([{ ...base, slug: "" }]).length, 0);
   assert.match(warnings[0], /slug 누락/);
   assert.equal(completeResources([{ ...base, slug: "guide" }]).length, 1);
+});
+
+// ── 제목 없는 행 (Notion 경로) ───────────────────────────────────
+
+test("소식은 제목이 양쪽 다 비면 빠진다 (JSON 폴백 경로)", () => {
+  const kept = completeNews([newsItem({ id: "bad", title: "", title_ko: "" })]);
+  assert.equal(kept.length, 0);
+  assert.match(warnings[0], /title 누락/);
+});
+
+test("checkTitlelessRows 는 단서를 모아 한 줄로 경고한다", () => {
+  checkTitlelessRows("News", ['Slug="a" Date=2026-01-02', "page id=abc"]);
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /제목\(Title \/ Title_ko\)이 비어 제외된 항목 2건/);
+  assert.match(warnings[0], /Slug="a" Date=2026-01-02, page id=abc/);
+});
+
+test("제목 없는 행이 없으면 경고하지 않는다", () => {
+  checkTitlelessRows("News", []);
+  assert.deepEqual(warnings, []);
 });

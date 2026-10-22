@@ -1,16 +1,14 @@
 /**
  * 외부 데이터(Notion)의 **불완전한 항목을 걸러 내는 곳.**
  *
- * 원칙: 항목 하나가 비어 있어도 **사이트 전체 빌드는 성공해야 한다.**
- * 그 항목만 건너뛰고 빌드 로그에 경고를 남긴다 (CLAUDE.md 15번).
+ * 원칙: 항목 하나가 비어도 **빌드 전체는 성공해야 한다.** 그 항목만 건너뛰고
+ * 빌드 로그에 경고를 남긴다 (CLAUDE.md 15번).
  *
- * 왜 필요한가 — 실제로 났던 사고: News 한 건의 Slug 가 비어서 `/[lang]/news/[slug]` 가
- * `/en/news/` 경로를 만들었고, 목록 페이지 `/en/news` 와 충돌해 빌드 전체가
- * "Missing parameter: lang" 으로 죽었다. 상세가 아니라 **목록이** 죽어 원인도 찾기 어려웠다.
+ * 실제로 났던 사고: News 한 건의 빈 Slug 가 `/en/news/` 경로를 만들어 목록 페이지와
+ * 충돌하고 빌드 전체가 "Missing parameter: lang" 으로 죽었다.
  *
- * 왜 content.ts 에서 부르는가 — Notion 매퍼 안에서 걸러 내면 `src/data/` 의 JSON 폴백에는
- * 규칙이 안 걸려 두 출처가 어긋난다. 유일한 통로인 content.ts 에서 한 번만 적용한다.
- *
+ * content.ts 에서 부르는 이유 — Notion 매퍼에서 걸러 내면 `src/data/` JSON 폴백에는
+ * 규칙이 안 걸려 두 출처가 어긋난다. 유일한 통로에서 한 번만 적용한다.
  * import 에 `.ts` 를 붙인 이유는 src/lib/projects.ts 주석 참고 (node --test 직접 실행).
  */
 import type {
@@ -78,13 +76,16 @@ function keepComplete<T>(
  * ────────────────────────────────────────────────────────────── */
 
 /**
- * 소식 — slug 와 date 가 필수.
- *  - slug: 본문이 상세 페이지에만 있어 slug 가 없으면 읽을 방법이 없다.
- *          게다가 빈 slug 는 목록 경로와 충돌해 빌드를 깨뜨린다 (위 사고)
+ * 소식 — title·slug·date 가 필수.
+ *  - slug: 본문이 상세 페이지에만 있어 없으면 읽을 방법이 없고, 빈 slug 는 목록
+ *          경로와 충돌해 빌드를 깨뜨린다 (위 사고)
  *  - date: 목록 정렬 기준이고, 없으면 화면에 "Invalid Date" 가 찍힌다
  */
 export const completeNews = (items: NewsItem[]): NewsItem[] =>
   keepComplete("News", items, (n) => n.title_ko || n.title, [
+    // Notion 경로에서는 매퍼가 제목 없는 행을 먼저 버린다(경고는 validate.ts 의
+    // checkTitlelessRows). JSON 폴백에는 매퍼가 없어 이 규칙이 유일한 방어선이다.
+    { field: "title", filled: (n) => text(n.title) || text(n.title_ko) },
     { field: "slug", filled: (n) => text(n.slug) },
     { field: "date", filled: (n) => isoDate(n.date) },
   ]);

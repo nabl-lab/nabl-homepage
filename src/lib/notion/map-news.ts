@@ -47,3 +47,20 @@ export function mapResource(page: NotionPage): Resource | null {
     thumbnail: assetPath(page.id),
   };
 }
+
+/**
+ * 제목이 비어 mapNews 가 버릴 행들의 "식별 단서" 목록.
+ * 제목이 없으니 이름을 쓸 수 없어 Slug·날짜로 가리킨다 (빌드 경고용).
+ */
+export function titlelessNewsHints(rows: NotionPage[]): string[] {
+  return rows
+    .filter((r) => !text(r, P_NEWS.title) && !text(r, P_NEWS.titleKo))
+    .map((r) => {
+      const slug = text(r, P_NEWS.slug);
+      const day = date(r, P_NEWS.date);
+      return (
+        [slug && `Slug="${slug}"`, day && `Date=${day}`].filter(Boolean).join(" ") ||
+        `page id=${r.id}`
+      );
+    });
+}
