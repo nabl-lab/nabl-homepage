@@ -2,6 +2,7 @@
 // 홈 - 연구실 소개 요약 + About 페이지 더보기 링크.
 import Section from "../section.astro";
 import { useTranslations, withLocale, type Locale } from "../../i18n/utils";
+import { paragraphs, siteContent } from "../../lib/content";
 
 interface Props {
   lang: Locale;
@@ -9,6 +10,11 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// 본문은 Notion 「페이지 문구」의 home.about.intro. 여러 행이면 문단이 여러 개다.
+// 비어 있으면 예전 ui 사전 문구 한 문단으로 폴백한다.
+const body = paragraphs(siteContent, "home.about.intro", lang);
+const bodyParagraphs = body.length > 0 ? body : [t("home.about.body")];
 ---
 
 <Section id="about" title={t("home.about.title")}>
@@ -20,7 +26,11 @@ const t = useTranslations(lang);
   >
     {t("common.readMore")} →
   </a>
-  <p class="max-w-3xl text-lg leading-relaxed text-ink">
-    {t("home.about.body")}
-  </p>
+  <div class="flex max-w-3xl flex-col gap-4">
+    {
+      bodyParagraphs.map((text) => (
+        <p class="text-lg leading-relaxed text-ink">{text}</p>
+      ))
+    }
+  </div>
 </Section>

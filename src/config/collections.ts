@@ -85,6 +85,14 @@ export const COLLECTIONS: Record<NotionCollection, CollectionLabel> = {
     label_ko: "공개 자료",
     label_en: "Resources",
   },
+  siteContent: {
+    // 방문자에게 보여 줄 메뉴·제목이 없는 DB 다 (문구 자체가 화면에 녹아든다).
+    // 라벨은 운영자 문서·빌드 로그에서만 쓰인다.
+    key: "siteContent",
+    emoji: "📝",
+    label_ko: "페이지 문구",
+    label_en: "Site Content",
+  },
   piProfile: {
     // Notion DB 이름은 "지도교수 이력 (PI Profile)" 이다. 그건 DB가 담는 *이력 항목*을
     // 가리키는 말이라 메뉴 이름으로는 어색해서, 방문자에게는 사람을 가리키는 말로 보여 준다.

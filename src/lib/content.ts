@@ -9,7 +9,6 @@
  * - 데이터 "모양"(타입) → `content-types.ts`
  * - 가공 헬퍼(정렬·그룹핑·폴백) → `content-helpers.ts` (아래에서 re-export)
  */
-import aboutData from "../data/about.json";
 import piProfileData from "../data/pi-profile.json";
 import membersData from "../data/members.json";
 import publicationsData from "../data/publications.json";
@@ -19,7 +18,6 @@ import newsData from "../data/news.json";
 import researchData from "../data/research.json";
 import etcData from "../data/achievements-etc.json";
 import type {
-  About,
   PiProfile,
   Member,
   Publication,
@@ -30,26 +28,14 @@ import type {
   ResearchProject,
   EtcItem,
   Resource,
+  SiteContentEntry,
 } from "./content-types";
 
-export type {
-  About,
-  PiProfile,
-  PiEntry,
-  Member,
-  MemberResearchArea,
-  Publication,
-  Patent,
-  Award,
-  NewsItem,
-  ResearchArea,
-  ResearchProject,
-  EtcItem,
-  Resource,
-  Locale,
-} from "./content-types";
+// 타입은 content-types.ts 가 정의한 것을 그대로 재수출한다 (페이지는 여기서만 가져온다).
+export type * from "./content-types";
 
 export * from "./content-helpers";
+export { paragraphs, oneParagraph } from "./site-content";
 
 // Notion 연동: 토큰이 있으면 Notion, 없으면 JSON 더미로 폴백한다.
 // 9개 DB 를 한 번에 불러오고(relation 인덱스를 한 번만 만들기 위해) 여기서 고른다.
@@ -59,6 +45,7 @@ import { pick } from "./notion/fallback";
 import { withResolvedYear } from "./publications";
 import { alumniGroups, currentMembers, unknownStatuses } from "./members";
 import { withUniqueSlug } from "./notion/validate";
+import { checkSiteContentKeys } from "./notion/validate-content";
 // 필수 필드가 빈 항목은 여기서 걸러 낸다. 항목 하나 때문에 빌드 전체가 죽지 않게
 // 하는 유일한 지점이다 (CLAUDE.md 15번, lib/required-fields.ts).
 import {
@@ -76,7 +63,17 @@ import { loadAll } from "./notion/query";
 
 const notion = notionEnabled ? await loadAll() : null;
 
-export const about = aboutData as About;
+/**
+ * 페이지 문구 — Notion 「📝 페이지 문구 (Site Content)」 DB.
+ *
+ * 화면에 박혀 있던 소개·비전 문단이 여기로 왔다 (예전 src/data/about.json).
+ * Key 로 찾아 문단 배열로 쓰는 법은 lib/site-content.ts 의 paragraphs().
+ * 미설정이면 빈 배열이고 화면이 그 영역을 렌더하지 않는다 (히어로·홈 소개만 사전 폴백).
+ */
+export const siteContent = pick("siteContent", notion?.siteContent, [] as SiteContentEntry[]);
+
+// /about 의 소개 영역은 폴백이 없다 — 비면 그 영역이 통째로 사라지므로 경고를 남긴다.
+checkSiteContentKeys(siteContent);
 export const members = completeMembers(
   pick("members", notion?.members, membersData as Member[]),
 );

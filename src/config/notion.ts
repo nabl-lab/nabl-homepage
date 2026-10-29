@@ -23,7 +23,8 @@ export type NotionCollection =
   | "awards"
   | "news"
   | "resources"
-  | "piProfile";
+  | "piProfile"
+  | "siteContent";
 
 // Astro 는 import.meta.env 로 .env 값을 노출한다. 임의 키는 타입이 느슨하므로 좁혀서 쓴다.
 const env = import.meta.env as unknown as Record<string, string | undefined>;
@@ -39,6 +40,7 @@ export const DATA_SOURCE_ENV_KEY: Record<NotionCollection, string> = {
   news: "NOTION_NEWS_DATA_SOURCE_ID",
   resources: "NOTION_RESOURCES_DATA_SOURCE_ID",
   piProfile: "NOTION_PI_PROFILE_DATA_SOURCE_ID",
+  siteContent: "NOTION_SITE_CONTENT_DATA_SOURCE_ID",
 };
 
 export const NOTION_TOKEN = env.NOTION_TOKEN?.trim() || undefined;

@@ -5,20 +5,10 @@
  * 그 인덱스를 매퍼에 넘긴다 (행마다 개별 조회하지 않는다).
  * 오류는 잡지 않고 그대로 던져 빌드를 실패시킨다. 빈 배열은 정상이다.
  */
-import type {
-  Member,
-  ResearchArea,
-  ResearchProject,
-  Publication,
-  Patent,
-  Award,
-  NewsItem,
-  Resource,
-  PiEntry,
-} from "../content-types";
+import type { Member, ResearchArea, ResearchProject, Publication, Patent, Award, NewsItem, Resource, PiEntry, SiteContentEntry } from "../content-types";
 import { queryAllRows, type NotionPage } from "./client";
 // 속성명은 배럴 schema.ts 하나로 가져온다 (schema-people / -work / -news).
-import { P_MEMBERS, PI_SECTION, P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS, P_NEWS, P_RESOURCES } from "./schema";
+import { P_MEMBERS, PI_SECTION, P_RESEARCH, P_PROJECTS, P_PUBLICATIONS, P_PATENTS, P_AWARDS, P_NEWS, P_RESOURCES, P_SITE_CONTENT } from "./schema";
 // 매퍼는 배럴 map.ts 하나로 가져온다 (실제 파일은 map-people / map-work / map-news).
 import {
   mapMember,
@@ -31,6 +21,7 @@ import {
   mapPatent,
   mapAward,
   mapNews,
+  mapSiteContent,
   mapResource,
 } from "./map";
 import { checkSlugs } from "./validate";
@@ -55,6 +46,7 @@ export interface NotionContent {
   piEducation: PiEntry[] | null;
   piCareer: PiEntry[] | null;
   piActivities: PiEntry[] | null;
+  siteContent: SiteContentEntry[] | null;
 }
 
 /** null = 해당 DS 가 설정되지 않음 → 호출부에서 JSON 폴백 */
@@ -70,7 +62,8 @@ function mapped<T>(
 }
 
 export async function loadAll(): Promise<NotionContent> {
-  const [mRows, rRows, pjRows, pbRows, ptRows, awRows, nwRows, rsRows, piRows] =
+  // prettier-ignore
+  const [mRows, rRows, pjRows, pbRows, ptRows, awRows, nwRows, rsRows, piRows, scRows] =
     await Promise.all([
       queryAllRows("members"),
       queryAllRows("research"),
@@ -81,6 +74,7 @@ export async function loadAll(): Promise<NotionContent> {
       queryAllRows("news"),
       queryAllRows("resources"),
       queryAllRows("piProfile"),
+      queryAllRows("siteContent"),
     ]);
 
   // relation 인덱스 (담는 범위는 notion/types.ts 주석 참고)
@@ -91,11 +85,11 @@ export async function loadAll(): Promise<NotionContent> {
     research: rRows,
   });
 
-  // 제목이 비어 매퍼가 버릴 행을 **모든 컬렉션에서** 한 번에 알린다 (notion/titleless.ts).
-  // 새 DB 를 붙이면 그 파일의 SPECS 와 아래 한 줄에만 키를 더하면 된다.
+  // 제목이 비어 매퍼가 버릴 행을 모든 컬렉션에서 한 번에 알린다 (notion/titleless.ts).
   // prettier-ignore
   checkAllTitleless({ members: mRows, piProfile: piRows, research: rRows, projects: pjRows,
-    publications: pbRows, patents: ptRows, awards: awRows, news: nwRows, resources: rsRows });
+    publications: pbRows, patents: ptRows, awards: awRows, news: nwRows, resources: rsRows,
+    siteContent: scRows });
 
   const members = mapped(mRows, P_MEMBERS.publish, (p) => mapMember(p, index));
   // 연구 분야 경고는 **현재 구성원만** 본다. 졸업생은 분야를 연결하지 않는 게 정상이라
@@ -141,6 +135,7 @@ export async function loadAll(): Promise<NotionContent> {
     patents: mapped(ptRows, P_PATENTS.publish, mapPatent),
     awards: mapped(awRows, P_AWARDS.publish, (p) => mapAward(p, index)),
     news,
+    siteContent: mapped(scRows, P_SITE_CONTENT.publish, mapSiteContent),
     resources,
     piEducation: piBy(PI_SECTION.education),
     piCareer: piBy(PI_SECTION.career),

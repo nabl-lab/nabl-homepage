@@ -8,7 +8,8 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { SPECS, titlelessHints, type CollectionKey } from "../src/lib/notion/titleless.ts";
+import { titlelessHints } from "../src/lib/notion/titleless.ts";
+import { SPECS, type CollectionKey } from "../src/lib/notion/titleless-specs.ts";
 import type { NotionPage } from "../src/lib/notion/client.ts";
 
 /** Notion 응답 모양을 흉내 낸 최소 객체. */

@@ -568,6 +568,34 @@ Notion 에 새 분류나 새 연도가 들어오면 버튼이 자동으로 늘�
 3번은 2번이 있어도 **남겨 둡니다.** 빈 slug 는 경고로 끝나는 문제가 아니라 빌드를
 죽이는 문제라서, 두 층에서 막습니다.
 
+### 페이지 문구는 Notion 「📝 페이지 문구 (Site Content)」 DB 에서 온다
+
+화면에 박혀 있던 소개·비전 문단을 코드 수정 없이 고치기 위한 DB 입니다.
+코드는 **`Key`** 로 찾고, 같은 Key 가 여러 행이면 **`Order` 오름차순 문단 배열**이 됩니다.
+조회는 `src/lib/site-content.ts` 의 `paragraphs(siteContent, key, lang)` 하나만 씁니다
+(한 문단만 필요하면 `oneParagraph`).
+
+| Key | 쓰이는 곳 | 폴백 |
+| --- | --- | --- |
+| `home.hero.tagline` | 홈 히어로 한 줄 소개 (+ 홈 meta description) | ui 사전 `home.hero.tagline` |
+| `home.about.intro` | 홈 연구실 소개 본문 | ui 사전 `home.about.body` |
+| `about.intro` | `/about` 연구실 소개 (현재 3문단) | **없음** — 비면 영역이 사라지고 빌드 경고 |
+| `about.mission` | `/about` 비전 | 없음 — 비면 섹션이 사라짐 |
+
+`Block`·`Note`·`Page` 는 **사람용 메모라 코드가 읽지 않습니다.** 속성명은
+`src/lib/notion/schema-content.ts` 에만 적혀 있습니다.
+
+히어로와 홈 소개만 ui 사전으로 폴백하는 이유: 그 두 문구는 DB 를 붙이기 전에도
+사전에 있었고(= 기존 동작), 데이터소스를 설정하지 않은 로컬 개발에서도 화면이
+비지 않아야 합니다. 그래서 두 키는 **사전에 남겨 둡니다** — 지우지 마세요.
+
+`about.intro` 가 없으면 `notion/validate-rows.ts` 의 `checkSiteContentKeys` 가 경고합니다
+(빌드는 통과). "비면 안 되는 Key" 가 늘면 그 파일의 `REQUIRED_CONTENT_KEYS` 에
+한 줄만 더하면 됩니다.
+
+> 예전 `src/data/about.json` 은 **삭제했습니다.** 위 네 Key 가 그 내용을 전부 대체하고,
+> 그 파일에는 더미 인물명("홍길동 교수님")이 들어 있었습니다.
+
 ### 제목이 빈 행은 조용히 사라지지 않는다
 
 모든 매퍼는 제목이 비면 `null` 을 돌려 그 행을 건너뜁니다. 사이트가 깨지지 않게 하는

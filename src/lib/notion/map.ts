@@ -14,3 +14,4 @@ export * from "./map-people";
 export * from "./map-work";
 export * from "./map-research";
 export * from "./map-news";
+export * from "./map-content";

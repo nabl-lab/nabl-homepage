@@ -3,7 +3,13 @@
 import BaseLayout from "../../layouts/base-layout.astro";
 import PageHeader from "../../components/page-header.astro";
 import Section from "../../components/section.astro";
-import { about, members, localizedText, PI_POSITION } from "../../lib/content";
+import {
+  members,
+  localizedText,
+  paragraphs,
+  siteContent,
+  PI_POSITION,
+} from "../../lib/content";
 import { localePaths, useTranslations, withLocale, type Locale } from "../../i18n/utils";
 import { collectionLabel } from "../../config/collections";
 
@@ -12,17 +18,31 @@ export const getStaticPaths = localePaths;
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 
-const intro = localizedText(about, "intro", lang);
-const mission = localizedText(about, "mission", lang);
+// 소개·비전은 Notion 「페이지 문구」에서 온다 (예전 src/data/about.json).
+// 소개는 여러 문단이고, 비면 영역 자체를 렌더하지 않는다 (빌드 경고가 남는다).
+const introParagraphs = paragraphs(siteContent, "about.intro", lang);
+const missionParagraphs = paragraphs(siteContent, "about.mission", lang);
 const pi = members.find((m) => m.position === PI_POSITION);
 const piName = pi ? localizedText(pi, "name", lang) : null;
 ---
 
-<BaseLayout lang={lang} title={t("about.title")} description={intro ?? undefined}>
+<BaseLayout
+  lang={lang}
+  title={t("about.title")}
+  description={introParagraphs[0] ?? undefined}
+>
   <PageHeader title={t("about.title")} lede={t("about.lede")} />
 
   <Section>
-    {intro && <p class="max-w-3xl text-lg leading-relaxed text-ink">{intro}</p>}
+    {
+      introParagraphs.length > 0 && (
+        <div class="flex max-w-3xl flex-col gap-4">
+          {introParagraphs.map((text) => (
+            <p class="text-lg leading-relaxed text-ink">{text}</p>
+          ))}
+        </div>
+      )
+    }
     {
       piName && (
         <p class="mt-6 text-sm text-ink-muted">
@@ -35,9 +55,13 @@ const piName = pi ? localizedText(pi, "name", lang) : null;
   </Section>
 
   {
-    mission && (
+    missionParagraphs.length > 0 && (
       <Section title={t("about.missionTitle")} muted>
-        <p class="max-w-3xl text-lg leading-relaxed text-ink">{mission}</p>
+        <div class="flex max-w-3xl flex-col gap-4">
+          {missionParagraphs.map((text) => (
+            <p class="text-lg leading-relaxed text-ink">{text}</p>
+          ))}
+        </div>
       </Section>
     )
   }

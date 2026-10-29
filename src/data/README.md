@@ -171,7 +171,6 @@
 | `venue` / `venue_ko` | 장소·매체 |
 | `date` | 날짜 (`YYYY-MM-DD`) — 연도별 그룹에 쓰임 |
 
-### about.json / pi-profile.json — 소개 · PI 프로필 (객체 하나)
 
 필드 구조는 `src/lib/content-types.ts` 의 `About` / `PiProfile` 타입을 참고하세요.
 
