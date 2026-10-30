@@ -24,7 +24,7 @@ const present = t("pi.present");
 const toRow = (e: PiEntry, current: boolean) => ({
   years: yearRange(e, present),
   text: localizedText(e, "text", lang),
-  organization: e.organization,
+  organization: localizedText(e, "organization", lang),
   current,
 });
 

@@ -16,7 +16,9 @@
 export interface PiEntry {
   text: string;
   text_ko: string;
+  /** 기관명. 11번 규칙대로 접미사 없는 쪽이 영문이다 (Organization / Organization_ko). */
   organization: string;
+  organization_ko: string;
   startYear: number;
   endYear: number | null;
   order?: number;

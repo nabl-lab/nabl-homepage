@@ -129,18 +129,18 @@ export function piSectionOf(page: NotionPage): string {
 
 /**
  * PI Profile 행 → PiEntry (학력·경력·대외활동 공용).
- * 사이트 모델에 organization 이 한 개뿐이라 영문이 비면 한국어를 쓴다.
+ * 기관명은 두 칸을 그대로 담는다 — 어느 쪽을 쓸지는 화면이 localizedText 로 고른다.
  */
 export function mapPiEntry(page: NotionPage): PiEntry | null {
   const content = text(page, P_PI_PROFILE.content);
   const contentKo = text(page, P_PI_PROFILE.contentKo);
   if (!content && !contentKo) return null;
 
-  const org = text(page, P_PI_PROFILE.organization);
   return {
     text: content,
     text_ko: contentKo,
-    organization: org || text(page, P_PI_PROFILE.organizationKo),
+    organization: text(page, P_PI_PROFILE.organization),
+    organization_ko: text(page, P_PI_PROFILE.organizationKo),
     startYear: num(page, P_PI_PROFILE.startYear) ?? 0,
     endYear: num(page, P_PI_PROFILE.endYear),
     order: num(page, P_PI_PROFILE.order) ?? undefined,
