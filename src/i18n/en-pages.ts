@@ -31,8 +31,6 @@ const enPages = {
   "members.currentTitle": "Current Members",
   "members.lede": "Current members of NABL, grouped by role.",
   "members.noPhoto": "No photo",
-  "member.topicLabel": "Research topic",
-  "member.areasLabel": "Research areas",
   "member.degreeLabel": "Degrees",
   "member.joinedLabel": "Joined",
 
@@ -47,16 +45,14 @@ const enPages = {
   "pi.pageTitle": "Principal Investigator",
   "pi.lede": "The principal investigator of NABL.",
   "pi.officeLabel": "Office",
+  "person.phoneLabel": "Phone",
+  "pi.careerCurrent": "Current",
+  "pi.careerPast": "Previous",
   "pi.present": "Present",
   "pi.researchInterests": "Research interests",
   "pi.education": "Education",
   "pi.career": "Career",
   "pi.activities": "Professional activities",
-  "pi.awards": "Awards",
-  "pi.selectedPublications": "Selected publications",
-  "pi.links": "External links",
-  "pi.scholar": "Google Scholar",
-  "pi.orcid": "ORCID",
 
   // Contact
   "contact.title": "Contact",

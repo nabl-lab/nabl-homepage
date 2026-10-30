@@ -9,7 +9,7 @@
  *  - work-types.ts     : 논문, 특허, 수상, 기타 성과, 연구 과제
  *  - research-types.ts : 연구 분야
  *  - news-types.ts   : 소식, 공개 자료
- *  - pi-types.ts     : 지도교수 프로필
+ *  - pi-types.ts     : 지도교수 학력·경력·대외활동 항목
  */
 export type { Locale } from "../i18n/ui";
 
@@ -28,4 +28,4 @@ export type {
 } from "./work-types";
 export type { NewsItem, Resource } from "./news-types";
 export type { SiteContentEntry } from "./site-content-types";
-export type { PiEntry, PiProfile } from "./pi-types";
+export type { PiEntry } from "./pi-types";

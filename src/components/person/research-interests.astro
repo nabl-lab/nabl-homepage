@@ -1,0 +1,28 @@
+---
+// 연구 관심사 — 연구 주제(큰 글씨) + 연구 설명(본문).
+// PI 페이지와 구성원 상세가 같이 쓴다. 둘 다 비면 호출부가 이 블록을 렌더하지 않는다.
+import { localizedText, type Member } from "../../lib/content";
+import type { Locale } from "../../i18n/utils";
+
+interface Props {
+  member: Member;
+  lang: Locale;
+}
+
+const { member, lang } = Astro.props;
+
+// 한쪽 언어만 입력돼 있어도 localizedText 가 반대 언어로 폴백한다.
+const topic = localizedText(member, "researchTopic", lang);
+const description = localizedText(member, "researchDescription", lang);
+---
+
+<div class="max-w-3xl">
+  {topic && <p class="text-xl font-semibold leading-snug text-ink">{topic}</p>}
+  {
+    description && (
+      <p class:list={["leading-relaxed text-ink-muted", topic && "mt-4"]}>
+        {description}
+      </p>
+    )
+  }
+</div>

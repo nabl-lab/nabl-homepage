@@ -1,15 +1,28 @@
 ---
-// 책임교수(PI) 전용 페이지 (/[lang]/members/pi).
-// 8개 섹션 중 프로필·연구관심사·타임라인은 컴포넌트로 분리, 목록형 3개는 여기서 조합.
+// 책임교수(PI) 페이지 (/[lang]/members/pi).
+//
+// 섹션 순서: 신원 → 연구 관심사 → 연구 분야 → 학력 → 경력 → 대외활동.
+// 비어 있는 섹션은 제목까지 통째로 숨긴다.
+//
+// 1·2·3 블록은 구성원 상세(/members/[slug])와 **같은 컴포넌트**를 쓴다
+// (components/person/). PI 전용으로 따로 만들면 두 화면이 어긋난다.
+// 4·5·6 은 piProfile DB 가 교수님 것뿐이라 이 페이지에만 나온다.
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
-import Section from "../../../components/section.astro";
-import PiProfile from "../../../components/pi/profile.astro";
-import PiResearchInterests from "../../../components/pi/research-interests.astro";
-import PiTimeline from "../../../components/pi/timeline.astro";
-import PublicationItem from "../../../components/publication-item.astro";
-import { localizedText } from "../../../lib/content";
-import { piProfile, piAwards, featuredPublications } from "../../../lib/pi";
+import SectionBlock from "../../../components/person/section-block.astro";
+import Identity from "../../../components/person/identity.astro";
+import ResearchInterests from "../../../components/person/research-interests.astro";
+import ResearchAreas from "../../../components/person/research-areas.astro";
+import Timeline from "../../../components/person/timeline.astro";
+import EmptyState from "../../../components/empty-state.astro";
+import {
+  piEducation,
+  piCareer,
+  piActivities,
+  localizedText,
+} from "../../../lib/content";
+import { pi } from "../../../lib/pi";
+import { collectionLabel } from "../../../config/collections";
 import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
@@ -17,82 +30,61 @@ export const getStaticPaths = localePaths;
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 
-const awardRows = piAwards
-  .map((a) => ({
-    id: a.id,
-    year: a.year,
-    title: localizedText(a, "title", lang),
-    org: localizedText(a, "organization", lang),
-  }))
-  .filter((a) => a.title)
-  .sort((a, b) => b.year - a.year);
-
-const links = piProfile.links;
+// 연구 관심사 블록은 주제·설명이 둘 다 비면 렌더하지 않는다.
+const hasInterests = pi
+  ? Boolean(
+      localizedText(pi, "researchTopic", lang) ??
+        localizedText(pi, "researchDescription", lang),
+    )
+  : false;
 ---
 
 <BaseLayout lang={lang} title={t("pi.pageTitle")} description={t("pi.lede")}>
   <PageHeader title={t("pi.pageTitle")} lede={t("pi.lede")} />
 
-  <PiProfile lang={lang} />
-  <PiResearchInterests lang={lang} />
-  <PiTimeline title={t("pi.education")} entries={piProfile.education} lang={lang} />
-  <PiTimeline title={t("pi.career")} entries={piProfile.career} lang={lang} />
-  <PiTimeline title={t("pi.activities")} entries={piProfile.activities} lang={lang} />
+  <div class="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-16">
+    {!pi && <EmptyState lang={lang} />}
 
-  {
-    awardRows.length > 0 && (
-      <Section title={t("pi.awards")} muted>
-        <ul class="flex flex-col divide-y divide-line border-y border-line">
-          {awardRows.map((a) => (
-            <li class="flex gap-4 py-3">
-              <span class="w-12 shrink-0 text-sm font-semibold text-ink-muted tabular-nums">
-                {a.year}
-              </span>
-              <span>
-                <span class="font-medium text-ink">{a.title}</span>
-                {a.org && <span class="text-ink-muted"> · {a.org}</span>}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </Section>
-    )
-  }
+    {pi && <Identity member={pi} lang={lang} />}
 
-  {
-    featuredPublications.length > 0 && (
-      <Section title={t("pi.selectedPublications")}>
-        <div class="divide-y divide-line border-y border-line">
-          {featuredPublications.map((p) => (
-            <PublicationItem publication={p} lang={lang} />
-          ))}
-        </div>
-      </Section>
-    )
-  }
+    {
+      pi && hasInterests && (
+        <SectionBlock title={t("pi.researchInterests")}>
+          <ResearchInterests member={pi} lang={lang} />
+        </SectionBlock>
+      )
+    }
 
-  <Section title={t("pi.links")} muted>
-    <ul class="flex flex-wrap gap-4 text-sm font-medium">
-      <li>
-        <a
-          href={links.scholar}
-          target="_blank"
-          rel="noopener"
-          class="text-brand hover:underline"
-        >
-          {t("pi.scholar")} →
-        </a>
-      </li>
-      <li>
-        <a
-          href={links.orcid}
-          target="_blank"
-          rel="noopener"
-          class="text-brand hover:underline"
-        >
-          {t("pi.orcid")} →
-        </a>
-      </li>
-    </ul>
-  </Section>
+    {
+      pi && pi.researchAreas.length > 0 && (
+        <SectionBlock title={collectionLabel("research", lang)} id="areas">
+          <ResearchAreas areas={pi.researchAreas} lang={lang} />
+        </SectionBlock>
+      )
+    }
+
+    {
+      piEducation.length > 0 && (
+        <SectionBlock title={t("pi.education")}>
+          <Timeline entries={piEducation} lang={lang} />
+        </SectionBlock>
+      )
+    }
+
+    {
+      piCareer.length > 0 && (
+        <SectionBlock title={t("pi.career")}>
+          <Timeline entries={piCareer} lang={lang} grouped />
+        </SectionBlock>
+      )
+    }
+
+    {
+      piActivities.length > 0 && (
+        <SectionBlock title={t("pi.activities")}>
+          <Timeline entries={piActivities} lang={lang} />
+        </SectionBlock>
+      )
+    }
+  </div>
 </BaseLayout>

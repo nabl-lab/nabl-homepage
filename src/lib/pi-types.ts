@@ -1,5 +1,8 @@
 /**
- * PI(책임교수) 페이지 전용 타입.
+ * PI(책임교수) 페이지 전용 타입 — 학력·경력·대외활동 항목.
+ *
+ * 직위·연구실·연구 관심사·외부 링크는 **구성원 DB 속성**으로 옮겼다
+ * (예전 pi-profile.json). Member 타입을 보라.
  *
  * content-types.ts 에서 분리했다 (역할이 다르고, content-types.ts 가 줄 수 상한에 닿았다).
  * `content-types.ts` 가 그대로 re-export 하므로 가져다 쓰는 쪽 경로는 바뀌지 않는다.
@@ -19,23 +22,3 @@ export interface PiEntry {
   order?: number;
 }
 
-/**
- * PI 프로필. 신원(이름·이메일·사진)은 members 의 지도교수 항목을 쓰고,
- * 여기에는 직위·연구실·관심사·링크와 학력/경력/대외활동을 담는다.
- */
-export interface PiProfile {
-  title: string;
-  title_ko: string;
-  office: string;
-  office_ko: string;
-  researchInterests: {
-    keywords: string[];
-    keywords_ko: string[];
-    description: string;
-    description_ko: string;
-  };
-  education: PiEntry[];
-  career: PiEntry[];
-  activities: PiEntry[];
-  links: { scholar: string; orcid: string };
-}

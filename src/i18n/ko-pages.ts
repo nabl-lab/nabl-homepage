@@ -28,8 +28,6 @@ const koPages = {
   "members.currentTitle": "현재 구성원",
   "members.lede": "직책별로 정리한 NABL 현재 구성원입니다.",
   "members.noPhoto": "사진 없음",
-  "member.topicLabel": "연구 주제",
-  "member.areasLabel": "연구 분야",
   "member.degreeLabel": "학위",
   "member.joinedLabel": "입실일",
 
@@ -44,16 +42,14 @@ const koPages = {
   "pi.pageTitle": "책임교수",
   "pi.lede": "NABL 책임교수 소개입니다.",
   "pi.officeLabel": "연구실",
+  "person.phoneLabel": "전화",
+  "pi.careerCurrent": "현직",
+  "pi.careerPast": "이전",
   "pi.present": "현재",
   "pi.researchInterests": "연구 관심사",
   "pi.education": "학력",
   "pi.career": "경력",
   "pi.activities": "대외 활동",
-  "pi.awards": "수상",
-  "pi.selectedPublications": "대표 논문",
-  "pi.links": "외부 링크",
-  "pi.scholar": "Google Scholar",
-  "pi.orcid": "ORCID",
 
   // Contact
   "contact.title": "연락처",

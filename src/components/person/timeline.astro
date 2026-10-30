@@ -1,0 +1,85 @@
+---
+// 학력·경력·대외활동 목록 (piProfile DB 의 Section 세 갈래 공용).
+//
+// 연도 열은 고정 폭 + tabular-nums 로 자릿수를 맞춘다.
+// `grouped` 를 켜면 경력처럼 **현직 / 이전** 두 묶음으로 나눈다 — End_year 가 비면 현직.
+// 현직 항목의 연도는 강조색 + 굵게, 이전은 회색이다.
+import { localizedText, type PiEntry } from "../../lib/content";
+import { careerGroups, sortEntries, yearRange } from "../../lib/person";
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+  entries: PiEntry[];
+  lang: Locale;
+  /** true 면 현직/이전으로 가른다 (경력). 학력·대외활동은 한 묶음이다. */
+  grouped?: boolean;
+}
+
+const { entries, lang, grouped = false } = Astro.props;
+const t = useTranslations(lang);
+
+const present = t("pi.present");
+
+/** 한 항목을 화면용으로 바꾼다. 내용이 양쪽 언어 모두 비면 건너뛴다. */
+const toRow = (e: PiEntry, current: boolean) => ({
+  years: yearRange(e, present),
+  text: localizedText(e, "text", lang),
+  organization: e.organization,
+  current,
+});
+
+const groups = grouped
+  ? careerGroups(entries).map((g) => ({
+      label: g.current ? t("pi.careerCurrent") : t("pi.careerPast"),
+      rows: g.items.map((e) => toRow(e, g.current)).filter((r) => r.text),
+    }))
+  : [
+      {
+        label: null,
+        rows: sortEntries(entries)
+          .map((e) => toRow(e, e.endYear === null))
+          .filter((r) => r.text),
+      },
+    ];
+---
+
+<div class="flex flex-col gap-6">
+  {
+    groups
+      .filter((g) => g.rows.length > 0)
+      .map((g) => (
+        <div>
+          {g.label && (
+            /* 섹션 제목이 h2 이므로 묶음 제목은 h3 (헤딩 순서 유지) */
+            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-ink-subtle">
+              {g.label}
+            </h3>
+          )}
+          <ul class="flex flex-col divide-y divide-line border-y border-line">
+            {g.rows.map((r) => (
+              <li class="flex flex-col gap-1 py-3 sm:flex-row sm:gap-5">
+                <span
+                  class:list={[
+                    "w-32 shrink-0 text-sm tabular-nums",
+                    r.current
+                      ? "font-semibold text-brand"
+                      : "text-ink-muted",
+                  ]}
+                >
+                  {r.years}
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="block font-medium text-ink">{r.text}</span>
+                  {r.organization && (
+                    <span class="mt-0.5 block text-sm text-ink-muted">
+                      {r.organization}
+                    </span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+  }
+</div>

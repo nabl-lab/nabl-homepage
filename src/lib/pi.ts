@@ -1,39 +1,13 @@
 /**
- * PI(책임교수) 페이지 전용 파생 데이터.
+ * PI(책임교수) 식별.
  *
- * 원본 JSON 은 여전히 content.ts 만 읽는다. 이 파일은 content.ts 가 내보낸 값에서
- * PI 페이지에 필요한 형태(수상 필터, 대표 논문, 항목 정렬)를 만든다.
+ * 예전에는 수상 필터·대표 논문·정렬까지 여기 있었는데, 정렬은 lib/person.ts 로 옮기고
+ * 수상·대표 논문 섹션은 PI 페이지에서 뺐다(시안의 섹션 구성에 없다).
+ * 그래서 지금은 "누가 PI 인가" 하나만 남았다.
  */
-import { members, awards, publications, piProfile, PI_POSITION } from "./content";
-import type { Award, Publication, PiEntry } from "./content";
+import { members, PI_POSITION } from "./content";
+import type { Member } from "./content";
 
-export { piProfile };
-
-/** PI 멤버. position 이 PI_POSITION(지도교수)인 항목으로 식별한다. */
-export const pi = members.find((m) => m.position === PI_POSITION) ?? null;
-
-/**
- * awards.json 에서 PI 가 수상자인 것만. 별도 입력 없이 수상자 이름(영/한)으로 매칭한다.
- * (awards 데이터에 수상자 id 필드가 없으므로 이름으로 맞춘다.)
- */
-export const piAwards: Award[] = pi
-  ? awards.filter(
-      (a) => a.recipient === pi.name || a.recipient_ko === pi.name_ko,
-    )
-  : [];
-
-/**
- * featured 로 표시된 대표 논문만, 연도 내림차순.
- * year 는 null 일 수 있으므로("연도 미상") 0 으로 보아 맨 뒤로 보낸다.
- */
-export const featuredPublications: Publication[] = publications
-  .filter((p) => p.featured === true)
-  .sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-
-/** 학력·경력·대외활동 정렬: order 우선(작을수록 위), 없으면 시작연도 내림차순. */
-export function sortEntries(entries: PiEntry[]): PiEntry[] {
-  const far = Number.MAX_SAFE_INTEGER;
-  return [...entries].sort(
-    (a, b) => (a.order ?? far) - (b.order ?? far) || b.startYear - a.startYear,
-  );
-}
+/** PI 멤버. `직책·과정` 이 지도교수인 항목으로 식별한다. 없으면 null. */
+export const pi: Member | null =
+  members.find((m) => m.position === PI_POSITION) ?? null;

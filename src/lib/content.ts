@@ -9,7 +9,6 @@
  * - 데이터 "모양"(타입) → `content-types.ts`
  * - 가공 헬퍼(정렬·그룹핑·폴백) → `content-helpers.ts` (아래에서 re-export)
  */
-import piProfileData from "../data/pi-profile.json";
 import membersData from "../data/members.json";
 import publicationsData from "../data/publications.json";
 import patentsData from "../data/patents.json";
@@ -18,7 +17,6 @@ import newsData from "../data/news.json";
 import researchData from "../data/research.json";
 import etcData from "../data/achievements-etc.json";
 import type {
-  PiProfile,
   Member,
   Publication,
   Patent,
@@ -29,6 +27,7 @@ import type {
   EtcItem,
   Resource,
   SiteContentEntry,
+  PiEntry,
 } from "./content-types";
 
 // 타입은 content-types.ts 가 정의한 것을 그대로 재수출한다 (페이지는 여기서만 가져온다).
@@ -130,18 +129,13 @@ export const researchProjects = completeProjects(
 );
 
 /**
- * PI 프로필 — 경계가 둘로 나뉜다.
- *  - 학력·경력·대외활동: **Notion** PI Profile DB (Section 으로 구분)
- *  - 직위·연구실·관심사·외부링크: **JSON**(pi-profile.json). 아직 Notion 에 대응 속성이 없다.
- * 나중에 Notion 으로 옮기려면 해당 속성을 DB 에 추가하고 아래 세 줄처럼 pick() 으로 바꾼다.
+ * PI 페이지의 학력·경력·대외활동 — **Notion PI Profile DB** 가 유일한 출처다.
+ * (직위·연구실·연구 관심사·외부 링크는 구성원 DB 속성으로 옮겼다 — 예전 pi-profile.json)
+ * 각 Section 이 0건이면 화면이 그 블록을 렌더하지 않는다.
  */
-const piJson = piProfileData as PiProfile;
-export const piProfile: PiProfile = {
-  ...piJson,
-  education: pick("pi.education", notion?.piEducation, piJson.education),
-  career: pick("pi.career", notion?.piCareer, piJson.career),
-  activities: pick("pi.activities", notion?.piActivities, piJson.activities),
-};
+export const piEducation = pick("pi.education", notion?.piEducation, [] as PiEntry[]);
+export const piCareer = pick("pi.career", notion?.piCareer, [] as PiEntry[]);
+export const piActivities = pick("pi.activities", notion?.piActivities, [] as PiEntry[]);
 
 // 연구 범위 소개문은 더 이상 별도 필드가 아니다.
 // Notion Research DB 의 Category=Scope 행이 담당하며, lib/research.ts 가 갈라 쓴다.
