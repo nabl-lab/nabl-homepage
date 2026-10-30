@@ -11,7 +11,17 @@ import type { Member, MemberResearchArea, PiEntry } from "../content-types";
 import { type RelationIndex, resolveRefs } from "./types";
 import { P_MEMBERS, P_PI_PROFILE } from "./schema";
 import { RESEARCH_CATEGORY } from "./schema-work";
-import { text, num, bool, select, date, email, multiSelect, relationIds } from "./parsers";
+import {
+  text,
+  num,
+  bool,
+  select,
+  date,
+  email,
+  url,
+  multiSelect,
+  relationIds,
+} from "./parsers";
 import { assetPath } from "./assets";
 
 /** members: `홈페이지 공개` 체크된 행만 사이트에 노출한다. */
@@ -24,8 +34,8 @@ export function isMemberPublished(page: NotionPage): boolean {
  *
  * - 이름(title, 한국어)이 비면 null → 호출부에서 건너뛴다.
  * - `영문명`이 비어 있으면 name 이 빈 문자열이 되고, localizedText 가 name_ko 로 폴백한다.
- * - `연구 주제`·`연구 설명`은 Notion 에 영문 속성이 없어 영문 필드는 항상 빈 문자열이다
- *   (localizedText 가 ko 로 폴백한다).
+ * - `연구 주제`·`연구 설명`·`Position`·`Office` 는 **접미사 없는 쪽이 영문**이고
+ *   `_ko` 가 한글이다 (localizedText 규칙의 짝).
  * - `연구 분야`는 relation 이다. Research DB 를 한 번 읽어 만든 인덱스와 조인하며,
  *   구성원 수만큼 재조회하지 않는다.
  * - 사진: Notion 서명 URL 은 약 1시간 뒤 만료되므로 여기서 넣지 않는다.
@@ -52,6 +62,8 @@ function researchAreasOf(page: NotionPage, index: RelationIndex): MemberResearch
       code: r.code,
       category: r.category,
       publish: r.publish,
+      order: r.order,
+      keywords: r.keywords,
     }));
 }
 
@@ -81,12 +93,21 @@ export function mapMember(page: NotionPage, index: RelationIndex): Member | null
     joinedDate: date(page, P_MEMBERS.joined) ?? "",
     leftDate: date(page, P_MEMBERS.left) ?? "",
     email: email(page, P_MEMBERS.email) ?? "",
-    researchTopic: "",
+    positionTitle: text(page, P_MEMBERS.position1),
+    positionTitle_ko: text(page, P_MEMBERS.positionKo),
+    // 접미사 없는 쪽이 영문이다. text() 가 plain_text 만 이어 붙이므로 서식은 버려진다.
+    researchTopic: text(page, P_MEMBERS.topic),
     researchTopic_ko: text(page, P_MEMBERS.topicKo),
-    // `연구 설명`도 영문 속성이 없어 ko 만 채운다. 속성이 없거나 비면 빈 문자열.
-    // text() 가 rich_text 조각의 plain_text 만 이어 붙이므로 굵게·링크 서식은 버려진다.
-    researchDescription: "",
+    researchDescription: text(page, P_MEMBERS.researchDescription),
     researchDescription_ko: text(page, P_MEMBERS.researchDescriptionKo),
+    office: text(page, P_MEMBERS.office),
+    office_ko: text(page, P_MEMBERS.officeKo),
+    officePhone: text(page, P_MEMBERS.officePhone),
+    links: {
+      scholar: url(page, P_MEMBERS.scholar) ?? "",
+      orcid: url(page, P_MEMBERS.orcid) ?? "",
+      researchGate: url(page, P_MEMBERS.researchGate) ?? "",
+    },
     researchAreas: researchAreasOf(page, index),
     degrees: multiSelect(page, P_MEMBERS.degrees),
     degreeHistory: degreeHistoryOf(page),

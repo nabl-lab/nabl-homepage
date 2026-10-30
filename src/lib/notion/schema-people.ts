@@ -18,7 +18,12 @@ export const P_MEMBERS = {
   left: "졸업·퇴실일", // 가운뎃점 U+00B7
   email: "e-mail",
   slug: "Slug",
-  topicKo: "연구 주제",
+  /**
+   * 연구 주제·연구 설명은 **접미사 없는 쪽이 영문**이다 (`연구 주제` = English).
+   * 예전에는 영문 속성이 없어 ko 만 채웠는데, 이제 양쪽이 모두 있다.
+   */
+  topic: "연구 주제",
+  topicKo: "연구 주제_ko",
   /** multi_select. 옵션은 "Ph.D." / "M.S.". Alumni 를 두 그룹으로 가르는 데 쓴다. */
   degrees: "학위",
   /** rich_text. 학위 하나당 한 줄(\n 구분). 빈 줄은 버린다. */
@@ -26,7 +31,20 @@ export const P_MEMBERS = {
   /** number. 없으면 null → Alumni 정렬에서 맨 뒤. */
   graduatedYear: "졸업 연도",
   /** 2~3문장 연구 소개. rich_text 지만 서식·링크는 버리고 평문만 쓴다. */
-  researchDescriptionKo: "연구 설명",
+  researchDescription: "연구 설명",
+  researchDescriptionKo: "연구 설명_ko",
+  /** 직위 한 줄. 비면 `직책·과정` 라벨로 폴백한다 (lib/person.ts). */
+  position1: "Position",
+  positionKo: "Position_ko",
+  /** 연구실 위치. */
+  office: "Office",
+  officeKo: "Office_ko",
+  /** 연구실 전화. 언어 구분이 없는 한 값이라 rich_text 하나만 읽는다. */
+  officePhone: "Office_phone",
+  /** 외부 프로필 URL. 비어 있을 수 있다 — 셋 다 비면 그 영역을 숨긴다. */
+  scholar: "Google_Scholar",
+  orcid: "ORCID",
+  researchGate: "ResearchGate",
   photo: "프로필 사진",
   /**
    * 연구 분야 relation → Research DB (dual, 역방향은 Research 의 `Members`).

@@ -29,6 +29,10 @@ export interface MemberResearchArea {
   category: string;
   /** Research 행이 공개됐는지. **false 면 이름만 보여 주고 링크를 걸지 않는다.** */
   publish: boolean;
+  /** 카드 정렬 기준 (Research DB 의 Order). 없으면 맨 뒤. */
+  order?: number;
+  /** 카드에 태그로 보여 줄 키워드. */
+  keywords: string[];
 }
 
 export interface Member {
@@ -57,6 +61,12 @@ export interface Member {
   /** 졸업·퇴실일. 재직 중이면 빈 문자열. */
   leftDate: string;
   email: string;
+  /**
+   * 직위 한 줄 (Notion `Position` / `Position_ko`).
+   * 비어 있으면 화면이 `직책·과정` 라벨로 폴백한다 (lib/person.ts 의 positionLine).
+   */
+  positionTitle: string;
+  positionTitle_ko: string;
   researchTopic: string;
   researchTopic_ko: string;
   /**
@@ -73,6 +83,13 @@ export interface Member {
    * 0개일 수 있다 (그때는 화면에서 그 영역을 렌더하지 않고 빌드 로그에 경고가 난다).
    */
   researchAreas: MemberResearchArea[];
+  /** 연구실 위치. 비면 그 줄을 숨긴다. */
+  office: string;
+  office_ko: string;
+  /** 연구실 전화. 언어 구분 없는 한 값. 비면 그 줄을 숨긴다. */
+  officePhone: string;
+  /** 외부 프로필 URL. 셋 다 비면 그 영역 자체를 숨긴다. */
+  links: { scholar: string; orcid: string; researchGate: string };
   /** 빌드 시 public/ 으로 내려받은 로컬 경로. 없으면 플레이스홀더. */
   photo?: string;
 }

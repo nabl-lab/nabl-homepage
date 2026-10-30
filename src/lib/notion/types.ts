@@ -35,7 +35,8 @@ export interface TitleRef {
  *  - `publish`: 상세 링크를 걸지 말지 화면이 판단한다 (미공개면 이름만 표시)
  *  - `category`: 구성원에게 붙는 건 `Theme` 행만이어야 한다. `Scope` 가 붙어 있으면
  *                빌드 로그에 경고가 난다 (notion/validate.ts)
- *  - `code`: Theme 전용 분류 기호(N | A | B | L). 지금은 담아만 둔다
+ *  - `code`: Theme 전용 분류 기호(N | A | B | L). 카드 배지에 쓴다
+ *  - `order`·`keywords`: 구성원 화면의 연구 분야 카드가 쓴다
  */
 export interface ResearchAreaRef {
   id: string;
@@ -45,6 +46,10 @@ export interface ResearchAreaRef {
   category: string;
   code: string;
   publish: boolean;
+  /** 카드 정렬 기준 (Research DB 의 Order). 없으면 맨 뒤. */
+  order?: number;
+  /** `Keywords`(쉼표 구분)를 끊은 태그. 카드에 보여 준다. */
+  keywords: string[];
 }
 
 /**

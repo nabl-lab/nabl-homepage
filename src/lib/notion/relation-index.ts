@@ -11,7 +11,7 @@ import type { NotionPage } from "./client";
 import { type RelationIndex, type TitleRef, emptyIndex } from "./types";
 import { P_MEMBERS } from "./schema-people";
 import { P_PROJECTS, P_PUBLICATIONS, P_RESEARCH } from "./schema-work";
-import { text, bool, select } from "./parsers";
+import { text, bool, select, num } from "./parsers";
 
 /** Publish 체크된 행만 남긴다. 설정이 없어 null 인 경우 빈 배열로 본다. */
 export const published = (rows: NotionPage[] | null, prop: string): NotionPage[] =>
@@ -67,6 +67,11 @@ export function buildRelationIndex(src: IndexSource): RelationIndex {
       category: select(r, P_RESEARCH.category) ?? "",
       code: select(r, P_RESEARCH.code) ?? "",
       publish: bool(r, P_RESEARCH.publish),
+      order: num(r, P_RESEARCH.order) ?? undefined,
+      keywords: text(r, P_RESEARCH.keywords)
+        .split(",")
+        .map((k) => k.trim())
+        .filter(Boolean),
     });
 
   return index;

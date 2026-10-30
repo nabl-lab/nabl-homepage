@@ -34,7 +34,17 @@
     ],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "Professor, Department of Biotechnology & Bioinformatics",
+    "positionTitle_ko": "생명정보공학과 교수",
+    "office": "Example Hall (Bldg. 00), Room 000",
+    "office_ko": "예시관(00동) 000호",
+    "officePhone": "044-860-0000",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "kim-cheolsu",
@@ -62,7 +72,17 @@
     ],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "lee-younghee",
@@ -91,7 +111,17 @@
     ],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "park-youngsu",
@@ -111,7 +141,17 @@
     "researchAreas": [],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "choi-minjun",
@@ -137,7 +177,17 @@
     "degreeHistory": [
       "Ph.D. 2021 — 압타머 기반 분자 센싱",
       "M.S. 2016 — 바이오센서 소재"
-    ]
+    ],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "jeong-sujin",
@@ -160,7 +210,17 @@
     "graduatedYear": 2023,
     "degreeHistory": [
       "Ph.D. 2023 — 무세포 효소 캐스케이드"
-    ]
+    ],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "kang-dohyun",
@@ -183,7 +243,17 @@
     "graduatedYear": 2024,
     "degreeHistory": [
       "M.S. 2024 — 종이 기반 진단"
-    ]
+    ],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "yoon-seoyeon",
@@ -206,7 +276,17 @@
     "graduatedYear": 2024,
     "degreeHistory": [
       "M.S. 2024 — 형광 압타머 스위치"
-    ]
+    ],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "lim-jaehyun",
@@ -229,7 +309,17 @@
     "graduatedYear": null,
     "degreeHistory": [
       "M.S. — 단백질 공학"
-    ]
+    ],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "han-jimin",
@@ -248,7 +338,17 @@
     "researchAreas": [],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "oh-sehun",
@@ -267,7 +367,17 @@
     "researchAreas": [],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   },
   {
     "id": "shin-yuna",
@@ -286,6 +396,16 @@
     "researchAreas": [],
     "degrees": [],
     "graduatedYear": null,
-    "degreeHistory": []
+    "degreeHistory": [],
+    "positionTitle": "",
+    "positionTitle_ko": "",
+    "office": "",
+    "office_ko": "",
+    "officePhone": "",
+    "links": {
+      "scholar": "",
+      "orcid": "",
+      "researchGate": ""
+    }
   }
 ]
