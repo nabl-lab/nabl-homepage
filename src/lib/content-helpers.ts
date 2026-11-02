@@ -8,21 +8,29 @@
 import type { Member, Locale } from "./content-types";
 
 /**
+ * `base` 와 `${base}_ko` **두 칸이 모두** 문자열로 있는 객체.
+ * 한 칸만 있는 타입은 여기에 대입되지 않는다 → localizedText 호출이 컴파일 에러가 된다.
+ */
+export type LocalizedPair<K extends string> = Record<K | `${K}_ko`, string>;
+
+/**
  * 언어 폴백 헬퍼 — 콘텐츠 텍스트는 반드시 이 함수로 가져온다.
  * `base` 는 영문 필드명, `${base}_ko` 는 한글 필드명.
  * 현재 로케일 값 우선 → 없으면 반대 언어 → 둘 다 비었으면 null (호출부에서 항목을 건너뛴다).
  *
- * 인자 타입이 `Record<string, unknown>` 이 아니라 제네릭인 이유: 인터페이스(Member 등)는
- * 인덱스 시그니처가 없어서 Record 에 대입되지 않는다. object 로 받고 읽을 때만 넓힌다.
+ * 타입이 `x` 와 `x_ko` 를 둘 다 갖고 있어야 통과한다. 예전에는 아무 객체나 받아서,
+ * 타입에 `_ko` 칸이 없으면 **조용히 영문만** 돌려줬다 (지도교수 이력 기관명 버그가
+ * 그렇게 지나갔다). `K` 는 `base` 에서만 추론한다 (NoInfer) — item 에서 추론하면
+ * 키 전체가 K 로 잡혀 검사가 무의미해진다.
  */
-export function localizedText<T extends object>(
-  item: T,
-  base: string,
+export function localizedText<K extends string>(
+  item: LocalizedPair<NoInfer<K>>,
+  base: K,
   locale: Locale,
 ): string | null {
-  const fields = item as Record<string, unknown>;
-  const en = String(fields[base] ?? "").trim();
-  const ko = String(fields[`${base}_ko`] ?? "").trim();
+  // 타입상 두 칸이 있어도 JSON 폴백에는 칸이 빠져 있을 수 있어 런타임에도 비어 있음을 견딘다.
+  const en = String(item[base] ?? "").trim();
+  const ko = String(item[`${base}_ko` as const] ?? "").trim();
   const [primary, secondary] = locale === "ko" ? [ko, en] : [en, ko];
   return primary || secondary || null;
 }
