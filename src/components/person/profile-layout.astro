@@ -1,0 +1,18 @@
+---
+// 인물 페이지의 두 칸 틀 — 왼쪽 사이드바(신원) + 오른쪽 본문(섹션들).
+// 지도교수(/members/pi)와 구성원 상세(/members/<slug>)가 **같이** 쓴다.
+//
+// - 넓은 화면: 사이드바 260px 고정폭, 스크롤해도 따라오도록 sticky(top 40px).
+// - 900px 이하: sticky 를 풀고 전체 폭으로 위에 쌓는다.
+//   휴대폰에서 사진이 화면을 계속 차지하면 본문을 읽을 수 없기 때문이다.
+// - 본문은 flex: 999 1 520px + min-w-0 — 남는 폭을 다 쓰되, 긴 단어가 칸을 밀어내지 않게.
+---
+
+<div class="flex flex-wrap items-start gap-14">
+  <aside class="w-full shrink-0 min-[901px]:sticky min-[901px]:top-10 min-[901px]:w-[260px]">
+    <slot name="sidebar" />
+  </aside>
+  <div class="flex min-w-0 flex-[999_1_520px] flex-col gap-10">
+    <slot />
+  </div>
+</div>

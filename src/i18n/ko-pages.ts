@@ -27,7 +27,6 @@ const koPages = {
   "members.title": "구성원",
   "members.currentTitle": "현재 구성원",
   "members.lede": "직책별로 정리한 NABL 현재 구성원입니다.",
-  "members.noPhoto": "사진 없음",
   "member.degreeLabel": "학위",
   "member.joinedLabel": "입실일",
 

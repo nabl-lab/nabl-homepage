@@ -4,6 +4,7 @@
 // 기존 section.astro 는 큰 h2 제목을 쓰는 페이지용이라 위계가 다르다.
 // 여기는 한 페이지 안에서 블록을 가르는 용도라 제목을 작게 둔다 (시안의 위계).
 // 제목은 h2: 페이지 h1(PageHeader) 바로 아래 최상위 블록 제목이다.
+// 본문 칸의 첫 섹션은 위 구분선을 생략한다(first:) — 페이지 제목 아래 선과 겹치지 않게.
 interface Props {
   title: string;
   /** 페이지 내 앵커용 id (선택) */
@@ -13,7 +14,7 @@ interface Props {
 const { title, id } = Astro.props;
 ---
 
-<section id={id} class="border-t border-line pt-8">
+<section id={id} class="border-t border-line pt-8 first:border-t-0 first:pt-0">
   <h2
     class="mb-5 text-xs font-semibold uppercase tracking-widest text-ink-muted"
   >

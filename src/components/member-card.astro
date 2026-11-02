@@ -1,5 +1,5 @@
 ---
-// 구성원 카드. 사진은 person-photo.astro 가 담당 (없으면 이니셜 플레이스홀더).
+// 구성원 카드. 사진은 person-photo.astro 가 담당 (잘리지 않게 원본 비율, 없으면 실루엣).
 import PersonPhoto from "./person-photo.astro";
 import { localizedText, memberDetailIds, type Member } from "../lib/content";
 import { useTranslations, withLocale, type Locale } from "../i18n/utils";
@@ -21,7 +21,7 @@ const description = localizedText(member, "researchDescription", lang);
 ---
 
 <article class="flex flex-col">
-  <PersonPhoto name={name} photo={member.photo} lang={lang} />
+  <PersonPhoto name={name} photo={member.photo} />
   <h3 class="mt-3 font-semibold text-ink">
     {
       /* 상세 페이지가 실제로 생성된 사람만 링크한다 (content.ts 의 memberDetailIds). */

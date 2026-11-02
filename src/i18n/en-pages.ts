@@ -30,7 +30,6 @@ const enPages = {
   "members.title": "Members",
   "members.currentTitle": "Current Members",
   "members.lede": "Current members of NABL, grouped by role.",
-  "members.noPhoto": "No photo",
   "member.degreeLabel": "Degrees",
   "member.joinedLabel": "Joined",
 

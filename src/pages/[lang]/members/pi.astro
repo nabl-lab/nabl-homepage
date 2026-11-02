@@ -1,14 +1,16 @@
 ---
 // 책임교수(PI) 페이지 (/[lang]/members/pi).
 //
-// 섹션 순서: 신원 → 연구 관심사 → 연구 분야 → 학력 → 경력 → 대외활동.
+// 왼쪽 사이드바: 신원. 오른쪽 본문: 연구 관심사 → 연구 분야 → 학력 → 경력 → 대외활동.
 // 비어 있는 섹션은 제목까지 통째로 숨긴다.
 //
-// 1·2·3 블록은 구성원 상세(/members/[slug])와 **같은 컴포넌트**를 쓴다
-// (components/person/). PI 전용으로 따로 만들면 두 화면이 어긋난다.
+// 두 칸 틀(ProfileLayout)과 신원·연구 관심사·연구 분야 블록은 구성원 상세
+// (/members/[slug])와 **같은 컴포넌트**를 쓴다 (components/person/).
+// PI 전용으로 따로 만들면 두 화면이 어긋난다.
 // 4·5·6 은 piProfile DB 가 교수님 것뿐이라 이 페이지에만 나온다.
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
+import ProfileLayout from "../../../components/person/profile-layout.astro";
 import SectionBlock from "../../../components/person/section-block.astro";
 import Identity from "../../../components/person/identity.astro";
 import ResearchInterests from "../../../components/person/research-interests.astro";
@@ -42,49 +44,51 @@ const hasInterests = pi
 <BaseLayout lang={lang} title={t("pi.pageTitle")} description={t("pi.lede")}>
   <PageHeader title={t("pi.pageTitle")} lede={t("pi.lede")} />
 
-  <div class="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-16">
+  <div class="mx-auto max-w-6xl px-4 pt-10 pb-16">
     {!pi && <EmptyState lang={lang} />}
 
-    {pi && <Identity member={pi} lang={lang} />}
+    <ProfileLayout>
+      {pi && <Identity slot="sidebar" member={pi} lang={lang} />}
 
-    {
-      pi && hasInterests && (
-        <SectionBlock title={t("pi.researchInterests")}>
-          <ResearchInterests member={pi} lang={lang} />
-        </SectionBlock>
-      )
-    }
+      {
+        pi && hasInterests && (
+          <SectionBlock title={t("pi.researchInterests")}>
+            <ResearchInterests member={pi} lang={lang} />
+          </SectionBlock>
+        )
+      }
 
-    {
-      pi && pi.researchAreas.length > 0 && (
-        <SectionBlock title={collectionLabel("research", lang)} id="areas">
-          <ResearchAreas areas={pi.researchAreas} lang={lang} />
-        </SectionBlock>
-      )
-    }
+      {
+        pi && pi.researchAreas.length > 0 && (
+          <SectionBlock title={collectionLabel("research", lang)} id="areas">
+            <ResearchAreas areas={pi.researchAreas} lang={lang} />
+          </SectionBlock>
+        )
+      }
 
-    {
-      piEducation.length > 0 && (
-        <SectionBlock title={t("pi.education")}>
-          <Timeline entries={piEducation} lang={lang} />
-        </SectionBlock>
-      )
-    }
+      {
+        piEducation.length > 0 && (
+          <SectionBlock title={t("pi.education")}>
+            <Timeline entries={piEducation} lang={lang} />
+          </SectionBlock>
+        )
+      }
 
-    {
-      piCareer.length > 0 && (
-        <SectionBlock title={t("pi.career")}>
-          <Timeline entries={piCareer} lang={lang} grouped />
-        </SectionBlock>
-      )
-    }
+      {
+        piCareer.length > 0 && (
+          <SectionBlock title={t("pi.career")}>
+            <Timeline entries={piCareer} lang={lang} grouped />
+          </SectionBlock>
+        )
+      }
 
-    {
-      piActivities.length > 0 && (
-        <SectionBlock title={t("pi.activities")}>
-          <Timeline entries={piActivities} lang={lang} />
-        </SectionBlock>
-      )
-    }
+      {
+        piActivities.length > 0 && (
+          <SectionBlock title={t("pi.activities")}>
+            <Timeline entries={piActivities} lang={lang} />
+          </SectionBlock>
+        )
+      }
+    </ProfileLayout>
   </div>
 </BaseLayout>

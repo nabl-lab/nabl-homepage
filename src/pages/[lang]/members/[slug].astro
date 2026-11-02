@@ -1,11 +1,13 @@
 ---
 // 구성원 상세 (/[lang]/members/<slug>).
 //
-// 신원 → 연구 관심사 → 연구 분야 → 학위 이력 순서. 비어 있는 블록은 통째로 숨긴다.
-// 앞 세 블록은 PI 페이지와 **같은 컴포넌트**를 쓴다 (components/person/).
+// 왼쪽 사이드바: 신원. 오른쪽 본문: 연구 관심사 → 연구 분야 → 학위 이력.
+// 비어 있는 블록은 통째로 숨긴다.
+// 두 칸 틀과 앞 세 블록은 PI 페이지와 **같은 컴포넌트**를 쓴다 (components/person/).
 // 학력·경력·대외활동은 piProfile DB 가 교수님 것뿐이라 여기엔 없다.
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
+import ProfileLayout from "../../../components/person/profile-layout.astro";
 import SectionBlock from "../../../components/person/section-block.astro";
 import Identity from "../../../components/person/identity.astro";
 import ResearchInterests from "../../../components/person/research-interests.astro";
@@ -51,38 +53,40 @@ const metaDescription = description ?? topic ?? undefined;
     lede={optionLabel("memberPosition", member.position, lang)}
   />
 
-  <div class="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-16">
-    <Identity member={member} lang={lang} />
+  <div class="mx-auto max-w-6xl px-4 pt-10 pb-16">
+    <ProfileLayout>
+      <Identity slot="sidebar" member={member} lang={lang} />
 
-    {
-      (topic || description) && (
-        <SectionBlock title={t("pi.researchInterests")}>
-          <ResearchInterests member={member} lang={lang} />
-        </SectionBlock>
-      )
-    }
+      {
+        (topic || description) && (
+          <SectionBlock title={t("pi.researchInterests")}>
+            <ResearchInterests member={member} lang={lang} />
+          </SectionBlock>
+        )
+      }
 
-    {
-      member.researchAreas.length > 0 && (
-        <SectionBlock title={collectionLabel("research", lang)}>
-          <ResearchAreas areas={member.researchAreas} lang={lang} />
-        </SectionBlock>
-      )
-    }
+      {
+        member.researchAreas.length > 0 && (
+          <SectionBlock title={collectionLabel("research", lang)}>
+            <ResearchAreas areas={member.researchAreas} lang={lang} />
+          </SectionBlock>
+        )
+      }
 
-    {
-      member.degreeHistory.length > 0 && (
-        <SectionBlock title={t("member.degreeLabel")}>
-          <ul class="flex flex-col gap-1 text-sm leading-relaxed text-ink-muted">
-            {member.degreeHistory.map((line) => (
-              <li>{line}</li>
-            ))}
-          </ul>
-        </SectionBlock>
-      )
-    }
+      {
+        member.degreeHistory.length > 0 && (
+          <SectionBlock title={t("member.degreeLabel")}>
+            <ul class="flex flex-col gap-1 text-sm leading-relaxed text-ink-muted">
+              {member.degreeHistory.map((line) => (
+                <li>{line}</li>
+              ))}
+            </ul>
+          </SectionBlock>
+        )
+      }
+    </ProfileLayout>
 
-    <div class="border-t border-line pt-8">
+    <div class="mt-14 border-t border-line pt-8">
       <a
         href={withLocale(lang, "/members")}
         class="text-sm font-medium text-brand hover:underline"

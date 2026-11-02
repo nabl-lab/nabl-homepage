@@ -1,17 +1,17 @@
 ---
-// 인물 사진 (정사각). 사진이 없으면 이름 첫 글자 플레이스홀더로 레이아웃을 유지한다.
-// 구성원 카드·졸업생 카드·PI 프로필에서 공용으로 쓴다.
-import { useTranslations, type Locale } from "../i18n/utils";
-
+// 인물 사진. 구성원 카드·구성원 상세·지도교수 페이지가 공용으로 쓴다.
+//
+// **어떤 비율의 사진을 올려도 잘리지 않는 것**이 기준이다.
+// - object-cover 금지 → object-contain. 고정 비율 상자(aspect-*)·고정 높이도 두지 않는다.
+// - 폭에 맞추고 높이는 원본 비율대로(h-auto). 아주 긴 사진만 max-h 로 줄인다(잘리지 않고 작아짐).
+// - 배경·테두리·둥근 마스크 없음: 배경을 지운 투명 PNG 가 상자에 갇혀 보이지 않게.
+// 사진이 없으면 사람 실루엣을 그린다. 장식이라 스크린리더에서는 숨긴다(이름은 바로 아래 있음).
 interface Props {
   name: string;
   photo?: string;
-  lang: Locale;
 }
 
-const { name, photo, lang } = Astro.props;
-const t = useTranslations(lang);
-const initial = name.trim().charAt(0).toUpperCase();
+const { name, photo } = Astro.props;
 ---
 
 {
@@ -20,15 +20,12 @@ const initial = name.trim().charAt(0).toUpperCase();
       src={photo}
       alt={name}
       loading="lazy"
-      class="aspect-square w-full rounded-lg border border-line object-cover"
+      class="block h-auto max-h-[420px] w-full object-contain"
     />
   ) : (
-    <div
-      role="img"
-      aria-label={t("members.noPhoto")}
-      class="flex aspect-square w-full items-center justify-center rounded-lg border border-line bg-surface-muted text-3xl font-semibold text-ink-muted"
-    >
-      {initial}
-    </div>
+    <svg viewBox="0 0 200 250" class="block h-auto w-full" aria-hidden="true">
+      <circle cx="100" cy="76" r="47" fill="#C9D2DA" />
+      <path d="M100 132c-45 0-79 28-79 65v53h158v-53c0-37-34-65-79-65z" fill="#C9D2DA" />
+    </svg>
   )
 }
