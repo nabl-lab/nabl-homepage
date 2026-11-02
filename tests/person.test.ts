@@ -21,6 +21,7 @@ import type { Member, MemberResearchArea, PiEntry } from "../src/lib/content-typ
 const entry = (p: Partial<PiEntry> & { text: string }): PiEntry => ({
   text_ko: "",
   organization: "",
+  organization_ko: "",
   startYear: 2000,
   endYear: null,
   ...p,
