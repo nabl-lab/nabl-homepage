@@ -9,6 +9,8 @@
  *  - NOTION_TOKEN 이 없으면 조용히 skip (빌드는 계속 진행)
  *  - 개별 파일 실패는 경고만 남기고 계속 → 사이트는 플레이스홀더로 폴백
  *  - resources 의 `File`(PDF·PPT 등 대용량)은 **내려받지 않는다** (External_url 로 노출)
+ *  - **비공개 행은 내려받지 않는다.** public/ 은 그대로 배포되므로, 받아 두기만 해도
+ *    비공개 구성원 사진이 /notion/members/<id>.jpg 로 공개된다
  *  - 받은 파일과 manifest 는 .gitignore 로 저장소에서 제외
  */
 import fs from "node:fs/promises";
@@ -21,11 +23,12 @@ const TOKEN = process.env.NOTION_TOKEN?.trim();
 
 // 속성명은 src/lib/notion/schema-*.ts 와 일치해야 한다.
 // resources 는 Thumbnail 만 받고 File 은 제외한다.
+// publish: 공개 체크박스. 구성원만 「홈페이지 공개」이고 나머지는 Publish 다.
 const TARGETS = [
-  { name: "members", env: "NOTION_MEMBERS_DATA_SOURCE_ID", prop: "프로필 사진" },
-  { name: "research", env: "NOTION_RESEARCH_DATA_SOURCE_ID", prop: "Image" },
-  { name: "news", env: "NOTION_NEWS_DATA_SOURCE_ID", prop: "Cover" },
-  { name: "resources", env: "NOTION_RESOURCES_DATA_SOURCE_ID", prop: "Thumbnail" },
+  { name: "members", env: "NOTION_MEMBERS_DATA_SOURCE_ID", prop: "프로필 사진", publish: "홈페이지 공개" },
+  { name: "research", env: "NOTION_RESEARCH_DATA_SOURCE_ID", prop: "Image", publish: "Publish" },
+  { name: "news", env: "NOTION_NEWS_DATA_SOURCE_ID", prop: "Cover", publish: "Publish" },
+  { name: "resources", env: "NOTION_RESOURCES_DATA_SOURCE_ID", prop: "Thumbnail", publish: "Publish" },
 ];
 
 if (!TOKEN) {
@@ -75,10 +78,14 @@ const EXT_BY_TYPE = {
   "image/avif": ".avif",
 };
 
+// 이전 빌드에서 받은 파일을 지우고 시작한다 (공개를 끈 행의 사진이 남지 않게).
+await fs.rm(OUT_DIR, { recursive: true, force: true });
+
 const manifest = {};
 let ok = 0;
 let failed = 0;
 let skipped = 0;
+let hidden = 0;
 
 for (const target of TARGETS) {
   const dsId = process.env[target.env]?.trim();
@@ -99,6 +106,11 @@ for (const target of TARGETS) {
   await fs.mkdir(path.join(OUT_DIR, target.name), { recursive: true });
 
   for (const row of rows) {
+    // 체크박스가 켜진 행만 받는다. 속성이 없거나 꺼져 있으면 비공개로 본다.
+    if (row.properties?.[target.publish]?.checkbox !== true) {
+      hidden++;
+      continue;
+    }
     const url = firstFileUrl(row, target.prop);
     if (!url) {
       skipped++;
@@ -134,5 +146,5 @@ await fs.writeFile(
 );
 
 console.log(
-  `[assets] 완료 — 내려받음 ${ok}건 / 실패 ${failed}건 / 파일 없음 ${skipped}건`,
+  `[assets] 완료 — 내려받음 ${ok}건 / 건너뜀(비공개) ${hidden}건 / 실패 ${failed}건 / 파일 없음 ${skipped}건`,
 );
