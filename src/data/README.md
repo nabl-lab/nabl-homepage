@@ -129,7 +129,10 @@
 | `slug` | URL 조각 (`/news/{slug}`) |
 | `date` | 날짜 (`YYYY-MM-DD`) |
 | `title` / `title_ko` | 소식 제목 |
+| `summary` / `summary_ko` | 목록 카드의 요약. 비면 그 줄을 숨김 |
 | `body` / `body_ko` | 본문 |
+| `category` | 분류 (`Publication`·`Award`·`Conference`·`Seminar`·`Lab Life`·`Recruitment`·`Other`). 비면 배지를 숨김 |
+| `cover` | (선택) 커버 이미지 경로. Notion 에서는 빌드 때 내려받은 경로가 들어감 |
 
 ### research.json — 연구 (객체 하나)
 

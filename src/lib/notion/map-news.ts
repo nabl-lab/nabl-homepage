@@ -22,8 +22,13 @@ export function mapNews(page: NotionPage): NewsItem | null {
     date: date(page, P_NEWS.date) ?? "",
     title,
     title_ko: titleKo,
+    summary: text(page, P_NEWS.summary),
+    summary_ko: text(page, P_NEWS.summaryKo),
     body: text(page, P_NEWS.body),
     body_ko: text(page, P_NEWS.bodyKo),
+    category: select(page, P_NEWS.category) ?? "",
+    // Cover 는 서명 URL 이 만료되므로 prebuild 가 내려받은 로컬 경로만 쓴다.
+    cover: assetPath(page.id),
   };
 }
 

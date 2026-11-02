@@ -11,8 +11,15 @@ export interface NewsItem {
   date: string;
   title: string;
   title_ko: string;
+  /** 목록 카드에 보여 줄 한두 문장. 비면 그 줄을 숨긴다. */
+  summary: string;
+  summary_ko: string;
   body: string;
   body_ko: string;
+  /** Notion `Category` 선택지 원문(영어). 화면 라벨은 optionLabel("newsCategory", …). 비면 배지를 숨긴다. */
+  category: string;
+  /** 빌드 시 public/ 으로 내려받은 커버 이미지 경로. 없으면 이미지 자리를 만들지 않는다. */
+  cover?: string;
 }
 
 /** 자료실 항목 (Notion Resources). File 은 내려받지 않고 externalUrl 로만 노출한다. */
