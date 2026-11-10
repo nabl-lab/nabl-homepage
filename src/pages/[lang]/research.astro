@@ -1,17 +1,13 @@
 ---
-// 연구 (/[lang]/research). Scope / Themes / Projects 세 섹션. 헤더 하위 메뉴가 앵커로 연결된다.
+// 연구 (/[lang]/research). 연구 과제 + 최근 논문.
+// 연구 범위(Scope)·연구 분야(Theme)는 About 으로 옮겼다 (/about#scope, /about#areas).
+// 헤더 하위 메뉴도 그쪽 앵커로 연결된다 (i18n/nav.ts). 분야 상세(/research/<slug>)는 그대로다.
 import BaseLayout from "../../layouts/base-layout.astro";
 import PageHeader from "../../components/page-header.astro";
 import Section from "../../components/section.astro";
 import EmptyState from "../../components/empty-state.astro";
 import PublicationItem from "../../components/publication-item.astro";
-import {
-  researchAreas,
-  researchProjects,
-  publications,
-  localizedText,
-} from "../../lib/content";
-import { hasDetailPage, scopeAreas, themeAreas } from "../../lib/research";
+import { researchProjects, publications, localizedText } from "../../lib/content";
 import {
   localePaths,
   useTranslations,
@@ -31,29 +27,7 @@ export const getStaticPaths = localePaths;
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 
-// Notion Research DB 한 곳에 Scope(연구 범위)와 Theme(세부 주제)이 같이 들어 있다.
-// 쓰는 방식이 달라 lib/research.ts 가 가른다 — Scope 는 상단 소개 문구,
-// Theme 는 카드 목록. 둘 다 Order 오름차순이고, 한쪽이 0건이어도 레이아웃이 안 깨진다.
-const scopeItems = scopeAreas(researchAreas)
-  .map((s) => ({ id: s.id, body: localizedText(s, "summary", lang) }))
-  .filter((s) => s.body);
-
-// 카드에는 미공개 분야도 이름을 보여 주고, 상세 링크는 공개된 행에만 건다
-// (공개 전에도 목록이 비어 보이지 않게).
-const areas = themeAreas(researchAreas)
-  .map((a) => ({
-    id: a.id,
-    code: a.code,
-    title: localizedText(a, "title", lang),
-    summary: localizedText(a, "summary", lang),
-    keywords: a.keywords,
-    href: hasDetailPage(a) ? withLocale(lang, `/research/${a.slug}`) : null,
-  }))
-  .filter((a) => a.title);
-
-const scope = scopeItems[0]?.body ?? null; // meta description 용
-
-// 연구 분야와 논문의 관계를 화면에서 잇는다 — 최근 5건만 보여주고 전체는 링크로.
+// 최근 논문 5건만 보여주고 전체는 링크로.
 // year 는 null 일 수 있으므로("연도 미상") 0 으로 보아 맨 뒤로 보낸다.
 const recentPublications = [...publications]
   .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
@@ -81,57 +55,8 @@ const projectRows = sortProjects(researchProjects, buildDate, lang)
   .filter((p) => p.title);
 ---
 
-<BaseLayout lang={lang} title={t("nav.research")} description={scope ?? undefined}>
+<BaseLayout lang={lang} title={t("nav.research")} description={t("research.lede")}>
   <PageHeader title={t("nav.research")} lede={t("research.lede")} />
-
-  <Section id="scope" title={t("nav.research.scope")}>
-    {scopeItems.length === 0 && <EmptyState lang={lang} />}
-    <div class="flex max-w-3xl flex-col gap-4">
-      {
-        scopeItems.map((s) => (
-          <p class="text-lg leading-relaxed text-ink">{s.body}</p>
-        ))
-      }
-    </div>
-  </Section>
-
-  <Section id="themes" title={collectionLabel("research", lang)} muted>
-    {areas.length === 0 && <EmptyState lang={lang} />}
-    <div class="grid gap-6 sm:grid-cols-2">
-      {
-        areas.map((a) => (
-          <article class="flex flex-col rounded-lg border border-line bg-surface p-5">
-            <h3 class="flex items-baseline gap-2 text-base font-semibold text-ink">
-              {a.code && (
-                <span class="shrink-0 rounded border border-line px-1.5 py-0.5 text-xs font-semibold text-ink-muted">
-                  {a.code}
-                </span>
-              )}
-              {a.href ? (
-                <a href={a.href} class="text-brand hover:underline">
-                  {a.title}
-                </a>
-              ) : (
-                a.title
-              )}
-            </h3>
-            {a.summary && (
-              <p class="mt-2 text-sm leading-relaxed text-ink">{a.summary}</p>
-            )}
-            {a.keywords.length > 0 && (
-              <ul class="mt-3 flex flex-wrap gap-1.5">
-                {a.keywords.map((k) => (
-                  <li class="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-ink-muted">
-                    {k}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </article>
-        ))
-      }
-    </div>
-  </Section>
 
   <Section id="projects" title={collectionLabel("projects", lang)}>
     {projectRows.length === 0 && <EmptyState lang={lang} />}

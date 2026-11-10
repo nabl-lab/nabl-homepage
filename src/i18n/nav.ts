@@ -40,8 +40,9 @@ export const NAV: NavNode[] = [
     key: "nav.research",
     path: "/research",
     children: [
-      { key: "nav.research.scope", path: "/research" },
-      { collection: "research", path: "/research#themes" },
+      // 연구 범위·분야는 About 페이지에 있다 (/research 에는 과제·논문만).
+      { key: "nav.research.scope", path: "/about#scope" },
+      { collection: "research", path: "/about#areas" },
       { collection: "projects", path: "/research#projects" },
       { collection: "publications", path: "/research/publications" },
     ],

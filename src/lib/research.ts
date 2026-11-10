@@ -3,8 +3,8 @@
  *
  * Notion Research DB 한 곳에 `Scope`(연구 범위)와 `Theme`(세부 주제)이 같이 들어 있다.
  * 화면에서 쓰는 방식이 다르므로 여기서 한 번만 가른다.
- *   - Scope : /research 목록 상단의 소개 문구. 상세 페이지 없음
- *   - Theme : /research 목록의 카드 + 공개된 행만 상세 페이지
+ *   - Scope : /about 의 Research Scope 카드. 상세 페이지 없음
+ *   - Theme : /about 의 N·A·B·L 패널 (화면 규칙은 about-areas.ts) + 공개된 행만 상세 페이지
  *
  * 정렬은 `Order` 오름차순(작은 숫자 먼저)이고, 값이 없으면 맨 뒤다 (byOrder).
  *

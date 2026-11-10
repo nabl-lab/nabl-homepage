@@ -22,9 +22,13 @@ const enPages = {
 
   // About
   "about.title": "About",
-  "about.lede": "Who we are and what we work on.",
+  // 히어로 소속 줄. 로고 아래 약자 풀이는 브랜드 표기라 두 언어 모두 영문이다.
+  "about.eyebrow": "Korea University Sejong · Biotechnology & Bioinformatics",
+  "about.acronym.n": "Nano and",
+  "about.acronym.a": "Artificial",
+  "about.acronym.b": "Biotechnology",
+  "about.acronym.l": "Lab",
   "about.missionTitle": "Our goal",
-  "about.piLabel": "Principal Investigator",
 
   // Members
   "members.title": "Members",
@@ -67,7 +71,7 @@ const enPages = {
   "contact.emailValue": "nabl.webmaster@gmail.com",
 
   // Research
-  "research.lede": "Our research scope, themes, and current projects.",
+  "research.lede": "Our research projects and recent publications. Scope and areas are on the About page.",
   "research.projectFunder": "Funded by",
   "research.projectsOngoing": "Ongoing",
   "research.areaMembers": "Members",

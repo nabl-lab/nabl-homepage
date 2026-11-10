@@ -1,0 +1,57 @@
+---
+// About 히어로 — 왼쪽: 로고(부제 포함) + 약자 풀이 / 오른쪽: 소속 줄 + 연구실명 + 소개 1문단.
+// 소개 문단은 Notion 「페이지 문구」 about.intro 의 첫 문단이다 (about.astro 가 넘긴다).
+// 760px 이하에서는 한 열로 쌓인다.
+import NablLogo from "../brand/nabl-logo.astro";
+import { useTranslations, type Locale } from "../../i18n/utils";
+import type { UiKey } from "../../i18n/ui";
+
+interface Props {
+  lang: Locale;
+  intro: string | null;
+}
+
+const { lang, intro } = Astro.props;
+const t = useTranslations(lang);
+
+// 약자 풀이 — 첫 글자만 로고 색으로 굵게 (N 적색, A·B 네이비, L 검정).
+const ACRONYM: { key: UiKey; color: string }[] = [
+  { key: "about.acronym.n", color: "var(--color-logo-red)" },
+  { key: "about.acronym.a", color: "var(--color-logo-navy)" },
+  { key: "about.acronym.b", color: "var(--color-logo-navy)" },
+  { key: "about.acronym.l", color: "var(--color-logo-ink)" },
+];
+---
+
+<section
+  class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:py-20 min-[761px]:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] min-[761px]:gap-16"
+>
+  <div>
+    <NablLogo class="block h-auto w-full max-w-[440px]" />
+    <p class="mt-5 flex flex-wrap gap-x-4 gap-y-1 font-medium text-ink-muted">
+      {
+        ACRONYM.map(({ key, color }) => {
+          const word = t(key);
+          return (
+            <span>
+              <b class="text-[1.15em] font-black" style={`color:${color}`}>
+                {word.charAt(0)}
+              </b>
+              {word.slice(1)}
+            </span>
+          );
+        })
+      }
+    </p>
+  </div>
+
+  <div class="grid min-w-0 gap-3.5">
+    <p class="text-xs font-bold uppercase tracking-[0.16em] text-logo-red">
+      {t("about.eyebrow")}
+    </p>
+    <h1 class="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+      {t("site.name")}
+    </h1>
+    {intro && <p class="max-w-[62ch] leading-relaxed text-ink-muted">{intro}</p>}
+  </div>
+</section>

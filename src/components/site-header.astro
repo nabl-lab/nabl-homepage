@@ -1,7 +1,8 @@
 ---
-// 사이트 헤더: 로고 · 주 메뉴(SiteNav) · 언어 전환.
+// 사이트 헤더: 로고(NABL 마크, components/brand/nabl-logo.astro) · 주 메뉴(SiteNav) · 언어 전환.
 // 메뉴 항목·활성 표시 로직은 SiteNav 담당. 모바일에서는 <details> 로 메뉴를 펼친다(무-JS).
 import LanguageSwitcher from "./language-switcher.astro";
+import NablLogo from "./brand/nabl-logo.astro";
 import SiteNav from "./site-nav.astro";
 import SiteNavMobile from "./site-nav-mobile.astro";
 import { useTranslations, withLocale, type Locale } from "../i18n/utils";
@@ -16,11 +17,8 @@ const t = useTranslations(lang);
 
 <header class="border-b border-line bg-surface">
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-    <a
-      href={withLocale(lang)}
-      class="text-2xl font-bold tracking-tight text-brand"
-    >
-      {t("site.shortName")}
+    <a href={withLocale(lang)} class="shrink-0">
+      <NablLogo variant="mark" class="block h-9 w-auto" />
     </a>
 
     <div class="flex items-center gap-3">

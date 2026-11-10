@@ -27,7 +27,7 @@ AI 도구(Claude Code 등)로 작업할 때도 이 규칙을 지키도록 하세
 
 ```
 nabl-homepage/
-├── public/              정적 파일 그대로 복사됨 (favicon 등)
+├── public/              정적 파일 그대로 복사됨 (favicon, brand/ 로고 원본 등)
 ├── src/
 │   ├── pages/           페이지. [lang] 폴더 아래에 둔다 (11번 항목 참고)
 │   ├── layouts/         여러 페이지가 공유하는 공통 뼈대 (base-layout: <head> 메타·SEO)
@@ -233,6 +233,18 @@ nabl-homepage/
   `robots.txt` 는 `src/pages/robots.txt.ts` 가 생성합니다.
 - 404 페이지는 `src/pages/404.astro` (언어별이 아니라 한 파일, 두 언어 병기).
 
+### 로고
+
+- 원본은 **`public/brand/nabl-logo.svg`(부제 포함)·`nabl-logo-mark.svg`(마크만)** 두 파일입니다.
+  글자가 전부 path 라 폰트에 의존하지 않습니다. 로고를 바꿀 때는 이 두 파일만 교체하세요.
+- 화면에는 `components/brand/nabl-logo.astro` 가 **인라인 SVG** 로 넣습니다
+  (헤더 = 마크, About 히어로 = 전체). 원본의 고정 색 4개를 `global.css` 의
+  `--color-logo-*` 변수로 바꿔 넣으므로, 다크 모드를 켤 때 변수만 바꾸면 L·부제가 보입니다.
+  새 색이 들어간 SVG 로 교체하면 `FILL_TO_VAR` 에 그 색을 추가하세요(없으면 원래 색 그대로).
+- **다크 모드는 아직 없습니다.** 다크 값은 `global.css` 에 주석으로만 보관해 두었습니다.
+- 로고 색(`#A40000` 적색)과 사이트 강조색(`--color-brand` 크림슨 `#7c001a`)은 **다릅니다.**
+  링크·버튼은 계속 크림슨이고, 로고·About 의 분야 색만 로고 색을 씁니다.
+
 ---
 
 ## 13. 콘텐츠 종류의 화면 이름은 한 파일에서만 바꾼다
@@ -355,12 +367,29 @@ Notion Research DB 한 곳에 `Scope`(연구 범위)와 `Theme`(세부 주제)�
 화면에서 쓰는 방식이 다릅니다. 가르는 규칙은 `src/lib/research.ts` 한 곳에 있고
 `tests/research.test.ts` 가 지킵니다.
 
-| Category | 목록(`/research`) | 상세 페이지 |
+| Category | 소개 페이지(`/about`) | 상세 페이지 |
 | --- | --- | --- |
-| `Scope` | 상단 **소개 문구** | 만들지 않음 |
-| `Theme` | **카드** (Code 배지 + 설명 + Keywords) | **공개 + Slug 있음** 일 때만 |
+| `Scope` | **Research Scope 카드** (제목 + 설명) | 만들지 않음 |
+| `Theme` | **N·A·B·L 스트립 + 분야 패널** (큰 글자·제목·반대 언어 부제·설명·Keywords·Image) | **공개 + Slug 있음** 일 때만 |
 
 둘 다 `Order` 오름차순이고 값이 없으면 맨 뒤입니다.
+**`/research` 에는 이제 Scope·Theme 가 없습니다** — 연구 과제와 최근 논문만 남았고,
+헤더 메뉴의 "연구 범위"·"연구 분야" 는 `/about#scope`·`/about#areas` 로 갑니다(`nav.ts`).
+분야 상세(`/research/<slug>`)는 그대로이고, About 패널 제목이 그쪽으로 링크합니다.
+
+About 의 화면 규칙(패널 앵커·반대 언어 부제·Code → 색)은 `src/lib/about-areas.ts`
+한 곳에 있고 `tests/about-areas.test.ts` 가 지킵니다.
+
+| Code | 색 토큰 (`global.css`) | 값 |
+| --- | --- | --- |
+| N | `--color-area-n` | `#A40000` |
+| A | `--color-area-a` | `#17375E` |
+| B | `--color-area-b` | `#2D5C8F` (로고상 A 와 같은 네이비라 한 단계 밝게) |
+| L | `--color-area-l` | `#0B0B0C` |
+| 그 밖 | `--color-ink-subtle` | 중립 회색 (빌드는 깨지지 않음) |
+
+`Topics` 관계(개인 연구 DB)는 아직 쓰지 않습니다 — 개인 연구 DB 를 붙일 때 패널 아래
+하위 주제 목록으로 넣을 자리입니다.
 
 **상세 페이지는 `공개(Publish) + Category=Theme + Slug 있음` 세 조건을 모두 만족할 때만**
 만듭니다 (`themeDetailPages`). Slug 가 겹치면 먼저 온 행만 만듭니다 — 같은 경로를 두 번
@@ -592,8 +621,10 @@ Notion 에 새 분류나 새 연도가 들어오면 버튼이 자동으로 늘�
 | --- | --- | --- |
 | `home.hero.tagline` | 홈 히어로 한 줄 소개 (+ 홈 meta description) | ui 사전 `home.hero.tagline` |
 | `home.about.intro` | 홈 연구실 소개 본문 | ui 사전 `home.about.body` |
-| `about.intro` | `/about` 연구실 소개 (현재 3문단) | **없음** — 비면 영역이 사라지고 빌드 경고 |
-| `about.mission` | `/about` 비전 | 없음 — 비면 섹션이 사라짐 |
+| `about.intro` | `/about` 히어로 소개. **첫 문단만** 씁니다 (2·3문단은 분야 패널과 겹쳐 화면에 안 나옴) | **없음** — 비면 영역이 사라지고 빌드 경고 |
+| `about.scope.lead` | `/about` Research Scope 큰 문장 | 없음 — 비면 그 문장만 사라짐 |
+| `about.areas.lead` | `/about` Research Areas 제목 문장 | 없음 — 비면 그 문장만 사라짐 |
+| `about.mission` | `/about` Mission 띠 | 없음 — 비면 섹션이 사라짐 |
 
 `Block`·`Note`·`Page` 는 **사람용 메모라 코드가 읽지 않습니다.** 속성명은
 `src/lib/notion/schema-content.ts` 에만 적혀 있습니다.
@@ -606,7 +637,7 @@ Notion 에 새 분류나 새 연도가 들어오면 버튼이 자동으로 늘�
 (빌드는 통과). "비면 안 되는 Key" 가 늘면 그 파일의 `REQUIRED_CONTENT_KEYS` 에
 한 줄만 더하면 됩니다.
 
-> 예전 `src/data/about.json` 은 **삭제했습니다.** 위 네 Key 가 그 내용을 전부 대체하고,
+> 예전 `src/data/about.json` 은 **삭제했습니다.** `about.*` Key 들이 그 내용을 전부 대체하고,
 > 그 파일에는 더미 인물명("홍길동 교수님")이 들어 있었습니다.
 
 ### 제목이 빈 행은 조용히 사라지지 않는다
@@ -700,7 +731,7 @@ PI 전용 컴포넌트를 따로 만들지 마세요.
 | 종류 | 방식 | 왜 | 어디 |
 | --- | --- | --- | --- |
 | 사람 사진 | `object-contain` | 얼굴이 잘리면 안 됨 | `components/person-photo.astro` (구성원 카드·상세·지도교수) |
-| 배너·커버·썸네일 | `object-cover` | 가로로 꽉 차야 함 | 소식 목록 커버, 연구 분야 상세 이미지 |
+| 배너·커버·썸네일 | `object-cover` | 가로로 꽉 차야 함 | 소식 목록 커버, 연구 분야 상세 이미지, About 분야 패널 그림 |
 
 사람 사진(`person-photo.astro`)은 **어떤 비율로 올려도 잘리지 않아야 합니다.**
 

@@ -336,8 +336,16 @@ Deploys 에서 그 줄을 누르면 **기록(로그)** 이 나옵니다.
 | --- | --- |
 | `home.hero.tagline` | 홈 맨 위 한 줄 소개 |
 | `home.about.intro` | 홈 "연구실 소개" 본문 |
-| `about.intro` | 소개 페이지 본문 (지금 3문단) |
-| `about.mission` | 소개 페이지 "비전" |
+| `about.intro` | 소개 페이지 맨 위 소개. **첫 문단만** 나옵니다 (2·3문단은 아래 연구 분야 패널과 겹쳐 화면에 안 나옴) |
+| `about.scope.lead` | 소개 페이지 "Research Scope" 의 큰 문장 |
+| `about.areas.lead` | 소개 페이지 "Research Areas" 의 제목 문장 |
+| `about.mission` | 소개 페이지 맨 아래 네이비 띠 (Mission) |
+
+소개 페이지의 **연구 범위·연구 분야 내용**은 이 DB 가 아니라 「🧪 연구 분야 (Research)」 DB 에서
+옵니다. `Category=Scope` 행이 연구 범위 카드, `Category=Theme` 행이 N·A·B·L 패널이 되고
+`Order` 가 작은 순서로 나옵니다. 패널 색은 `Code`(N·A·B·L)로 정해집니다.
+`Keywords` 는 쉼표로 나눠 태그가 되고, `Image` 를 올리면 패널에 그림이 붙습니다.
+(연구 범위·분야는 이제 「연구」 페이지가 아니라 소개 페이지에 있습니다.)
 
 - **문단을 늘리려면** 같은 `Key` 로 행을 하나 더 만들고 `Order` 를 다르게 주세요
   (작은 숫자가 먼저). 예: `about.intro` 를 `Order` 10·20·30 세 행으로 두면 3문단이 됩니다.

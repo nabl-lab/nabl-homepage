@@ -1,0 +1,27 @@
+---
+// About — Mission. 네이비 띠 위에 about.mission 문단(들). 비면 about.astro 가 렌더하지 않는다.
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+  paragraphs: string[];
+}
+
+const { lang, paragraphs } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="bg-logo-navy text-white">
+  <div class="mx-auto grid max-w-6xl gap-3 px-4 py-12 sm:py-20">
+    <h2 class="text-xs font-bold uppercase tracking-[0.16em] text-white/75">
+      {t("about.missionTitle")}
+    </h2>
+    {
+      paragraphs.map((text) => (
+        <p class="max-w-[40ch] text-[clamp(1.25rem,2.6vw,1.9rem)] leading-[1.4] font-bold">
+          {text}
+        </p>
+      ))
+    }
+  </div>
+</section>

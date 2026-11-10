@@ -1,0 +1,33 @@
+---
+// NABL 로고 (인라인 SVG). 헤더는 마크, About 히어로는 부제까지 있는 전체 로고를 쓴다.
+//
+// 원본은 public/brand/*.svg 한 곳이다. 여기서는 그 파일을 그대로 읽어
+// 고정 색(fill)만 CSS 변수(global.css 의 --color-logo-*)로 바꿔 넣는다.
+// <img> 로 넣지 않는 이유: 나중에 다크 모드를 켤 때 변수만 바꾸면 L·부제가 보이게 하려고.
+// 글자는 전부 path 라 폰트에 의존하지 않는다. 접근성 이름은 SVG 의 aria-label 이다.
+import fullSvg from "../../../public/brand/nabl-logo.svg?raw";
+import markSvg from "../../../public/brand/nabl-logo-mark.svg?raw";
+
+interface Props {
+  /** "full" = 부제 포함, "mark" = 글자 마크만 */
+  variant?: "full" | "mark";
+  class?: string;
+}
+
+const { variant = "full", class: className = "" } = Astro.props;
+
+const FILL_TO_VAR: Record<string, string> = {
+  "#A40000": "var(--color-logo-red)",
+  "#17375E": "var(--color-logo-navy)",
+  "#000000": "var(--color-logo-ink)",
+  "#1A1A1A": "var(--color-logo-ink-2)",
+};
+
+const svg = (variant === "mark" ? markSvg : fullSvg)
+  .replace(/fill="(#[0-9A-Fa-f]{6})"/g, (m, hex: string) =>
+    FILL_TO_VAR[hex.toUpperCase()] ? `fill="${FILL_TO_VAR[hex.toUpperCase()]}"` : m,
+  )
+  .replace("<svg ", `<svg class="${className}" `);
+---
+
+<Fragment set:html={svg} />

@@ -19,9 +19,13 @@ const koPages = {
 
   // About
   "about.title": "연구실 소개",
-  "about.lede": "우리가 누구이고 무엇을 연구하는지 소개합니다.",
+  // 히어로 소속 줄. 로고 아래 약자 풀이는 브랜드 표기라 두 언어 모두 영문이다.
+  "about.eyebrow": "고려대학교 세종캠퍼스 · 생명정보공학과",
+  "about.acronym.n": "Nano and",
+  "about.acronym.a": "Artificial",
+  "about.acronym.b": "Biotechnology",
+  "about.acronym.l": "Lab",
   "about.missionTitle": "연구 목표",
-  "about.piLabel": "지도교수",
 
   // Members
   "members.title": "구성원",
@@ -62,7 +66,7 @@ const koPages = {
   "contact.emailValue": "nabl.webmaster@gmail.com",
 
   // Research
-  "research.lede": "연구 범위, 주제, 진행 중인 프로젝트입니다.",
+  "research.lede": "연구 과제와 최근 논문입니다. 연구 범위와 분야는 연구실 소개에 있습니다.",
   "research.projectFunder": "지원 기관",
   "research.projectsOngoing": "진행 중",
   "research.areaMembers": "소속 연구원",

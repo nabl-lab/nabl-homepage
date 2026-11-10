@@ -1,0 +1,49 @@
+---
+// About — Research Areas. 제목(about.areas.lead) → N·A·B·L 큰 글자 스트립(앵커) → 패널들.
+// 스트립 칸을 누르면 같은 페이지의 해당 패널로 이동한다 (JS 없음).
+// 760px 이하에서 스트립은 2열이 된다.
+import AreaPanelView from "./area-panel.astro";
+import type { AreaPanel } from "../../lib/about-areas";
+import { collectionLabel } from "../../config/collections";
+import type { Locale } from "../../i18n/utils";
+
+interface Props {
+  lang: Locale;
+  lead: string | null;
+  panels: AreaPanel[];
+}
+
+const { lang, lead, panels } = Astro.props;
+const label = collectionLabel("research", lang);
+---
+
+<section id="areas" class="mx-auto max-w-6xl px-4 py-14 sm:py-24">
+  <div class="mb-7 grid gap-2.5">
+    <h2 class="text-xs font-bold uppercase tracking-[0.16em] text-logo-red">{label}</h2>
+    {lead && <p class="text-[clamp(1.5rem,3vw,2.2rem)] leading-tight font-bold text-ink">{lead}</p>}
+  </div>
+
+  <nav aria-label={label} class="mb-10 grid grid-cols-4 border-t-4 border-line max-[760px]:grid-cols-2">
+    {
+      panels.map((p) => (
+        <a
+          href={`#${p.anchor}`}
+          style={`--c:${p.color}`}
+          class="-mt-1 grid content-start gap-1.5 border-t-4 border-(--c) px-3.5 pt-4 pb-5 text-ink transition-colors hover:bg-surface-muted"
+        >
+          <span
+            aria-hidden="true"
+            class="text-[clamp(3rem,8vw,5.6rem)] leading-[0.9] font-black text-(--c)"
+          >
+            {p.code}
+          </span>
+          <span class="text-sm leading-snug text-ink-muted">{p.title}</span>
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="grid gap-5">
+    {panels.map((p) => <AreaPanelView panel={p} lang={lang} />)}
+  </div>
+</section>

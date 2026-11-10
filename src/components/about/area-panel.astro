@@ -1,0 +1,64 @@
+---
+// About — 연구 분야 패널 하나. 왼쪽 큰 글자(Code) 색 띠 + 제목·부제·설명·키워드·그림.
+// 색은 Code 로 정해진다 (lib/about-areas.ts 의 areaColor). 패널 안에서는 --c 로 쓴다.
+// 760px 이하에서는 글자 띠가 위로 올라가 한 열이 된다.
+// 그림(Research DB Image)은 장식이라 alt 를 비운다. 분야명·키워드는 반드시 텍스트로 나온다.
+// 그림은 배너라 object-cover (CLAUDE.md 16번: 사람 사진만 contain).
+import type { AreaPanel } from "../../lib/about-areas";
+import { withLocale, type Locale } from "../../i18n/utils";
+
+interface Props {
+  panel: AreaPanel;
+  lang: Locale;
+}
+
+const { panel: p, lang } = Astro.props;
+---
+
+<article
+  id={p.anchor}
+  style={`--c:${p.color}`}
+  class="grid scroll-mt-4 overflow-hidden rounded-md border border-line bg-surface min-[761px]:grid-cols-[clamp(96px,16vw,190px)_minmax(0,1fr)]"
+>
+  <div
+    aria-hidden="true"
+    class="flex items-start bg-(--c) px-5 py-2.5 text-[4rem] leading-none font-black text-surface min-[761px]:justify-center min-[761px]:px-0 min-[761px]:pt-[18px] min-[761px]:text-[clamp(4.5rem,13vw,9rem)]"
+  >
+    {p.code}
+  </div>
+
+  <div class="grid min-w-0 content-start gap-2 p-5 sm:p-8">
+    <h3 class="text-xl leading-snug font-bold text-ink sm:text-2xl">
+      {
+        p.detailSlug ? (
+          <a
+            href={withLocale(lang, `/research/${p.detailSlug}`)}
+            class="hover:text-brand hover:underline"
+          >
+            {p.title}
+          </a>
+        ) : (
+          p.title
+        )
+      }
+    </h3>
+    {p.subtitle && <p class="text-sm text-ink-muted">{p.subtitle}</p>}
+    {p.description && <p class="mt-1.5 max-w-[70ch] leading-relaxed text-ink">{p.description}</p>}
+    {
+      p.keywords.length > 0 && (
+        <ul class="mt-2 flex flex-wrap gap-1.5">
+          {p.keywords.map((k) => (
+            <li class="rounded-full bg-surface-muted px-3 py-0.5 text-[13px] font-medium text-ink-muted">
+              {k}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      p.image && (
+        <img src={p.image} alt="" loading="lazy" class="mt-2.5 max-h-80 w-full rounded object-cover" />
+      )
+    }
+  </div>
+</article>

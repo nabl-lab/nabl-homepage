@@ -1,79 +1,39 @@
 ---
 // 연구실 소개 (/[lang]/about).
+//
+// 순서: 히어로(로고 + 소개 1문단) → Research Scope → Research Areas(N·A·B·L) → Mission.
+// 문구는 전부 Notion 에서 온다.
+//   - 「페이지 문구」 DB: about.intro(첫 문단만 히어로에), about.scope.lead, about.areas.lead,
+//     about.mission
+//   - Research DB: Category=Scope → Scope 카드, Category=Theme → 분야 패널 (lib/about-areas.ts)
+// 비어 있는 섹션은 통째로 렌더하지 않는다. 섹션마다 화면 조각은 components/about/ 에 있다.
 import BaseLayout from "../../layouts/base-layout.astro";
-import PageHeader from "../../components/page-header.astro";
-import Section from "../../components/section.astro";
-import {
-  members,
-  localizedText,
-  paragraphs,
-  siteContent,
-  PI_POSITION,
-} from "../../lib/content";
-import { localePaths, useTranslations, withLocale, type Locale } from "../../i18n/utils";
-import { collectionLabel } from "../../config/collections";
+import AboutHero from "../../components/about/about-hero.astro";
+import AboutScope from "../../components/about/about-scope.astro";
+import AboutAreas from "../../components/about/about-areas.astro";
+import AboutMission from "../../components/about/about-mission.astro";
+import { researchAreas, paragraphs, oneParagraph, siteContent } from "../../lib/content";
+import { areaPanels, scopeBlocks } from "../../lib/about-areas";
+import { localePaths, useTranslations, type Locale } from "../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
 const lang = Astro.params.lang as Locale;
 const t = useTranslations(lang);
 
-// 소개·비전은 Notion 「페이지 문구」에서 온다 (예전 src/data/about.json).
-// 소개는 여러 문단이고, 비면 영역 자체를 렌더하지 않는다 (빌드 경고가 남는다).
-const introParagraphs = paragraphs(siteContent, "about.intro", lang);
-const missionParagraphs = paragraphs(siteContent, "about.mission", lang);
-const pi = members.find((m) => m.position === PI_POSITION);
-const piName = pi ? localizedText(pi, "name", lang) : null;
+// about.intro 는 3문단이지만 히어로에는 첫 문단만 쓴다 (2·3문단은 분야 패널과 내용이 겹친다).
+const intro = paragraphs(siteContent, "about.intro", lang)[0] ?? null;
+const scopeLead = oneParagraph(siteContent, "about.scope.lead", lang);
+const areasLead = oneParagraph(siteContent, "about.areas.lead", lang);
+const mission = paragraphs(siteContent, "about.mission", lang);
+
+const scope = scopeBlocks(researchAreas, lang);
+const panels = areaPanels(researchAreas, lang);
 ---
 
-<BaseLayout
-  lang={lang}
-  title={t("about.title")}
-  description={introParagraphs[0] ?? undefined}
->
-  <PageHeader title={t("about.title")} lede={t("about.lede")} />
-
-  <Section>
-    {
-      introParagraphs.length > 0 && (
-        <div class="flex max-w-3xl flex-col gap-4">
-          {introParagraphs.map((text) => (
-            <p class="text-lg leading-relaxed text-ink">{text}</p>
-          ))}
-        </div>
-      )
-    }
-    {
-      piName && (
-        <p class="mt-6 text-sm text-ink-muted">
-          {t("about.piLabel")}:
-          <span class="font-medium text-ink"> {piName}</span>
-        </p>
-      )
-    }
-    <p class="mt-1 text-sm text-ink-muted">{t("site.affiliation")}</p>
-  </Section>
-
-  {
-    missionParagraphs.length > 0 && (
-      <Section title={t("about.missionTitle")} muted>
-        <div class="flex max-w-3xl flex-col gap-4">
-          {missionParagraphs.map((text) => (
-            <p class="text-lg leading-relaxed text-ink">{text}</p>
-          ))}
-        </div>
-      </Section>
-    )
-  }
-
-  <Section>
-    <div class="flex flex-wrap gap-6 text-sm font-medium">
-      <a href={withLocale(lang, "/research")} class="text-brand hover:underline">
-        {t("nav.research")} →
-      </a>
-      <a href={withLocale(lang, "/members")} class="text-brand hover:underline">
-        {collectionLabel("members", lang)} →
-      </a>
-    </div>
-  </Section>
+<BaseLayout lang={lang} title={t("about.title")} description={intro ?? undefined}>
+  <AboutHero lang={lang} intro={intro} />
+  {(scopeLead || scope.length > 0) && <AboutScope lang={lang} lead={scopeLead} blocks={scope} />}
+  {panels.length > 0 && <AboutAreas lang={lang} lead={areasLead} panels={panels} />}
+  {mission.length > 0 && <AboutMission lang={lang} paragraphs={mission} />}
 </BaseLayout>
