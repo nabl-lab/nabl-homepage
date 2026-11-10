@@ -1,8 +1,9 @@
 ---
 // 구성원 카드. 사진은 person-photo.astro 가 담당 (220px 상자 안에 잘리지 않게, 없으면 실루엣).
+// 이메일은 보여 주지 않는다 — 연구원 이메일은 개인정보라 데이터에 아예 없다(Member.publicEmail).
 import PersonPhoto from "./person-photo.astro";
 import { localizedText, memberDetailIds, type Member } from "../lib/content";
-import { useTranslations, withLocale, type Locale } from "../i18n/utils";
+import { withLocale, type Locale } from "../i18n/utils";
 
 interface Props {
   member: Member;
@@ -10,7 +11,6 @@ interface Props {
 }
 
 const { member, lang } = Astro.props;
-const t = useTranslations(lang);
 
 const name = localizedText(member, "name", lang) ?? member.id;
 const topic = localizedText(member, "researchTopic", lang);
@@ -43,16 +43,6 @@ const description = localizedText(member, "researchDescription", lang);
       <p class="mt-1 line-clamp-3 text-sm leading-relaxed text-ink-subtle">
         {description}
       </p>
-    )
-  }
-  {
-    member.email && (
-      <a
-        href={`mailto:${member.email}`}
-        class="mt-2 text-sm text-brand hover:underline"
-      >
-        {t("common.email")}
-      </a>
     )
   }
 </article>

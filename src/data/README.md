@@ -56,7 +56,7 @@
 | `position` | 직책. `content.ts` 의 `POSITION_ORDER` 값과 맞춥니다 |
 | `order` | (선택) 같은 직책 안에서 이 숫자가 있으면 입실일보다 우선해 정렬 |
 | `joinedDate` | 입실일 (`YYYY-MM-DD`) |
-| `email` | 이메일 |
+| `publicEmail` | 홈페이지에 내보내는 이메일. **지도교수만** 값을 넣고 나머지는 `""` (연구원 이메일은 개인정보라 싣지 않음 — 매퍼와 같은 규칙) |
 | `researchTopic` / `researchTopic_ko` | 연구 주제 (영문 / 국문) |
 | `researchDescription` / `researchDescription_ko` | 2~3문장 연구 소개. 비면 `""` → 화면에 그 영역을 렌더하지 않음 |
 | `researchAreas[]` | 연구 분야. `title`/`title_ko`, `slug`, `code`(N\|A\|B\|L), `category`(`Theme`\|`Scope`), `publish`. **`publish` 가 false 면 이름만 보여 주고 링크를 걸지 않음** |

@@ -1,6 +1,7 @@
 /**
  * Notion 행 → 사이트 모델 변환 — **사람** (members, PI Profile).
  * 속성명은 schema-people.ts 에서만 가져온다 (여기에 문자열 리터럴을 쓰지 않는다).
+ * import 는 `.ts` 확장자로 직접 가져온다 — npm test 가 이 파일을 그대로 불러온다.
  *
  * 공통 규칙: **title 이 비어 있는 행은 null 을 돌려 조용히 건너뛴다** (오류 아님).
  * 같은 축의 다른 파일: map-work.ts(연구·성과), map-news.ts(소식·자료).
@@ -8,21 +9,12 @@
  */
 import type { NotionPage } from "./client";
 import type { Member, MemberResearchArea, PiEntry } from "../content-types";
-import { type RelationIndex, resolveRefs } from "./types";
-import { P_MEMBERS, P_PI_PROFILE } from "./schema";
-import { RESEARCH_CATEGORY } from "./schema-work";
-import {
-  text,
-  num,
-  bool,
-  select,
-  date,
-  email,
-  url,
-  multiSelect,
-  relationIds,
-} from "./parsers";
-import { assetPath } from "./assets";
+import { type RelationIndex, resolveRefs } from "./types.ts";
+import { P_MEMBERS, P_PI_PROFILE } from "./schema-people.ts";
+import { RESEARCH_CATEGORY } from "./schema-work.ts";
+import { text, num, bool, select, date, email, url, multiSelect, relationIds } from "./parsers.ts";
+import { assetPath } from "./assets.ts";
+import { PI_POSITION } from "../content-helpers.ts";
 
 /** members: `홈페이지 공개` 체크된 행만 사이트에 노출한다. */
 export function isMemberPublished(page: NotionPage): boolean {
@@ -82,17 +74,19 @@ export function mapMember(page: NotionPage, index: RelationIndex): Member | null
   const nameKo = text(page, P_MEMBERS.nameKo);
   if (!nameKo) return null;
 
+  const position = select(page, P_MEMBERS.position) ?? "";
   return {
     id: page.id,
     slug: text(page, P_MEMBERS.slug),
     name: text(page, P_MEMBERS.nameEn),
     name_ko: nameKo,
-    position: select(page, P_MEMBERS.position) ?? "",
+    position,
     status: select(page, P_MEMBERS.status) ?? "",
     order: num(page, P_MEMBERS.order) ?? undefined,
     joinedDate: date(page, P_MEMBERS.joined) ?? "",
     leftDate: date(page, P_MEMBERS.left) ?? "",
-    email: email(page, P_MEMBERS.email) ?? "",
+    // 연구원 이메일은 개인정보라 읽지도 않는다 (지도교수 행만 예외, Member.publicEmail).
+    publicEmail: position === PI_POSITION ? (email(page, P_MEMBERS.email) ?? "") : "",
     positionTitle: text(page, P_MEMBERS.position1),
     positionTitle_ko: text(page, P_MEMBERS.positionKo),
     // 접미사 없는 쪽이 영문이다. text() 가 plain_text 만 이어 붙이므로 서식은 버려진다.

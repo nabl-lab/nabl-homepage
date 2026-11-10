@@ -60,7 +60,12 @@ export interface Member {
   joinedDate: string;
   /** 졸업·퇴실일. 재직 중이면 빈 문자열. */
   leftDate: string;
-  email: string;
+  /**
+   * 홈페이지에 내보내는 이메일. **지도교수 행만** Notion `e-mail` 을 담고,
+   * 그 밖의 구성원은 항상 빈 문자열이다 — 연구원 이메일은 개인정보라 데이터 단계에서
+   * 뺀다(`Mobile` 처럼 노션 내부용). 매퍼가 지도교수가 아닌 행의 `e-mail` 은 읽지도 않는다.
+   */
+  publicEmail: string;
   /**
    * 직위 한 줄 (Notion `Position` / `Position_ko`).
    * 비어 있으면 화면이 `직책·과정` 라벨로 폴백한다 (lib/person.ts 의 positionLine).

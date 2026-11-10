@@ -32,7 +32,12 @@ const links = profileLinks(member);
 
 // 연락처는 라벨을 위, 값을 아래에 둔다 (좁은 사이드바에서 긴 이메일이 줄바꿈되지 않게).
 const contacts = [
-  member.email && { label: t("common.email"), value: member.email, href: `mailto:${member.email}` },
+  // publicEmail 은 지도교수만 값이 있다 (연구원 이메일은 데이터 단계에서 빠짐).
+  member.publicEmail && {
+    label: t("common.email"),
+    value: member.publicEmail,
+    href: `mailto:${member.publicEmail}`,
+  },
   office && { label: t("pi.officeLabel"), value: office },
   member.officePhone && { label: t("person.phoneLabel"), value: member.officePhone },
 ].filter((c): c is { label: string; value: string; href?: string } => Boolean(c));

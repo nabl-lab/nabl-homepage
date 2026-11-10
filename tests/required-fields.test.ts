@@ -48,7 +48,7 @@ function member(p: Partial<Member> & { id: string }): Member {
     status: "재직·재학",
     joinedDate: "",
     leftDate: "",
-    email: "",
+    publicEmail: "",
     researchTopic: "",
     researchTopic_ko: "",
     researchDescription: "",

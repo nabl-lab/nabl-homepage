@@ -16,6 +16,10 @@ export const P_MEMBERS = {
   order: "홈페이지 순서",
   joined: "입실일",
   left: "졸업·퇴실일", // 가운뎃점 U+00B7
+  /**
+   * email. **지도교수 행에서만** 읽는다 (map-people.ts). 연구원 이메일은 개인정보다.
+   * 같은 DB 의 `Mobile`(phone_number) 은 아예 읽지 않는다 — 여기에 적지도 않는다.
+   */
   email: "e-mail",
   slug: "Slug",
   /**
