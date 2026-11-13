@@ -196,7 +196,7 @@ Netlify → 사이트 선택 → **Site configuration** → **Environment variab
 
 ### 지도교수 페이지는 어느 칸에서 만들어지는가
 
-`/ko/members/pi` · `/en/members/pi` 페이지는 **연구원 DB 의 지도교수 행**과
+`/ko/members/pi` · `/members/pi` 페이지는 **연구원 DB 의 지도교수 행**과
 **「👨‍🏫 지도교수 이력 (PI Profile)」 DB** 두 곳에서 만들어집니다.
 코드에 적힌 내용은 없으니, 고칠 것은 전부 Notion 에 있습니다.
 
@@ -457,6 +457,11 @@ Notion 에 새 선택지를 추가하면, 번역이 없어 **Notion 에 적힌 �
 **지금 사이트 주소는 `https://nabl.korea.ac.kr` 입니다** (2026-11 옮김, 그 전에는
 `https://nabl-homepage.netlify.app`). 코드의 기본 주소도 이 값이라, Netlify 에 `SITE_URL`
 이 없어도 이 주소로 나갑니다. 아래는 나중에 주소를 또 옮길 때의 순서입니다.
+
+**주소 모양:** 영어 페이지는 접두어 없이 `https://nabl.korea.ac.kr/members/` 처럼,
+한국어 페이지는 `https://nabl.korea.ac.kr/ko/members/` 처럼 나갑니다.
+예전 주소 `https://nabl.korea.ac.kr/en/...` 로 들어오면 자동으로 접두어 없는 주소로
+옮겨 갑니다(301). 명함·학교 홈페이지에는 `https://nabl.korea.ac.kr/` 를 적으세요.
 
 **코드는 고치지 않습니다.** Netlify 설정만 바꾸면 됩니다.
 

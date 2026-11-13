@@ -1,5 +1,5 @@
 ---
-// 책임교수(PI) 페이지 (/[lang]/members/pi).
+// 책임교수(PI) 페이지 (/members/pi · /ko/members/pi).
 //
 // 왼쪽 사이드바: 신원. 오른쪽 본문: 연구 관심사 → 연구 분야 → 학력 → 경력 → 대외활동.
 // 비어 있는 섹션은 제목까지 통째로 숨긴다.
@@ -25,11 +25,15 @@ import {
 } from "../../../lib/content";
 import { pi } from "../../../lib/pi";
 import { collectionLabel } from "../../../config/collections";
-import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+import {
+  pageLocale,
+  localePaths,
+  useTranslations,
+} from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const t = useTranslations(lang);
 
 // 연구 관심사 블록은 주제·설명이 둘 다 비면 렌더하지 않는다.

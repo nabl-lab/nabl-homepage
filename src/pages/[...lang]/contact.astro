@@ -1,13 +1,17 @@
 ---
-// 연락처 (/[lang]/contact). 주소·이메일·찾아오는 길. 지도는 자리만 표시.
+// 연락처 (/contact · /ko/contact). 주소·이메일·찾아오는 길. 지도는 자리만 표시.
 import BaseLayout from "../../layouts/base-layout.astro";
 import PageHeader from "../../components/page-header.astro";
 import Section from "../../components/section.astro";
-import { localePaths, useTranslations, type Locale } from "../../i18n/utils";
+import {
+  pageLocale,
+  localePaths,
+  useTranslations,
+} from "../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const t = useTranslations(lang);
 const email = t("contact.emailValue");
 ---

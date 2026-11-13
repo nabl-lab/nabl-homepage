@@ -16,7 +16,7 @@ export interface NavNode {
   key?: UiKey;
   /** Notion 콘텐츠 종류. 주면 collections.ts 의 라벨을 쓴다 (key 보다 우선). */
   collection?: NotionCollection;
-  /** 언어 접두사 없는 경로. `#앵커` 포함 가능. withLocale 로 /en·/ko 를 붙인다. */
+  /** 언어 접두사 없는 경로. `#앵커` 포함 가능. withLocale 이 한국어에만 /ko 를 붙인다. */
   path: string;
   /** 활성 판정을 정확 일치로 (기본은 접두 일치). */
   exact?: boolean;

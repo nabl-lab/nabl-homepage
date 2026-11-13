@@ -1,5 +1,5 @@
 ---
-// 특허 (/[lang]/achievements/patents[/filed]).
+// 특허 (/achievements/patents[/filed] · /ko/achievements/patents[/filed]).
 //
 // 상단 버튼 두 개로 등록/출원을 나눠 본다. 필터는 JS 없이 별도 정적 경로로 만든다
 // (이 사이트의 기존 방식). 기본 경로는 등록 목록이다.
@@ -27,10 +27,11 @@ import {
   type PatentView,
 } from "../../../../lib/patents";
 import {
+  langParam,
+  pageLocale,
   LOCALES,
   useTranslations,
   optionLabel,
-  type Locale,
 } from "../../../../i18n/utils";
 import { collectionLabel } from "../../../../config/collections";
 
@@ -38,13 +39,13 @@ export function getStaticPaths() {
   return LOCALES.flatMap((lang) =>
     PATENT_VIEWS.map((view) => ({
       // 기본 구분(등록)은 접미사 없는 경로로 만든다.
-      params: { lang, view: view === DEFAULT_PATENT_VIEW ? undefined : view },
+      params: { lang: langParam(lang), view: view === DEFAULT_PATENT_VIEW ? undefined : view },
       props: { view },
     })),
   );
 }
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const { view } = Astro.props as { view: PatentView };
 const t = useTranslations(lang);
 

@@ -1,5 +1,5 @@
 ---
-// 연구실 소개 (/[lang]/about).
+// 연구실 소개 (/about · /ko/about).
 //
 // 순서: 히어로(로고 + 소개 1문단) → Research Scope → Research Areas(N·A·B·L) → Mission.
 // 문구는 전부 Notion 에서 온다.
@@ -14,11 +14,15 @@ import AboutAreas from "../../components/about/about-areas.astro";
 import AboutMission from "../../components/about/about-mission.astro";
 import { researchAreas, paragraphs, oneParagraph, siteContent } from "../../lib/content";
 import { areaPanels, scopeBlocks } from "../../lib/about-areas";
-import { localePaths, useTranslations, type Locale } from "../../i18n/utils";
+import {
+  pageLocale,
+  localePaths,
+  useTranslations,
+} from "../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const t = useTranslations(lang);
 
 // about.intro 는 3문단이지만 히어로에는 첫 문단만 쓴다 (2·3문단은 분야 패널과 내용이 겹친다).

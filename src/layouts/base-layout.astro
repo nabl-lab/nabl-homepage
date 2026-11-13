@@ -12,7 +12,7 @@ import {
 import { SITE, OG_LOCALE } from "../config/site";
 
 interface Props {
-  /** 현재 페이지 언어 (URL 의 [lang] 세그먼트) */
+  /** 현재 페이지 언어 (pageLocale 로 읽은 값. 영어는 URL 접두어 없음) */
   lang: Locale;
   /** 페이지 고유 제목. 비우면 사이트 정식 명칭이 <title> 에 들어간다. */
   title: string;

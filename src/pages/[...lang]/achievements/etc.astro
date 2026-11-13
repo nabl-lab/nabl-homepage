@@ -1,15 +1,19 @@
 ---
-// 기타 성과 (/[lang]/achievements/etc). 초청강연·저서·언론 등. 연도별 그룹.
+// 기타 성과 (/achievements/etc · /ko/achievements/etc). 초청강연·저서·언론 등. 연도별 그룹.
 import BaseLayout from "../../../layouts/base-layout.astro";
 import PageHeader from "../../../components/page-header.astro";
 import Section from "../../../components/section.astro";
 import YearGroup from "../../../components/year-group.astro";
 import { achievementsEtc, groupByYear, localizedText } from "../../../lib/content";
-import { localePaths, useTranslations, type Locale } from "../../../i18n/utils";
+import {
+  pageLocale,
+  localePaths,
+  useTranslations,
+} from "../../../i18n/utils";
 
 export const getStaticPaths = localePaths;
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const t = useTranslations(lang);
 const groups = groupByYear(achievementsEtc);
 ---

@@ -1,5 +1,5 @@
 ---
-// 소식 목록 (/[lang]/news). 최신순, 제목이 양쪽 언어 모두 비면 건너뛴다.
+// 소식 목록 (/news · /ko/news). 최신순, 제목이 양쪽 언어 모두 비면 건너뛴다.
 // 카드: 커버 이미지(있을 때만) · 날짜 + 분류 배지 · 제목 · 요약(2줄 말줄임).
 // 요약·분류·커버는 비어 있으면 그 자리를 아예 만들지 않는다.
 import BaseLayout from "../../../layouts/base-layout.astro";
@@ -8,17 +8,17 @@ import Section from "../../../components/section.astro";
 import EmptyState from "../../../components/empty-state.astro";
 import { news, byDateDesc, localizedText } from "../../../lib/content";
 import {
+  pageLocale,
   localePaths,
   useTranslations,
   withLocale,
   optionLabel,
-  type Locale,
 } from "../../../i18n/utils";
 import { collectionLabel } from "../../../config/collections";
 
 export const getStaticPaths = localePaths;
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const t = useTranslations(lang);
 
 const items = byDateDesc(news)

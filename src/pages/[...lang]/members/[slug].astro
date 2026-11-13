@@ -1,5 +1,5 @@
 ---
-// 구성원 상세 (/[lang]/members/<slug>).
+// 구성원 상세 (/members/<slug> · /ko/members/<slug>).
 //
 // 왼쪽 사이드바: 신원. 오른쪽 본문: 연구 관심사 → 연구 분야 → 학위 이력.
 // 비어 있는 블록은 통째로 숨긴다.
@@ -16,11 +16,12 @@ import { currentMemberList, localizedText, type Member } from "../../../lib/cont
 import { withUniqueSlug } from "../../../lib/notion/validate";
 import { collectionLabel } from "../../../config/collections";
 import {
+  langParam,
+  pageLocale,
   LOCALES,
   useTranslations,
   withLocale,
   optionLabel,
-  type Locale,
 } from "../../../i18n/utils";
 
 export function getStaticPaths() {
@@ -29,13 +30,13 @@ export function getStaticPaths() {
   const detailable = withUniqueSlug(currentMemberList);
   return LOCALES.flatMap((lang) =>
     detailable.map((m) => ({
-      params: { lang, slug: m.slug },
+      params: { lang: langParam(lang), slug: m.slug },
       props: { member: m },
     })),
   );
 }
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const { member } = Astro.props as { member: Member };
 const t = useTranslations(lang);
 

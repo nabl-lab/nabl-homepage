@@ -1,5 +1,5 @@
 ---
-// 논문 (/[lang]/research/publications[/<분류>][/<연도>]).
+// 논문 (/research/publications[/<분류>][/<연도>] · /ko/research/publications[/<분류>][/<연도>]).
 //
 // 필터는 JS 없이 **별도 정적 경로**로 구현한다 (공유 가능·SEO·견고함).
 // 정적 사이트라 `?year=2023` 같은 쿼리는 빌드 시점에 읽을 수 없어 클라이언트 JS 가
@@ -29,7 +29,12 @@ import {
   publicationYears,
   unknownYearCount,
 } from "../../../../lib/publications";
-import { LOCALES, useTranslations, type Locale } from "../../../../i18n/utils";
+import {
+  langParam,
+  pageLocale,
+  LOCALES,
+  useTranslations,
+} from "../../../../i18n/utils";
 import { collectionLabel } from "../../../../config/collections";
 
 export function getStaticPaths() {
@@ -45,14 +50,14 @@ export function getStaticPaths() {
       // 데이터가 있는 연도만 경로로 만든다 → 죽은 링크·빈 페이지가 생기지 않는다.
       const years: (number | null)[] = [null, ...publicationYears(scoped)];
       return years.map((year) => ({
-        params: { lang, filters: publicationFilterParam(type, year) },
+        params: { lang: langParam(lang), filters: publicationFilterParam(type, year) },
         props: { type, year },
       }));
     }),
   );
 }
 
-const lang = Astro.params.lang as Locale;
+const lang = pageLocale(Astro.params.lang);
 const { type, year } = Astro.props as { type: string | null; year: number | null };
 const t = useTranslations(lang);
 

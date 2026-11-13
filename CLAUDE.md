@@ -29,7 +29,7 @@ AI 도구(Claude Code 등)로 작업할 때도 이 규칙을 지키도록 하세
 nabl-homepage/
 ├── public/              정적 파일 그대로 복사됨 (favicon, brand/ 로고 원본 등)
 ├── src/
-│   ├── pages/           페이지. [lang] 폴더 아래에 둔다 (11번 항목 참고)
+│   ├── pages/           페이지. [...lang] 폴더 아래에 둔다 (11번 항목 참고)
 │   ├── layouts/         여러 페이지가 공유하는 공통 뼈대 (base-layout: <head> 메타·SEO)
 │   ├── components/      재사용하는 화면 조각 (home/ 등 하위 폴더로 묶음)
 │   ├── config/
@@ -163,13 +163,23 @@ nabl-homepage/
 아래 규칙을 지키지 않으면 언어 전환이나 폴백이 깨집니다.
 
 ### URL 구조
-- 모든 페이지는 `/en/…` 또는 `/ko/…` 로 접근합니다. 루트(`/`)는 `/en/` 으로 리디렉션됩니다.
-- 새 페이지 파일은 반드시 **`src/pages/[lang]/` 아래**에 둡니다.
-  `getStaticPaths` 는 직접 만들지 말고 `src/i18n/utils.ts` 의 `localePaths` 를 씁니다.
+- **영어(기본 언어)는 접두어 없이 루트**(`/`, `/members/`, `/research/publications/`),
+  **한국어는 `/ko/…`** 입니다. 규칙은 `src/i18n/paths.ts` 한 곳에 있고
+  `tests/i18n-paths.test.ts` 가 지킵니다.
+- 예전 주소 `/en/…` 는 `public/_redirects` 가 접두어 없는 주소로 **301** 이동시킵니다
+  (`/en` → `/`, `/en/*` → `/:splat`). 이미 공유된 링크가 깨지지 않게 남겨 두세요.
+- 새 페이지 파일은 반드시 **`src/pages/[...lang]/` 아래**에 둡니다. rest 파라미터라서
+  값이 비면 루트에 생깁니다 — 영어는 `lang` 이 비고(`undefined`), 한국어만 `"ko"` 입니다.
+  `getStaticPaths` 는 직접 만들지 말고 `src/i18n/utils.ts` 의 `localePaths` 를 쓰고,
+  언어는 **`pageLocale`** 로 읽습니다 (`Astro.params.lang` 을 그대로 쓰면 영어에서 `undefined`).
   ```
   export const getStaticPaths = localePaths;
-  const lang = Astro.params.lang as Locale;
+  const lang = pageLocale(Astro.params.lang);
   ```
+  상세 페이지처럼 getStaticPaths 를 직접 만들 때는 `params: { lang: langParam(lang), … }`
+  로 넣습니다 (영어에 `"en"` 을 넣으면 `/en/…` 이 다시 생깁니다).
+- 링크는 직접 쓰지 말고 **`withLocale(lang, "/members")`** 로 만듭니다
+  (영어 → `/members`, 한국어 → `/ko/members`). `"/en/"` 를 코드에 쓰지 마세요.
 
 ### UI 문구 (메뉴·버튼·라벨·섹션 제목)
 - 반드시 `src/i18n/ui.ts` 사전에 **en 과 ko 를 둘 다** 추가하고, 컴포넌트에서는
@@ -468,9 +478,9 @@ id→행 맵(`RelationIndex.research`)을 만들고 조인합니다. 구성원 �
 연구 분야는 공개 전에도 구성원 페이지에 이름을 보여 줘야 해서입니다. 그래야 분야를
 공개하기 전에도 그 영역이 비어 보이지 않습니다. 대신 `publish` 를 같이 담아,
 **링크를 걸지 말지는 화면이 판단**합니다 — 공개됐고 Slug 가 있을 때만
-`/[lang]/research/<slug>` 로 링크합니다.
+`/research/<slug>`(한국어 `/ko/research/<slug>`) 로 링크합니다.
 
-상세 라우트는 `src/pages/[lang]/research/[slug].astro` 입니다. 링크 조건이 상세 페이지
+상세 라우트는 `src/pages/[...lang]/research/[slug].astro` 입니다. 링크 조건이 상세 페이지
 생성 조건과 같은 함수(`hasDetailPage` / `themeDetailPages`)를 쓰므로, 공개했는데 404 가
 나가는 일이 없습니다.
 
@@ -594,7 +604,7 @@ Notion 에 새 분류나 새 연도가 들어오면 버튼이 자동으로 늘�
 
 ### 실제로 났던 사고 (이 규칙이 생긴 이유)
 
-소식 한 건의 `Slug` 가 비어 있었습니다. `/[lang]/news/[slug]` 가 빈 slug 로 경로를
+소식 한 건의 `Slug` 가 비어 있었습니다. `/[lang]/news/[slug]`(당시 구조) 가 빈 slug 로 경로를
 만들자 `/en/news/` 가 되어 **목록 페이지 `/en/news` 와 충돌**했고, 빌드 전체가
 `TypeError: Missing parameter: lang` 으로 죽었습니다. 상세가 아니라 **목록이** 죽어서
 원인을 찾기도 어려웠습니다.

@@ -13,8 +13,9 @@ import enPages from "./en-pages";
 import koCommon from "./ko-common";
 import koPages from "./ko-pages";
 
-export const DEFAULT_LOCALE = "en" as const;
-export type Locale = "en" | "ko";
+// 로케일 목록·기본 언어는 URL 규칙과 함께 paths.ts 에 있다.
+import type { Locale } from "./paths";
+export { DEFAULT_LOCALE, type Locale } from "./paths";
 
 const en = { ...enCommon, ...enPages };
 const ko = { ...koCommon, ...koPages };
