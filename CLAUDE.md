@@ -214,8 +214,8 @@ nabl-homepage/
 
 - **도메인·대표 이미지 경로는 `src/config/site.ts` 한 곳**에서만 관리합니다.
   (사이트 이름·설명은 문구이므로 `en.ts`/`ko.ts` 의 `site.*` 키)
-- **도메인 값은 환경변수 `SITE_URL`** 입니다. 코드에는 기본값(현재 Netlify 주소)만 두고,
-  학교 도메인이 정해지면 Netlify 환경변수만 바꿉니다 — 코드 수정 없음.
+- **도메인 값은 환경변수 `SITE_URL`** 입니다. 코드에는 기본값(`https://nabl.korea.ac.kr`)만 두고,
+  도메인이 바뀌면 Netlify 환경변수만 바꿉니다 — 코드 수정 없음.
   canonical·Open Graph·hreflang·sitemap·robots 가 모두 이 값을 따라갑니다.
   운영자용 절차는 [docs/OPERATOR.md](docs/OPERATOR.md) 8번에 있습니다.
 - `SITE_URL` 은 **`.env` 가 아니라 `process.env` 에서만** 읽습니다. `site.ts` 는
@@ -227,8 +227,12 @@ nabl-homepage/
   **`src/layouts/base-layout.astro` 가 자동 생성**합니다. 새 페이지는 `<BaseLayout>` 에
   `title` 과 (가능하면) `description` 만 넘기면 됩니다. description 을 안 주면
   `site.description` 으로 폴백합니다. **`.astro` 에 메타 태그를 직접 쓰지 마세요.**
-- 공유 미리보기 이미지: `public/images/og-default.png` 등을 넣고
-  `site.ts` 의 `ogImage` 에 경로를 적으면 OG/Twitter 이미지 태그가 자동으로 붙습니다.
+- 공유 미리보기 이미지: `site.ts` 의 `ogImage` 에 경로를 적으면 OG/Twitter 이미지 태그가
+  자동으로 붙습니다. 지금은 `/og-image.png`(1200×630) 입니다.
+- **로고로 만든 이미지 3종**(`public/og-image.png`, `public/favicon.ico` 32×32,
+  `public/apple-touch-icon.png` 180×180)은 `node scripts/make-og-image.mjs` 한 번으로
+  다시 만듭니다. 빌드에 들어가지 않으니 **로고를 바꾸면 직접 실행**하세요.
+  favicon 링크는 `base-layout.astro`·`404.astro`·`index.astro` 세 곳에 있습니다.
 - `sitemap.xml` 은 `@astrojs/sitemap` 이 빌드 시 자동 생성합니다(언어 대체 링크 포함).
   `robots.txt` 는 `src/pages/robots.txt.ts` 가 생성합니다.
 - 404 페이지는 `src/pages/404.astro` (언어별이 아니라 한 파일, 두 언어 병기).

@@ -43,7 +43,8 @@ const ogImage = ogImageSrc ? new URL(ogImageSrc, SITE.url).href : null;
     <title>{fullTitle}</title>
     <meta name="description" content={metaDescription} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
 
     {/* 언어 대체 (hreflang) */}

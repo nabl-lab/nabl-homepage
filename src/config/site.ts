@@ -6,7 +6,7 @@
  *
  * canonical, Open Graph(og:url), hreflang, sitemap, robots.txt 가 모두 이 값을 쓴다.
  * 학교 서브도메인이 정해지면 **Netlify 환경변수 SITE_URL 만** 바꾸면 되고 코드는
- * 건드리지 않는다. 비워 두면 아래 DEFAULT_SITE_URL(현재 Netlify 주소)로 동작한다.
+ * 건드리지 않는다. 비워 두면 아래 DEFAULT_SITE_URL(학교 서브도메인)로 동작한다.
  *
  * 읽는 경로가 `process.env` 하나뿐인 이유:
  * 이 파일은 **두 맥락에서 평가된다** — astro.config.mjs 가 import 할 때(Node)와
@@ -23,8 +23,11 @@
  */
 import type { Locale } from "../i18n/ui";
 
-/** SITE_URL 이 없을 때 쓰는 현재 배포 주소. 프로토콜 포함, 끝 슬래시 없음. */
-const DEFAULT_SITE_URL = "https://nabl-homepage.netlify.app";
+/**
+ * SITE_URL 이 없을 때 쓰는 정식 주소. 프로토콜 포함, 끝 슬래시 없음.
+ * 2026-11 학교 서브도메인으로 옮겼다 (그 전에는 https://nabl-homepage.netlify.app).
+ */
+const DEFAULT_SITE_URL = "https://nabl.korea.ac.kr";
 
 /** 끝 슬래시를 떼어 낸다. new URL() 로 경로를 붙일 때 `//` 가 생기지 않게. */
 function normalizeUrl(raw: string | undefined): string {
@@ -43,11 +46,11 @@ export const SITE = {
 
   /**
    * 카톡·슬랙·페이스북 공유 미리보기용 대표 이미지 경로.
-   * 예: public/images/og-default.png 를 넣고 "/images/og-default.png" 로 지정하면
-   * OG/Twitter 이미지 태그가 자동으로 붙는다. 비워두면 이미지 태그를 넣지 않는다.
-   * 권장 규격: 1200×630 이하, PNG/JPG.
+   * 지정하면 OG/Twitter 이미지 태그가 자동으로 붙는다. 비워두면 이미지 태그를 넣지 않는다.
+   * 지금 파일은 scripts/make-og-image.mjs 가 로고로 만든 1200×630 PNG 다.
+   * 로고가 바뀌면 그 스크립트를 다시 실행한다.
    */
-  ogImage: "",
+  ogImage: "/og-image.png",
 } as const;
 
 /** Open Graph 규격의 로케일 코드. */

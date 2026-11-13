@@ -454,8 +454,9 @@ Notion 에 새 선택지를 추가하면, 번역이 없어 **Notion 에 적힌 �
 
 ## 8. 학교 서브도메인으로 옮기기
 
-지금 사이트 주소는 `https://nabl-homepage.netlify.app` 입니다.
-학교에서 `nabl.korea.ac.kr` 같은 주소를 받으면 아래 순서로 옮깁니다.
+**지금 사이트 주소는 `https://nabl.korea.ac.kr` 입니다** (2026-11 옮김, 그 전에는
+`https://nabl-homepage.netlify.app`). 코드의 기본 주소도 이 값이라, Netlify 에 `SITE_URL`
+이 없어도 이 주소로 나갑니다. 아래는 나중에 주소를 또 옮길 때의 순서입니다.
 
 **코드는 고치지 않습니다.** Netlify 설정만 바꾸면 됩니다.
 
